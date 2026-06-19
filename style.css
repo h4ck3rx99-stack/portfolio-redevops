@@ -1993,7 +1993,7 @@ html.lenis {
 .floating-socials {
     position: fixed;
     bottom: 0;
-    left: 2.5rem;
+    left: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -2009,7 +2009,7 @@ html.lenis {
     justify-content: center;
     width: 42px;
     height: 42px;
-    border-radius: 50%;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -2055,6 +2055,7 @@ html.lenis {
     .floating-socials a {
         width: 38px;
         height: 38px;
+        border-radius: 8px;
     }
     
     .socials-line {
