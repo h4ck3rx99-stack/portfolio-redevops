@@ -727,7 +727,7 @@
                     <a href="mailto:hello@redevops.in" class="cta-email">hello@redevops.in</a>
                 </div>
                 <div class="footer-cta-right">
-                    <form class="contact-form" id="contactForm" action="https://formspree.io/f/mqknqyze" method="POST">
+                    <form class="contact-form" id="contactForm">
                         <div class="form-group">
                             <label for="formName">Name</label>
                             <input type="text" id="formName" name="name" required placeholder="What should we call you?">
@@ -1049,45 +1049,28 @@
                 contactForm.addEventListener('submit', (e) => {
                     e.preventDefault();
                     
-                    const formData = new FormData(contactForm);
-                    const submitBtn = contactForm.querySelector('.form-submit-btn');
-                    const originalBtnText = submitBtn.innerHTML;
+                    const name = document.getElementById('formName').value;
+                    const email = document.getElementById('formEmail').value;
+                    const message = document.getElementById('formMessage').value;
                     
-                    // Show sending state
-                    submitBtn.innerHTML = 'Sending...';
-                    submitBtn.disabled = true;
+                    const subject = encodeURIComponent(`Project Inquiry from ${name}`);
+                    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
                     
-                    const actionUrl = contactForm.getAttribute('action') || 'https://formspree.io/f/mqknqyze';
+                    // Construct and trigger mailto link
+                    const mailtoUrl = `mailto:hello@redevops.in?subject=${subject}&body=${body}`;
+                    window.location.href = mailtoUrl;
                     
-                    fetch(actionUrl, {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // Show a beautiful glassmorphic success state inside the form container
-                            const formContainer = contactForm.parentElement;
-                            formContainer.innerHTML = `
-                                <div class="form-success-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem 1rem; gap: 1.5rem; animation: heroFadeIn 0.6s ease-out forwards;">
-                                    <div class="success-icon" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent-color); display: flex; align-items: center; justify-content: center; color: var(--accent-color); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 30px; height: 30px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    </div>
-                                    <h3 style="font-family: var(--font-main); font-size: 1.5rem; font-weight: 600; color: #ffffff; margin: 0;">Message Sent!</h3>
-                                    <p style="font-family: var(--font-main); font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; max-width: 320px; margin: 0;">Thank you for reaching out. We will review your message and get back to you shortly.</p>
-                                </div>
-                            `;
-                        } else {
-                            throw new Error('Form submission failed');
-                        }
-                    })
-                    .catch(error => {
-                        alert('Oops! There was a problem submitting your form. Please try again.');
-                        submitBtn.innerHTML = originalBtnText;
-                        submitBtn.disabled = false;
-                    });
+                    // Show a beautiful glassmorphic success state inside the form container
+                    const formContainer = contactForm.parentElement;
+                    formContainer.innerHTML = `
+                        <div class="form-success-state" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem 1rem; gap: 1.5rem; animation: heroFadeIn 0.6s ease-out forwards;">
+                            <div class="success-icon" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent-color); display: flex; align-items: center; justify-content: center; color: var(--accent-color); box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 30px; height: 30px;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            </div>
+                            <h3 style="font-family: var(--font-main); font-size: 1.5rem; font-weight: 600; color: #ffffff; margin: 0;">Mail Client Opened!</h3>
+                            <p style="font-family: var(--font-main); font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; max-width: 320px; margin: 0;">We have populated your message into your email client. Please send the draft email to finalize your inquiry.</p>
+                        </div>
+                    `;
                 });
             }
         });
