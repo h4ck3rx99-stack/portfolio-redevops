@@ -146,14 +146,70 @@
 
 <!-- HERO SECTION START -->
     <header class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">
-                <span class="hero-line" style="animation-delay: 0.1s">We build the web.</span>
-                <span class="hero-line hero-line-accent" style="animation-delay: 0.35s">We ship the apps.</span>
-            </h1>
-            <p class="hero-tagline">RE Dev Ops is an independent digital studio — three engineers crafting high-performance interfaces, mobile ecosystems, and the infrastructure that powers them.</p>
+        <!-- Floating Aurora Blobs -->
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
+
+        <!-- Animated Grid Streaks -->
+        <div class="grid-streak-h streak-1"></div>
+        <div class="grid-streak-h streak-2"></div>
+        <div class="grid-streak-v streak-3"></div>
+        <div class="grid-streak-v streak-4"></div>
+
+        <div class="hero-grid">
+            <div class="hero-left">
+                <h1 class="hero-title">
+                    <span class="hero-line" style="animation-delay: 0.1s">We build the web.</span>
+                    <span class="hero-line hero-line-accent" style="animation-delay: 0.35s">We ship the apps.</span>
+                </h1>
+                <p class="hero-tagline">RE Dev Ops is an independent digital studio — three engineers crafting high-performance interfaces, mobile ecosystems, and the infrastructure that powers them.</p>
+                <div class="hero-ctas">
+                    <a href="#work" class="cta-primary">Explore Work <span class="arrow">→</span></a>
+                    <a href="#contact" class="cta-secondary">Get In Touch</a>
+                </div>
+            </div>
+            
+            <div class="hero-right">
+                <!-- Glassmorphic IDE Code Window -->
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-controls">
+                            <span class="control-dot close"></span>
+                            <span class="control-dot yellow"></span>
+                            <span class="control-dot green"></span>
+                        </div>
+                        <div class="window-tab">deployment.yaml</div>
+                    </div>
+                    <div class="window-body">
+                        <div class="code-line"><span class="line-num">1</span><span class="code-keyword">apiVersion</span>: <span class="code-val">apps/v1</span></div>
+                        <div class="code-line"><span class="line-num">2</span><span class="code-keyword">kind</span>: <span class="code-val">Deployment</span></div>
+                        <div class="code-line"><span class="line-num">3</span><span class="code-keyword">metadata</span>:</div>
+                        <div class="code-line"><span class="line-num">4</span>  <span class="code-keyword">name</span>: <span class="code-val">redevops-app</span></div>
+                        <div class="code-line"><span class="line-num">5</span><span class="code-keyword">spec</span>:</div>
+                        <div class="code-line"><span class="line-num">6</span>  <span class="code-keyword">replicas</span>: <span class="code-number">3</span></div>
+                        <div class="code-line"><span class="line-num">7</span>  <span class="code-keyword">selector</span>:</div>
+                        <div class="code-line"><span class="line-num">8</span>    <span class="code-keyword">matchLabels</span>:</div>
+                        <div class="code-line"><span class="line-num">9</span>      <span class="code-keyword">tier</span>: <span class="code-val">frontend</span></div>
+                        <div class="code-line"><span class="line-num">10</span>  <span class="code-keyword">template</span>:</div>
+                        <div class="code-line"><span class="line-num">11</span>    <span class="code-keyword">metadata</span>:</div>
+                        <div class="code-line"><span class="line-num">12</span>      <span class="code-keyword">labels</span>:</div>
+                        <div class="code-line"><span class="line-num">13</span>        <span class="code-keyword">tier</span>: <span class="code-val">frontend</span></div>
+                        <div class="code-line"><span class="line-num">14</span>    <span class="code-keyword">spec</span>:</div>
+                        <div class="code-line"><span class="line-num">15</span>      <span class="code-keyword">containers</span>:</div>
+                        <div class="code-line"><span class="line-num">16</span>      - <span class="code-keyword">name</span>: <span class="code-val">web-app</span></div>
+                        <div class="code-line"><span class="line-num">17</span>        <span class="code-keyword">image</span>: <span class="code-string">redevops/frontend:latest</span></div>
+                        <div class="code-line"><span class="line-num">18</span>        <span class="code-keyword">ports</span>:</div>
+                        <div class="code-line"><span class="line-num">19</span>        - <span class="code-keyword">containerPort</span>: <span class="code-number">443</span></div>
+                        <div class="code-line"><span class="line-num">20</span>        <span class="code-keyword">resources</span>:</div>
+                        <div class="code-line"><span class="line-num">21</span>          <span class="code-keyword">limits</span>:</div>
+                        <div class="code-line"><span class="line-num">22</span>            <span class="code-keyword">cpu</span>: <span class="code-string">"500m"</span></div>
+                        <div class="code-line"><span class="line-num">23</span>            <span class="code-keyword">memory</span>: <span class="code-string">"512Mi"</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
+
         <!-- Minimalist Editorial Scroll Cue -->
         <div class="scroll-cue">
             <span class="scroll-text">Scroll to explore</span>
@@ -162,6 +218,49 @@
     </header>
 <!-- HERO SECTION END -->
 
+<!-- TECH MARQUEE START -->
+<div class="tech-marquee">
+    <div class="marquee-track">
+        <span>Next.js</span>
+        <span class="marquee-dot"></span>
+        <span>Flutter</span>
+        <span class="marquee-dot"></span>
+        <span>Docker</span>
+        <span class="marquee-dot"></span>
+        <span>Kubernetes</span>
+        <span class="marquee-dot"></span>
+        <span>AWS</span>
+        <span class="marquee-dot"></span>
+        <span>PostgreSQL</span>
+        <span class="marquee-dot"></span>
+        <span>Node.js</span>
+        <span class="marquee-dot"></span>
+        <span>TypeScript</span>
+        <span class="marquee-dot"></span>
+        <span>CI/CD</span>
+        <span class="marquee-dot"></span>
+        <!-- Duplicate for infinite scroll loop -->
+        <span>Next.js</span>
+        <span class="marquee-dot"></span>
+        <span>Flutter</span>
+        <span class="marquee-dot"></span>
+        <span>Docker</span>
+        <span class="marquee-dot"></span>
+        <span>Kubernetes</span>
+        <span class="marquee-dot"></span>
+        <span>AWS</span>
+        <span class="marquee-dot"></span>
+        <span>PostgreSQL</span>
+        <span class="marquee-dot"></span>
+        <span>Node.js</span>
+        <span class="marquee-dot"></span>
+        <span>TypeScript</span>
+        <span class="marquee-dot"></span>
+        <span>CI/CD</span>
+        <span class="marquee-dot"></span>
+    </div>
+</div>
+<!-- TECH MARQUEE END -->
 
 <!-- ABOUT SECTION START -->
     <section id="about" class="about-section">
@@ -264,13 +363,15 @@
         <div class="work-header">
             <h2>03 / Selected Work</h2>
             <p class="work-intro">A selection of products we have designed and engineered from the ground up.</p>
-        </div>
-
-        <div class="folders-grid">
+          <div class="folders-grid">
             <!-- Folder 1: Aura Capital -->
             <div class="project-folder" data-project="aura-capital">
                 <div class="folder-tab">
                     <span class="folder-meta">Web Platform / 2026</span>
+                    <div class="live-badge">
+                        <span class="live-dot"></span>
+                        <span class="live-text">Live</span>
+                    </div>
                 </div>
                 <div class="folder-body">
                     <div class="folder-front">
@@ -286,8 +387,18 @@
                             <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
                         </div>
                     </div>
-                    <div class="folder-document">
-                        <img src="assets/aura_capital.png" alt="Aura Capital Screenshot">
+                    <div class="folder-browser">
+                        <div class="browser-header">
+                            <div class="browser-dots">
+                                <span class="browser-dot close"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-search">aura.redevops.in</div>
+                        </div>
+                        <div class="browser-screen">
+                            <img src="assets/aura_capital.png" alt="Aura Capital Screenshot">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -296,6 +407,10 @@
             <div class="project-folder" data-project="pulse-fitness">
                 <div class="folder-tab">
                     <span class="folder-meta">Mobile App / 2025</span>
+                    <div class="live-badge">
+                        <span class="live-dot"></span>
+                        <span class="live-text">Live</span>
+                    </div>
                 </div>
                 <div class="folder-body">
                     <div class="folder-front">
@@ -311,8 +426,18 @@
                             <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
                         </div>
                     </div>
-                    <div class="folder-document">
-                        <img src="assets/pulse_fitness.png" alt="Pulse Fitness Screenshot">
+                    <div class="folder-browser">
+                        <div class="browser-header">
+                            <div class="browser-dots">
+                                <span class="browser-dot close"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-search">pulse.redevops.in</div>
+                        </div>
+                        <div class="browser-screen">
+                            <img src="assets/pulse_fitness.png" alt="Pulse Fitness Screenshot">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -321,6 +446,10 @@
             <div class="project-folder" data-project="kinetik-studio">
                 <div class="folder-tab">
                     <span class="folder-meta">E-Commerce / SaaS</span>
+                    <div class="live-badge">
+                        <span class="live-dot"></span>
+                        <span class="live-text">Live</span>
+                    </div>
                 </div>
                 <div class="folder-body">
                     <div class="folder-front">
@@ -336,8 +465,18 @@
                             <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
                         </div>
                     </div>
-                    <div class="folder-document">
-                        <img src="assets/kinetik_studio.png" alt="Kinetik Studio Screenshot">
+                    <div class="folder-browser">
+                        <div class="browser-header">
+                            <div class="browser-dots">
+                                <span class="browser-dot close"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-search">kinetik.redevops.in</div>
+                        </div>
+                        <div class="browser-screen">
+                            <img src="assets/kinetik_studio.png" alt="Kinetik Studio Screenshot">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -346,6 +485,10 @@
             <div class="project-folder" data-project="vortex-analytics">
                 <div class="folder-tab">
                     <span class="folder-meta">B2B SaaS / 2024</span>
+                    <div class="live-badge">
+                        <span class="live-dot"></span>
+                        <span class="live-text">Live</span>
+                    </div>
                 </div>
                 <div class="folder-body">
                     <div class="folder-front">
@@ -361,8 +504,18 @@
                             <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
                         </div>
                     </div>
-                    <div class="folder-document">
-                        <img src="assets/vortex_analytics.png" alt="Vortex Analytics Screenshot">
+                    <div class="folder-browser">
+                        <div class="browser-header">
+                            <div class="browser-dots">
+                                <span class="browser-dot close"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-search">vortex.redevops.in</div>
+                        </div>
+                        <div class="browser-screen">
+                            <img src="assets/vortex_analytics.png" alt="Vortex Analytics Screenshot">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -478,7 +631,7 @@
                         <a href="https://github.com" target="_blank" rel="noopener" class="social-link" title="GitHub">
                             <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.48 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
                         </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link" title="LinkedIn">
+                        <a href="https://www.linkedin.com/in/abhishikh-srivathsav-4566043b2/" target="_blank" rel="noopener" class="social-link" title="LinkedIn">
                             <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                         </a>
                     </div>
@@ -510,7 +663,7 @@
                         <a href="https://github.com" target="_blank" rel="noopener" class="social-link" title="GitHub">
                             <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.48 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
                         </a>
-                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link" title="LinkedIn">
+                        <a href="https://www.linkedin.com/in/ujwal-soneni-148b95417" target="_blank" rel="noopener" class="social-link" title="LinkedIn">
                             <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                         </a>
                     </div>
