@@ -259,11 +259,7 @@
             </div>
         </div>
 
-        <!-- Minimalist Editorial Scroll Cue -->
-        <div class="scroll-cue">
-            <span class="scroll-text">Scroll to explore</span>
-            <div class="scroll-line"></div>
-        </div>
+
     </header>
 <!-- HERO SECTION END -->
 
@@ -724,9 +720,29 @@
      <!-- CONTACT / FOOTER SECTION START -->
     <footer id="contact" class="footer-section">
         <div class="footer-container">
-            <div class="footer-cta">
-                <h2 class="cta-title">Have an idea?<br><span>Let’s build it.</span></h2>
-                <a href="mailto:hello@redevops.in" class="cta-email">hello@redevops.in</a>
+            <div class="footer-cta-grid">
+                <div class="footer-cta-left">
+                    <h2 class="cta-title">Have an idea?<br><span>Let’s build it.</span></h2>
+                    <p class="cta-or">Or reach out directly via email:</p>
+                    <a href="mailto:hello@redevops.in" class="cta-email">hello@redevops.in</a>
+                </div>
+                <div class="footer-cta-right">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="formName">Name</label>
+                            <input type="text" id="formName" name="name" required placeholder="What should we call you?">
+                        </div>
+                        <div class="form-group">
+                            <label for="formEmail">Email Address</label>
+                            <input type="email" id="formEmail" name="email" required placeholder="name@domain.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="formMessage">Tell us about your project</label>
+                            <textarea id="formMessage" name="message" required rows="4" placeholder="Briefly describe your goals, budget, or timeline..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit-btn">Send Message <span class="arrow">→</span></button>
+                    </form>
+                </div>
             </div>
 
             <div class="footer-bottom">
@@ -738,8 +754,6 @@
                 <div class="footer-links">
                     <a href="https://github.com/RE-Dev-Ops" target="_blank" rel="noopener noreferrer">GitHub</a>
                     <a href="https://www.linkedin.com/in/re-devops-80682640b/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-                    <a href="https://x.com/redevops3" target="_blank" rel="noopener noreferrer">X (Twitter)</a>
-                    <a href="https://www.instagram.com/redevops3/" target="_blank" rel="noopener noreferrer">Instagram</a>
                     <a href="#about">Back to Top ↑</a>
                 </div>
             </div>
