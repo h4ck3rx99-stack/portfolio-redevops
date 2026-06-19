@@ -1194,9 +1194,9 @@ a {
 }
 
 .team-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
     max-width: 1400px;
     margin: 0 auto;
 }
@@ -1204,27 +1204,29 @@ a {
 .team-card {
     background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
     border: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 4rem 4rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 4rem;
+    padding: 3.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
     overflow: hidden;
     width: 100%;
+    justify-content: space-between;
 }
 
 .card-left {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    min-width: 200px;
 }
 
 .card-right {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    flex-grow: 1;
+    justify-content: space-between;
 }
 
 .team-card::before {
@@ -1357,37 +1359,32 @@ a {
     transform: translateY(-4px);
 }
 
-/* Mobile responsive adjustments */
+@media (max-width: 1024px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+}
+
 @media (max-width: 768px) {
-    .team-card {
+    .team-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
-        padding: 2.5rem 2rem;
     }
     
-    .card-left {
-        flex-direction: row;
-        align-items: center;
-        gap: 1.5rem;
-        min-width: unset;
+    .team-card {
+        padding: 3rem 2rem;
+        gap: 2rem;
     }
     
     .member-avatar {
-        margin-bottom: 0;
         width: 60px;
         height: 60px;
-    }
-    
-    .member-meta {
-        margin-bottom: 0.25rem;
+        margin-bottom: 1.5rem;
     }
     
     .member-name {
-        font-size: 1.5rem;
-    }
-    
-    .member-bio {
-        font-size: 1rem;
+        font-size: 1.75rem;
     }
 }
 
@@ -1401,25 +1398,7 @@ a {
     }
     
     .team-card {
-        padding: 2rem 1.5rem;
-        gap: 1.5rem;
-    }
-
-    .card-left {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .member-avatar {
-        margin-bottom: 1rem;
-    }
-    
-    .member-name {
-        font-size: 1.75rem;
-    }
-    
-    .member-bio {
-        font-size: 0.95rem;
+        padding: 2.5rem 1.5rem;
     }
     
     .member-skills span {
