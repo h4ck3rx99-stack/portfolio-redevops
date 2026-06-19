@@ -3,25 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RE Dev Ops | Web & App Development Studio</title>
-    <!-- Google Fonts: Space Grotesk for bold, editorial typography -->
+    <title>RE Dev Ops — Independent Digital Studio | Web, Mobile & DevOps</title>
+    <meta name="description" content="RE Dev Ops is an independent digital studio crafting high-performance web platforms, mobile apps, and cloud infrastructure. Based in India.">
+    <meta name="keywords" content="web development, mobile app development, devops, react, next.js, flutter, cloud infrastructure, india, software studio">
+    <meta name="author" content="RE Dev Ops">
+    <link rel="canonical" href="https://redevops.in">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RE Dev Ops — Independent Digital Studio">
+    <meta property="og:description" content="An independent digital studio crafting high-performance web platforms, mobile apps, and cloud infrastructure.">
+    <meta property="og:url" content="https://redevops.in">
+    <meta property="og:site_name" content="RE Dev Ops">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RE Dev Ops — Independent Digital Studio">
+    <meta name="twitter:description" content="An independent digital studio crafting high-performance web platforms, mobile apps, and cloud infrastructure.">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "RE Dev Ops",
+        "url": "https://redevops.in",
+        "description": "Independent digital studio crafting high-performance web, mobile, and cloud solutions.",
+        "email": "hello@redevops.in",
+        "foundingDate": "2025",
+        "sameAs": [
+            "https://github.com/RE-Dev-Ops",
+            "https://www.linkedin.com/in/re-devops-80682640b/"
+        ],
+        "member": [
+            { "@type": "Person", "name": "Aayush Kumar", "jobTitle": "Founder & Lead Engineer" },
+            { "@type": "Person", "name": "Abhishikth Srivathsav", "jobTitle": "Frontend Engineer" },
+            { "@type": "Person", "name": "Ujwal Soneni", "jobTitle": "Backend Engineer" }
+        ]
+    }
+    </script>
+
+    <!-- Article Schema for Blog Posts -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://redevops.in/#blog" },
+        "headline": "From the Studio — RE Dev Ops Engineering Blog",
+        "description": "Thoughts on engineering, design, and building for the web from the RE Dev Ops team.",
+        "author": [
+            { "@type": "Person", "name": "Aayush Kumar" }
+        ],
+        "publisher": { "@type": "Organization", "name": "RE Dev Ops" }
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://redevops.in" },
+            { "@type": "ListItem", "position": 2, "name": "About", "item": "https://redevops.in/#about" },
+            { "@type": "ListItem", "position": 3, "name": "Work", "item": "https://redevops.in/#work" },
+            { "@type": "ListItem", "position": 4, "name": "Team", "item": "https://redevops.in/#team" },
+            { "@type": "ListItem", "position": 5, "name": "Contact", "item": "https://redevops.in/#contact" }
+        ]
+    }
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What services does RE Dev Ops offer?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We offer web development, mobile app development, and infrastructure/DevOps services — from frontend to cloud."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Who is behind RE Dev Ops?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "RE Dev Ops is an independent digital studio comprising Aayush Kumar (Founder & Lead Engineer), Abhishikth Srivathsav (Frontend Engineer), and Ujwal Soneni (Backend Engineer)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What technologies does RE Dev Ops use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "We work with React, Next.js, TypeScript, Node.js, Flutter, React Native, Docker, Kubernetes, AWS, GCP, and more."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I contact RE Dev Ops?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "You can reach us at hello@redevops.in or through the contact form on our website."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Favicon (inline SVG — works in dark mode) -->
+    <link rel="icon" href="./logo.png">
+
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Link to external CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- NAVBAR START -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-logo">
             <a href="#">RE Dev Ops</a>
         </div>
         <ul class="nav-links">
-            <li><a href="#about">About</a></li>
-            <li><a href="#work">Work</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#about" data-section="about">About</a></li>
+            <li><a href="#work" data-section="work">Work</a></li>
+            <li><a href="#blog" data-section="blog">Blog</a></li>
+            <li><a href="#team" data-section="team">Team</a></li>
+            <li><a href="#contact" data-section="contact">Contact</a></li>
         </ul>
     </nav>
     <!-- NAVBAR END -->
@@ -30,10 +148,10 @@
     <header class="hero">
         <div class="hero-content">
             <h1 class="hero-title">
-                We build the web.<br>
-                <span>We ship the apps.</span>
+                <span class="hero-line" style="animation-delay: 0.1s">We build the web.</span>
+                <span class="hero-line hero-line-accent" style="animation-delay: 0.35s">We ship the apps.</span>
             </h1>
-            <p class="hero-tagline">RE Dev Ops is a two-person digital studio crafting high-performance interfaces and bespoke mobile applications for modern brands.</p>
+            <p class="hero-tagline">RE Dev Ops is an independent digital studio — three engineers crafting high-performance interfaces, mobile ecosystems, and the infrastructure that powers them.</p>
         </div>
         
         <!-- Minimalist Editorial Scroll Cue -->
@@ -53,10 +171,10 @@
             </div>
             <div class="about-content">
                 <p class="about-lead">
-                    We are a tight-knit, two-person development studio operating at the intersection of radical design and flawless engineering.
+                    We are an independent digital studio operating at the intersection of radical design and flawless engineering.
                 </p>
                 <p class="about-body">
-                    RE Dev Ops was founded on a simple premise: skip the bloated agency overhead and build high-caliber digital products directly with the creators. We architecturalize, code, and deploy custom web platforms and mobile ecosystems. No templates. No cutting corners. Just raw performance and deliberate, modern interfaces.
+                    RE Dev Ops was founded on a simple premise: skip the bloated agency overhead and build high-caliber digital products directly with the people who need them. We architect, code, and deploy custom web platforms, mobile ecosystems, and the infrastructure that powers them. No templates. No cutting corners. Just raw performance and deliberate, modern interfaces.
                 </p>
             </div>
         </div>
@@ -70,22 +188,26 @@
         </div>
         
         <div class="services-grid">
-            <!-- Service Column 1: Web Dev -->
             <div class="service-column">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                </div>
                 <h3 class="service-title">Web<br>Development</h3>
-                <p class="service-desc">We build lightning-fast, visually striking web applications tailored for speed, scalability, and seamless user experiences. From complex frontends to bulletproof architectures.</p>
+                <p class="service-desc">We build lightning-fast, visually striking web applications tailored for speed, scalability, and seamless user experiences. From complex frontends to bulletproof backend architectures.</p>
                 <div class="tech-tags">
                     <span>React / Next.js</span>
                     <span>TypeScript</span>
                     <span>Node.js</span>
                     <span>REST & GraphQL</span>
-                    <span>UI Animation (GSAP/CSS)</span>
+                    <span>UI Animation</span>
                     <span>WebGL / Three.js</span>
                 </div>
             </div>
 
-            <!-- Service Column 2: App Dev -->
             <div class="service-column">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="10" y1="4" x2="10" y2="20"/></svg>
+                </div>
                 <h3 class="service-title">App<br>Development</h3>
                 <p class="service-desc">We engineer native-feeling cross-platform mobile ecosystems that look stunning and run flawlessly. Focused on clean state management, smooth gestures, and offline-first reliability.</p>
                 <div class="tech-tags">
@@ -97,89 +219,302 @@
                     <span>App Store Deployment</span>
                 </div>
             </div>
+
+            <div class="service-column">
+                <div class="service-icon">
+                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </div>
+                <h3 class="service-title">Infrastructure<br>& DevOps</h3>
+                <p class="service-desc">We design scalable cloud architectures, automate deployment pipelines, and build resilient database systems so your product stays fast, secure, and available at any scale.</p>
+                <div class="tech-tags">
+                    <span>AWS / GCP</span>
+                    <span>Docker / Kubernetes</span>
+                    <span>CI / CD</span>
+                    <span>PostgreSQL / MongoDB</span>
+                    <span>Serverless</span>
+                    <span>Monitoring & Observability</span>
+                </div>
+            </div>
         </div>
     </section>
     <!-- SERVICES SECTION END -->
 
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number" data-target="3">0</span>
+                <span class="stat-label">Projects Delivered</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="2">0</span>
+                <span class="stat-label">Active Clients</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="3">0</span>
+                <span class="stat-label">Core Engineers</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="1">0</span>
+                <span class="stat-label">Year in Operation</span>
+            </div>
+        </div>
+    </section>
     <!-- WORK SECTION START -->
     <section id="work" class="work-section">
         <div class="work-header">
             <h2>03 / Selected Work</h2>
+            <p class="work-intro">A selection of products we have designed and engineered from the ground up.</p>
         </div>
 
-        <div class="projects-list">
-            <!-- Project 1 -->
-            <div class="project-item">
-                <div class="project-meta">
-                    <span class="project-category">Web Platform / Fintech</span>
-                    <span class="project-year">2026</span>
+        <div class="folders-grid">
+            <!-- Folder 1: Aura Capital -->
+            <div class="project-folder" data-project="aura-capital">
+                <div class="folder-tab">
+                    <span class="folder-meta">Web Platform / 2026</span>
                 </div>
-                <h3 class="project-title">
-                    <a href="#project1">Aura Capital <span class="arrow">→</span></a>
-                </h3>
+                <div class="folder-body">
+                    <div class="folder-front">
+                        <h3 class="folder-title">Aura Capital</h3>
+                        <p class="folder-desc">A high-performance digital asset trading platform featuring custom dashboards, microsecond ticker updates, and deep analytical charts.</p>
+                        <div class="folder-tech">
+                            <span>React</span>
+                            <span>Next.js</span>
+                            <span>PostgreSQL</span>
+                            <span>AWS</span>
+                        </div>
+                        <div class="folder-action">
+                            <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
+                        </div>
+                    </div>
+                    <div class="folder-document">
+                        <img src="assets/aura_capital.png" alt="Aura Capital Screenshot">
+                    </div>
+                </div>
             </div>
 
-            <!-- Project 2 -->
-            <div class="project-item">
-                <div class="project-meta">
-                    <span class="project-category">Mobile App / iOS & Android</span>
-                    <span class="project-year">2025</span>
+            <!-- Folder 2: Pulse Fitness -->
+            <div class="project-folder" data-project="pulse-fitness">
+                <div class="folder-tab">
+                    <span class="folder-meta">Mobile App / 2025</span>
                 </div>
-                <h3 class="project-title">
-                    <a href="#project2">Pulse Fitness <span class="arrow">→</span></a>
-                </h3>
+                <div class="folder-body">
+                    <div class="folder-front">
+                        <h3 class="folder-title">Pulse Fitness</h3>
+                        <p class="folder-desc">A cross-platform fitness companion app featuring offline sync, health dashboard, custom workout plans, and real-time biometric tracking.</p>
+                        <div class="folder-tech">
+                            <span>Flutter</span>
+                            <span>Firebase</span>
+                            <span>Dart</span>
+                            <span>Bloc</span>
+                        </div>
+                        <div class="folder-action">
+                            <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
+                        </div>
+                    </div>
+                    <div class="folder-document">
+                        <img src="assets/pulse_fitness.png" alt="Pulse Fitness Screenshot">
+                    </div>
+                </div>
             </div>
 
-            <!-- Project 3 -->
-            <div class="project-item">
-                <div class="project-meta">
-                    <span class="project-category">E-Commerce / Next.js</span>
-                    <span class="project-year">2025</span>
+            <!-- Folder 3: Kinetik Studio -->
+            <div class="project-folder" data-project="kinetik-studio">
+                <div class="folder-tab">
+                    <span class="folder-meta">E-Commerce / SaaS</span>
                 </div>
-                <h3 class="project-title">
-                    <a href="#project3">Kinetik Studio <span class="arrow">→</span></a>
-                </h3>
+                <div class="folder-body">
+                    <div class="folder-front">
+                        <h3 class="folder-title">Kinetik Studio</h3>
+                        <p class="folder-desc">A high-fashion minimalist activewear storefront with smooth transitions, custom shopping carts, stripe checkout, and server-side render optimization.</p>
+                        <div class="folder-tech">
+                            <span>Next.js</span>
+                            <span>TypeScript</span>
+                            <span>Prisma</span>
+                            <span>Docker</span>
+                        </div>
+                        <div class="folder-action">
+                            <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
+                        </div>
+                    </div>
+                    <div class="folder-document">
+                        <img src="assets/kinetik_studio.png" alt="Kinetik Studio Screenshot">
+                    </div>
+                </div>
             </div>
 
-            <!-- Project 4 -->
-            <div class="project-item">
-                <div class="project-meta">
-                    <span class="project-category">B2B SaaS / Dashboard</span>
-                    <span class="project-year">2024</span>
+            <!-- Folder 4: Vortex Analytics -->
+            <div class="project-folder" data-project="vortex-analytics">
+                <div class="folder-tab">
+                    <span class="folder-meta">B2B SaaS / 2024</span>
                 </div>
-                <h3 class="project-title">
-                    <a href="#project4">Vortex Analytics <span class="arrow">→</span></a>
-                </h3>
+                <div class="folder-body">
+                    <div class="folder-front">
+                        <h3 class="folder-title">Vortex Analytics</h3>
+                        <p class="folder-desc">B2B infrastructure dashboard showing live server metrics, load balancers, database clustering status, and automated deployment logs.</p>
+                        <div class="folder-tech">
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>D3.js</span>
+                            <span>Kubernetes</span>
+                        </div>
+                        <div class="folder-action">
+                            <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
+                        </div>
+                    </div>
+                    <div class="folder-document">
+                        <img src="assets/vortex_analytics.png" alt="Vortex Analytics Screenshot">
+                    </div>
+                </div>
             </div>
         </div>
     </section>
     <!-- WORK SECTION END -->
 
+    <!-- BLOG SECTION START -->
+    <section id="blog" class="section">
+        <div class="container">
+            <span class="section-label">Insights</span>
+            <h2 class="section-title">From the Studio</h2>
+            <p class="section-subtitle">Thoughts on engineering, design, and building for the web.</p>
+            <div class="blog-grid">
+
+                <article class="blog-card">
+                    <div class="blog-card-thumb"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="6" y="10" width="36" height="28" rx="3"/><path d="M6 18h36"/><circle cx="16" cy="26" r="2"/><circle cx="24" cy="26" r="2"/><circle cx="32" cy="26" r="2"/></svg></div>
+                    <div class="blog-card-body">
+                        <time class="blog-date">Jun 12, 2026</time>
+                        <h3 class="blog-title">Why We Chose Next.js Over a Static Site Generator</h3>
+                        <p class="blog-excerpt">Performance, developer experience, and when SSR actually matters — a honest breakdown from the team shipping production apps.</p>
+                        <a href="#" class="blog-link" aria-label="Read Why We Chose Next.js">Read article →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-card-thumb"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M24 6L8 18v12l16 12 16-12V18L24 6z"/><path d="M8 18l16 12 16-12"/><path d="M24 30V6"/></svg></div>
+                    <div class="blog-card-body">
+                        <time class="blog-date">May 28, 2026</time>
+                        <h3 class="blog-title">Containerizing a Full-Stack App Without the Bloat</h3>
+                        <p class="blog-excerpt">Multistage builds, Alpine images, and why a 100MB container is 99MB too much. Our production Dockerfile walkthrough.</p>
+                        <a href="#" class="blog-link" aria-label="Read Containerizing a Full-Stack App">Read article →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-card-thumb"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20c0-6 6-10 12-10s12 4 12 10"/><path d="M8 24h4v12H8z"/><path d="M36 24h4v12h-4z"/><path d="M16 30v10"/><path d="M32 30v10"/><path d="M20 28v8"/><path d="M28 28v8"/></svg></div>
+                    <div class="blog-card-body">
+                        <time class="blog-date">Apr 15, 2026</time>
+                        <h3 class="blog-title">Designing a Design System From Scratch</h3>
+                        <p class="blog-excerpt">How we built a reusable component library that actually gets used — tokens, typography, and the one principle that kept it from collapsing.</p>
+                        <a href="#" class="blog-link" aria-label="Read Designing a Design System From Scratch">Read article →</a>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+    <!-- BLOG SECTION END -->
+
     <!-- TEAM SECTION START -->
     <section id="team" class="team-section">
         <div class="team-header">
-            <h2>04 / The Studio</h2>
+            <h2>04 / The Team</h2>
         </div>
 
         <div class="team-grid">
-            <!-- Founder 1 Card -->
+            <!-- Card 1: Founder & Lead -->
             <div class="team-card">
-                <div class="member-meta">
-                    <span class="member-role">Co-Founder / Creative Director</span>
-                    <span class="member-index">// 01</span>
+                <div class="card-left">
+                    <div class="member-avatar">
+                        <span class="avatar-initials">AK</span>
+                    </div>
+                    <div class="member-meta">
+                        <span class="member-role">Founder & Lead Engineer</span>
+                    </div>
+                    <h3 class="member-name">Aayush Kumar</h3>
                 </div>
-                <h3 class="member-name">Abhishikth Srivathsav</h3>
-                <p class="member-bio">Specializing in raw interface architecture, bespoke typography systems, and interaction design. Turning complex operational logic into high-performance web systems.</p>
+                <div class="card-right">
+                    <p class="member-bio">Full-stack architect specializing in high-performance web systems and cross-platform mobile engineering. Turns complex operational logic into seamless, secure digital products built for scale.</p>
+                    <div class="member-skills">
+                        <span>React / Next.js</span>
+                        <span>Node.js</span>
+                        <span>Flutter</span>
+                        <span>System Architecture</span>
+                        <span>Docker / K8s</span>
+                        <span>AWS / GCP</span>
+                        <span>PostgreSQL / Redis</span>
+                        <span>CI/CD / Terraform</span>
+                    </div>
+                    <div class="member-social">
+                        <a href="https://github.com" target="_blank" rel="noopener" class="social-link" title="GitHub">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.48 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link" title="LinkedIn">
+                            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <!-- Founder 2 Card -->
+            <!-- Card 2: Frontend Engineer -->
             <div class="team-card">
-                <div class="member-meta">
-                    <span class="member-role">Co-Founder / Technical Lead</span>
-                    <span class="member-index">// 02</span>
+                <div class="card-left">
+                    <div class="member-avatar">
+                        <span class="avatar-initials">AS</span>
+                    </div>
+                    <div class="member-meta">
+                        <span class="member-role">Frontend Engineer</span>
+                    </div>
+                    <h3 class="member-name">Abhishikth Srivathsav</h3>
                 </div>
-                <h3 class="member-name">Aayush Kumar</h3>
-                <p class="member-bio">Focused on secure backend infrastructures, native cross-platform engineering, and cloud deployment pipelines. Building optimized engine logic for modern mobile systems.</p>
+                <div class="card-right">
+                    <p class="member-bio">Frontend engineer focused on building pixel-perfect, highly interactive interfaces and seamless user journeys. Specialized in modern layout engines, responsive web patterns, and fluid motion design.</p>
+                    <div class="member-skills">
+                        <span>React / Next.js</span>
+                        <span>TypeScript</span>
+                        <span>Vanilla CSS</span>
+                        <span>Framer Motion</span>
+                        <span>UI / UX Design</span>
+                    </div>
+                    <div class="member-social">
+                        <a href="https://github.com" target="_blank" rel="noopener" class="social-link" title="GitHub">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.48 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link" title="LinkedIn">
+                            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Backend Engineer -->
+            <div class="team-card">
+                <div class="card-left">
+                    <div class="member-avatar">
+                        <span class="avatar-initials">US</span>
+                    </div>
+                    <div class="member-meta">
+                        <span class="member-role">Backend Engineer</span>
+                    </div>
+                    <h3 class="member-name">Ujwal Soneni</h3>
+                </div>
+                <div class="card-right">
+                    <p class="member-bio">Backend engineer specializing in designing resilient REST and GraphQL APIs, schema architecture, and high-performance databases. Experienced in serverless workflows, cache strategies, and cloud deployment pipelines.</p>
+                    <div class="member-skills">
+                        <span>Node.js / Express</span>
+                        <span>PostgreSQL / Prisma</span>
+                        <span>GraphQL</span>
+                        <span>Docker</span>
+                        <span>Redis</span>
+                        <span>AWS</span>
+                    </div>
+                    <div class="member-social">
+                        <a href="https://github.com" target="_blank" rel="noopener" class="social-link" title="GitHub">
+                            <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.167 6.839 9.49.5.092.682-.217.682-.48 0-.237-.008-.866-.013-1.7-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link" title="LinkedIn">
+                            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -189,7 +524,7 @@
         <div class="footer-container">
             <div class="footer-cta">
                 <h2 class="cta-title">Have an idea?<br><span>Let’s build it.</span></h2>
-                <a href="mailto:hello@redevops.com" class="cta-email">hello@redevops.com</a>
+                <a href="mailto:hello@redevops.in" class="cta-email">hello@redevops.in</a>
             </div>
 
             <div class="footer-bottom">
@@ -226,9 +561,40 @@
                 smoothTouch: false       // Keep native touch behavior on mobile devices for performance
             });
 
-            // Core animation loop for Lenis
+            // --- NAV TRACKING + PROGRESS (runs inside Lenis loop) ---
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const trackSections = [
+                document.getElementById('about'),
+                document.getElementById('work'),
+                document.getElementById('blog'),
+                document.getElementById('team'),
+                document.getElementById('contact')
+            ];
+            const progressBar = document.getElementById('scrollProgress');
+
             function raf(time) {
                 lenis.raf(time);
+
+                // Update progress bar
+                const scrollTop = window.scrollY;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+                progressBar.style.width = progress + '%';
+
+                // Update active nav — last section whose top is at or above trigger line
+                const triggerLine = 120;
+                let current = '';
+                for (let i = 0; i < trackSections.length; i++) {
+                    const section = trackSections[i];
+                    if (section) {
+                        const rect = section.getBoundingClientRect();
+                        if (rect.top <= triggerLine) current = section.id;
+                    }
+                }
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+                });
+
                 requestAnimationFrame(raf);
             }
             requestAnimationFrame(raf);
@@ -252,7 +618,7 @@
 
 
             // --- 2. EXISTING INTERSECTION OBSERVER LOGIC ---
-            const sections = document.querySelectorAll('.about-section, .services-section, .work-section, .team-section, .footer-section');
+            const sections = document.querySelectorAll('.about-section, .services-section, .stats-section, .work-section, .section, .team-section, .footer-section');
             
             const observerOptions = {
                 root: null,
@@ -274,6 +640,191 @@
             sections.forEach(section => {
                 section.classList.add('section-hidden');
                 observer.observe(section);
+            });
+
+            // --- 3. COUNTER ANIMATION FOR STATS ---
+            const counters = document.querySelectorAll('.stat-number');
+            
+            const counterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.target);
+                        let current = 0;
+                        const steps = Math.min(target, 30);
+                        const increment = target / steps;
+                        
+                        const updateCounter = () => {
+                            current += increment;
+                            if (current >= target) {
+                                el.textContent = target;
+                                return;
+                            }
+                            el.textContent = Math.floor(current);
+                            requestAnimationFrame(updateCounter);
+                        };
+                        
+                        updateCounter();
+                        counterObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counters.forEach(c => counterObserver.observe(c));
+
+            // --- 4. STAGGERED TEAM CARD REVEAL ---
+            const teamCards = document.querySelectorAll('.team-card');
+            
+            const cardObserverOptions = {
+                root: null,
+                threshold: 0.1,
+                rootMargin: "0px 0px -30px 0px"
+            };
+
+            const revealCard = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = parseInt(entry.target.dataset.delay) || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('card-visible');
+                        }, delay);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+
+            const cardObserver = new IntersectionObserver(revealCard, cardObserverOptions);
+
+            teamCards.forEach((card, index) => {
+                card.dataset.delay = index * 150;
+                card.classList.add('card-hidden');
+                cardObserver.observe(card);
+            });
+        });
+    </script>
+
+    <!-- PREMIUM WINDOW MODAL FOR PROJECTS -->
+    <div id="projectModal" class="project-modal">
+        <div class="modal-window">
+            <div class="modal-titlebar">
+                <div class="titlebar-dots">
+                    <div id="modalClose" class="titlebar-dot close" title="Close Window"></div>
+                    <div class="titlebar-dot minimize"></div>
+                    <div class="titlebar-dot"></div>
+                </div>
+                <div class="titlebar-text">Project File Viewer</div>
+                <div style="width: 52px;"></div> <!-- Spacer to center title -->
+            </div>
+            <div class="modal-body">
+                <div class="modal-left">
+                    <span id="modalMeta" class="modal-meta-tag">WEB PLATFORM / 2026</span>
+                    <h2 id="modalTitle" class="modal-project-title">Project Name</h2>
+                    <p id="modalDesc" class="modal-project-desc">Detailed project description goes here. Crafting raw performance and modern interfaces directly tailored to user needs.</p>
+                    <div id="modalTech" class="modal-tags">
+                        <span>React</span>
+                        <span>Next.js</span>
+                        <span>PostgreSQL</span>
+                    </div>
+                    <a id="modalLink" href="https://redevops.in" target="_blank" rel="noopener" class="modal-cta-btn">
+                        Launch Project Website <span class="arrow">→</span>
+                    </a>
+                </div>
+                <div class="modal-right">
+                    <img id="modalImg" src="assets/aura_capital.png" alt="Project Screenshot Mockup">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS FOR INTERACTIVE FOLDERS & MODAL -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const folders = document.querySelectorAll('.project-folder');
+            const modal = document.getElementById('projectModal');
+            const modalClose = document.getElementById('modalClose');
+
+            const projectsData = {
+                'aura-capital': {
+                    title: 'Aura Capital',
+                    category: 'Web Platform / Fintech',
+                    year: '2026',
+                    desc: 'An institutional-grade digital asset trading platform featuring interactive analytics dashboards, microsecond ticker updates, and secure database backends. Designed for raw performance and high-volume transactions.',
+                    tech: ['React', 'Next.js', 'PostgreSQL', 'AWS', 'WebSockets', 'TailwindCSS'],
+                    image: 'assets/aura_capital.png',
+                    link: 'https://redevops.in'
+                },
+                'pulse-fitness': {
+                    title: 'Pulse Fitness',
+                    category: 'Mobile App / iOS & Android',
+                    year: '2025',
+                    desc: 'A cross-platform fitness tracker featuring offline-first storage sync, health metrics dashboards, customized workout plans, and real-time biometric logs. Built with clean state management architectures.',
+                    tech: ['Flutter', 'Firebase', 'Dart', 'Bloc', 'SQLite', 'Apple Health'],
+                    image: 'assets/pulse_fitness.png',
+                    link: 'https://redevops.in'
+                },
+                'kinetik-studio': {
+                    title: 'Kinetik Studio',
+                    category: 'E-Commerce / SaaS',
+                    year: '2025',
+                    desc: 'A high-fashion activewear storefront and CRM system with fluid typography, responsive layout engines, customized Stripe checkout workflows, and server-side render speed optimizations.',
+                    tech: ['Next.js', 'TypeScript', 'Prisma', 'Docker', 'Stripe', 'Node.js'],
+                    image: 'assets/kinetik_studio.png',
+                    link: 'https://redevops.in'
+                },
+                'vortex-analytics': {
+                    title: 'Vortex Analytics',
+                    category: 'B2B SaaS / Dashboard',
+                    year: '2024',
+                    desc: 'An enterprise cloud monitoring and traffic visualization dashboard showing load-balancer traffic rates, database clustering states, node health, and automated container scaling pipelines.',
+                    tech: ['React', 'Node.js', 'D3.js', 'Kubernetes', 'Docker', 'GraphQL'],
+                    image: 'assets/vortex_analytics.png',
+                    link: 'https://redevops.in'
+                }
+            };
+
+            folders.forEach(folder => {
+                folder.addEventListener('click', () => {
+                    const id = folder.dataset.project;
+                    const data = projectsData[id];
+                    if (!data) return;
+
+                    // Populate elements
+                    document.getElementById('modalTitle').textContent = data.title;
+                    document.getElementById('modalMeta').textContent = `${data.category} / ${data.year}`;
+                    document.getElementById('modalDesc').textContent = data.desc;
+                    document.getElementById('modalImg').src = data.image;
+                    document.getElementById('modalLink').href = data.link;
+
+                    // Tech tags
+                    const techContainer = document.getElementById('modalTech');
+                    techContainer.innerHTML = '';
+                    data.tech.forEach(t => {
+                        const span = document.createElement('span');
+                        span.textContent = t;
+                        techContainer.appendChild(span);
+                    });
+
+                    // Activate modal
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            const closeModal = () => {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            };
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
             });
         });
     </script>
