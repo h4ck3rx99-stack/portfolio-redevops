@@ -1881,6 +1881,10 @@ a {
     transform-origin: right;
 }
 
+.footer-cta-left a + a {
+    margin-top: 1.5rem;
+}
+
 /* Bottom Row Layout */
 .footer-bottom {
     display: flex;
