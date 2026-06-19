@@ -639,6 +639,13 @@ a {
     .hero {
         padding: 0 2rem;
     }
+    .hero-grid {
+        padding-top: 6rem;
+        padding-bottom: 2rem;
+    }
+    .hero-right {
+        display: none;
+    }
     .hero-title {
         line-height: 1.05;
         margin-bottom: 2rem;
