@@ -2215,3 +2215,127 @@ html.lenis {
         max-width: 100%;
     }
 }
+
+/* ==========================================================================
+   CONSULTING SECTION STYLES
+   ========================================================================== */
+.consulting-section {
+    padding: 6rem 4rem;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+}
+
+.consulting-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.consulting-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 4.5rem 4rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.consulting-card:hover {
+    border-color: rgba(0, 229, 255, 0.4);
+}
+
+.consulting-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, rgba(144, 0, 255, 0.05) 50%, transparent 100%);
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.consulting-content {
+    position: relative;
+    z-index: 2;
+    max-width: 680px;
+}
+
+.consulting-tag {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+    display: inline-block;
+}
+
+.consulting-heading {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+}
+
+.consulting-desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 2.5rem;
+}
+
+.consulting-btn {
+    background: var(--accent-color);
+    color: #0a0a0a;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 1rem 2.2rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(0, 229, 255, 0.3);
+}
+
+.consulting-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 229, 255, 0.5);
+    background: #ffffff;
+}
+
+.consulting-btn .btn-arrow svg {
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+    vertical-align: middle;
+}
+
+.consulting-btn:hover .btn-arrow svg {
+    transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+    .consulting-section {
+        padding: 4rem 2rem;
+    }
+    .consulting-card {
+        padding: 3rem 2rem;
+        border-radius: 16px;
+    }
+}
