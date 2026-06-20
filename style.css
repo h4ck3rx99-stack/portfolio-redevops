@@ -2270,6 +2270,7 @@ html.lenis {
     position: relative;
     overflow: hidden;
     transition: all 0.5s var(--ease-out-expo);
+    width: 100%;
 }
 
 .consulting-card:hover {
