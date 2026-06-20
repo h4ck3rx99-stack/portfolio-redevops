@@ -1970,6 +1970,28 @@ a {
     transform-origin: right;
 }
 
+.cta-conference {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--bg-color);
+    background: var(--accent-color);
+    padding: 0.85rem 2rem;
+    border-radius: 6px;
+    transition: all 0.4s var(--ease-out-expo);
+    width: fit-content;
+    margin-top: 1.5rem;
+}
+
+.cta-conference:hover {
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 229, 255, 0.2);
+}
+
 .footer-cta-left a + a {
     margin-top: 1.5rem;
 }
