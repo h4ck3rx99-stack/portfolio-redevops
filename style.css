@@ -2262,29 +2262,50 @@ html.lenis {
 /* ==========================================================================
    CONSULTING SECTION STYLES
    ========================================================================== */
-.consulting-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 3.5rem;
+.consulting-section {
+    padding: 6rem 4rem;
     position: relative;
+    z-index: 2;
     overflow: hidden;
-    transition: all 0.5s var(--ease-out-expo);
-    width: 100%;
+}
+
+.consulting-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.consulting-card {
+    position: relative;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 4.5rem 4rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .consulting-card:hover {
-    border-color: rgba(0, 229, 255, 0.15);
+    border-color: rgba(0, 229, 255, 0.4);
 }
 
 .consulting-glow {
     position: absolute;
-    top: -40%;
-    right: -30%;
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, rgba(0, 229, 255, 0.06), transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, rgba(144, 0, 255, 0.05) 50%, transparent 100%);
+    filter: blur(50px);
     pointer-events: none;
+    z-index: 1;
 }
 
 .consulting-content {
@@ -2350,4 +2371,14 @@ html.lenis {
 
 .consulting-btn:hover .btn-arrow svg {
     transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+    .consulting-section {
+        padding: 4rem 2rem;
+    }
+    .consulting-card {
+        padding: 3rem 2rem;
+        border-radius: 16px;
+    }
 }
