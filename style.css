@@ -1220,6 +1220,7 @@ a {
 .modal-window {
     width: 100%;
     max-width: 1100px;
+    max-height: 85vh;
     background-color: #0d0d0d;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 12px;
@@ -1261,6 +1262,18 @@ a {
     background-color: #ff5f56;
     cursor: pointer;
     transition: background-color 0.3s;
+    position: relative;
+}
+
+.titlebar-dot.close::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
 }
 
 .titlebar-dot.close:hover {
@@ -1285,6 +1298,7 @@ a {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
     min-height: 500px;
+    overflow-y: auto;
 }
 
 .modal-left {
@@ -1389,6 +1403,10 @@ a {
 @media (max-width: 968px) {
     .modal-body {
         grid-template-columns: 1fr;
+        min-height: auto;
+    }
+    .modal-window {
+        max-height: 90vh;
     }
     .modal-left {
         padding: 2.5rem;
