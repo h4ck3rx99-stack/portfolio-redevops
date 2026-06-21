@@ -400,6 +400,47 @@
     </section>
     <!-- SERVICES SECTION END -->
 
+    <!-- ADVANTAGE SECTION START -->
+    <section class="advantage-section">
+        <div class="advantage-container">
+            <div class="advantage-header">
+                <h2>The Studio Advantage</h2>
+                <p>We build software that drives business outcomes, not just lines of code.</p>
+            </div>
+            <div class="advantage-grid">
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <h3>Launch in Weeks, Not Months</h3>
+                    <p>Bypass the corporate bureaucracy. We work in fast sprints with weekly builds so you can get a fully functional MVP in front of users and investors within 14 to 30 days.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    </div>
+                    <h3>Cut Development Costs by 50%</h3>
+                    <p>No account managers, no bloated overhead, no junior hand-offs. You work directly with a senior engineering trio, meaning 100% of your budget goes into high-caliber product development.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                    <h3>Built for Scaling & Growth</h3>
+                    <p>We design serverless, high-concurrency systems optimized for cost and reliability. Your app stays fast and secure whether you have 100 users or 100,000+, keeping cloud bills low.</p>
+                </div>
+            </div>
+            <div class="advantage-cta">
+                <button class="advantage-btn trigger-calendly">
+                    Book a Free Tech Strategy Session
+                    <span class="btn-arrow">→</span>
+                </button>
+                <p class="advantage-cta-sub">No sales pitch. Just direct engineering advice for your product roadmap.</p>
+            </div>
+        </div>
+    </section>
+    <!-- ADVANTAGE SECTION END -->
+
     <section class="stats-section">
         <div class="stats-grid">
             <div class="stat-item">
@@ -764,7 +805,7 @@
                 <p class="consulting-desc">
                     Book a free 30-minute consultation call with our team. We'll audit your current tech stack, discuss bottlenecks, and outline a plan to build and scale your product.
                 </p>
-                <button id="bookConsultationBtn" class="consulting-btn">
+                <button id="bookConsultationBtn" class="consulting-btn trigger-calendly">
                     Book a 30-Min Call
                     <span class="btn-arrow">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -1129,13 +1170,13 @@
             }
 
             // Calendly Popup Trigger
-            const bookBtn = document.getElementById('bookConsultationBtn');
-            if (bookBtn) {
-                bookBtn.addEventListener('click', (e) => {
+            const bookBtns = document.querySelectorAll('.trigger-calendly');
+            bookBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
                     e.preventDefault();
                     Calendly.initPopupWidget({ url: 'https://calendly.com/redevops3/30min' });
                 });
-            }
+            });
         });
     </script>
 

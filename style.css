@@ -2260,6 +2260,150 @@ html.lenis {
 }
 
 /* ==========================================================================
+   STUDIO ADVANTAGE SECTION STYLES
+   ========================================================================== */
+.advantage-section {
+    padding: 8rem 4rem;
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.4) 0%, rgba(15, 15, 15, 0.6) 100%);
+    position: relative;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 2;
+}
+
+.advantage-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.advantage-header {
+    margin-bottom: 5rem;
+}
+
+.advantage-header h2 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.advantage-header p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.advantage-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    margin-bottom: 5rem;
+    text-align: left;
+}
+
+.advantage-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 3.5rem 2.5rem;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.advantage-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 229, 255, 0.3);
+}
+
+.advantage-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: rgba(0, 229, 255, 0.08);
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 2rem;
+}
+
+.advantage-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.advantage-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: #ffffff;
+}
+
+.advantage-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.advantage-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.advantage-btn {
+    background: #ffffff;
+    color: #0a0a0a;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 1.2rem 2.5rem;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+}
+
+.advantage-btn:hover {
+    transform: translateY(-2px);
+    background: var(--accent-color);
+    box-shadow: 0 8px 30px rgba(0, 229, 255, 0.4);
+}
+
+.advantage-btn .btn-arrow {
+    transition: transform 0.3s ease;
+}
+
+.advantage-btn:hover .btn-arrow {
+    transform: translateX(4px);
+}
+
+.advantage-cta-sub {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* Responsiveness for Advantage Grid */
+@media (max-width: 968px) {
+    .advantage-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .advantage-section {
+        padding: 6rem 2rem;
+    }
+}
+
+/* ==========================================================================
    CONSULTING SECTION STYLES
    ========================================================================== */
 .consulting-section {
