@@ -3,7 +3,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import {
   Search,
-  FileText,
   Download,
   Globe,
   Zap,
@@ -15,12 +14,18 @@ import {
   Info,
   ArrowLeft,
   RefreshCw,
-  ExternalLink,
-  ChevronRight,
   Award,
   BarChart3,
   Lightbulb,
   X,
+  ChevronDown,
+  ExternalLink,
+  Clock,
+  FileText,
+  Layers,
+  Server,
+  Palette,
+  Tag,
 } from "lucide-react";
 import html2canvas from "html2canvas";
 
@@ -31,10 +36,11 @@ type ScoreCategory =
   | "mobile"
   | "security";
 
-interface ScoreDetail {
+interface Finding {
   label: string;
   passed: boolean;
   weight: number;
+  detail?: string;
 }
 
 interface Suggestion {
@@ -48,8 +54,11 @@ interface AuditResult {
   url: string;
   overall: number;
   scores: Record<ScoreCategory, number>;
-  details: Record<ScoreCategory, ScoreDetail[]>;
+  findings: Record<ScoreCategory, Finding[]>;
   suggestions: Suggestion[];
+  pagesize?: string;
+  resources?: number;
+  fetchSuccess: boolean;
 }
 
 const CATEGORIES: {
@@ -57,210 +66,386 @@ const CATEGORIES: {
   label: string;
   icon: React.ReactNode;
   color: string;
-  gradient: string;
 }[] = [
-  {
-    key: "seo",
-    label: "SEO",
-    icon: <Search size={18} />,
-    color: "#0ad3ff",
-    gradient: "from-cyan-400 to-blue-500",
-  },
-  {
-    key: "performance",
-    label: "Performance",
-    icon: <Zap size={18} />,
-    color: "#22d65e",
-    gradient: "from-green-400 to-emerald-500",
-  },
-  {
-    key: "accessibility",
-    label: "Accessibility",
-    icon: <Eye size={18} />,
-    color: "#f5a623",
-    gradient: "from-amber-400 to-orange-500",
-  },
-  {
-    key: "mobile",
-    label: "Mobile",
-    icon: <Smartphone size={18} />,
-    color: "#9b6dff",
-    gradient: "from-purple-400 to-violet-500",
-  },
-  {
-    key: "security",
-    label: "Security",
-    icon: <Shield size={18} />,
-    color: "#ff4d6a",
-    gradient: "from-rose-400 to-red-500",
-  },
+  { key: "seo", label: "SEO", icon: <Search size={16} />, color: "#0ad3ff" },
+  { key: "performance", label: "Performance", icon: <Zap size={16} />, color: "#22d65e" },
+  { key: "accessibility", label: "Accessibility", icon: <Eye size={16} />, color: "#f5a623" },
+  { key: "mobile", label: "Mobile", icon: <Smartphone size={16} />, color: "#9b6dff" },
+  { key: "security", label: "Security", icon: <Shield size={16} />, color: "#ff4d6a" },
 ];
 
-const SEVERITY_CONFIG = {
-  critical: { icon: <AlertTriangle size={14} />, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20" },
-  warning: { icon: <Info size={14} />, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20" },
-  info: { icon: <CheckCircle size={14} />, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/20" },
+const SEVERITY_STYLES = {
+  critical: { icon: <AlertTriangle size={14} />, color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", label: "Critical" },
+  warning: { icon: <Info size={14} />, color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/15", label: "Warning" },
+  info: { icon: <CheckCircle size={14} />, color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/15", label: "Info" },
 };
 
 const URL_REGEX = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-./?%&=]*)?$/i;
-
-function hashUrl(url: string): number {
-  let h = 0;
-  for (let i = 0; i < url.length; i++) {
-    h = ((h << 5) - h) + url.charCodeAt(i);
-    h |= 0;
-  }
-  return Math.abs(h);
-}
-
-function seededRandom(seed: number, index: number): number {
-  const x = Math.sin(seed * (index + 1) + index) * 10000;
-  return x - Math.floor(x);
-}
-
-function pick<T>(arr: T[], seed: number, i: number): T {
-  return arr[Math.floor(seededRandom(seed, i) * arr.length)];
-}
-
-function simulateAudit(url: string): AuditResult {
-  const seed = hashUrl(url);
-  const base = (catIdx: number) =>
-    Math.floor(42 + seededRandom(seed, catIdx) * 52);
-
-  const scores: Record<ScoreCategory, number> = {
-    seo: base(0),
-    performance: base(1),
-    accessibility: base(2),
-    mobile: base(3),
-    security: base(4),
-  };
-
-  const allDetails: Record<ScoreCategory, ScoreDetail[]> = {
-    seo: [],
-    performance: [],
-    accessibility: [],
-    mobile: [],
-    security: [],
-  };
-
-  const allSuggestions: Suggestion[] = [];
-
-  const checks: Record<
-    ScoreCategory,
-    { label: string; check: (s: number) => boolean; weight: number; failMsg: string; fixMsg: string }[]
-  > = {
-    seo: [
-      { label: "Meta title & description", check: (s) => s > 70, weight: 20, failMsg: "Missing or duplicate meta tags", fixMsg: "Add unique <title> and <meta name='description'> to every page" },
-      { label: "Heading structure (H1-H6)", check: (s) => s > 60, weight: 15, failMsg: "Poor heading hierarchy", fixMsg: "Use exactly one H1 per page and nest headings sequentially" },
-      { label: "Image alt attributes", check: (s) => s > 55, weight: 15, failMsg: "Missing alt text on images", fixMsg: "Add descriptive alt attributes to all <img> elements" },
-      { label: "Canonical URL", check: (s) => s > 50, weight: 10, failMsg: "No canonical tag", fixMsg: "Add <link rel='canonical'> to prevent duplicate content issues" },
-      { label: "Open Graph tags", check: (s) => s > 65, weight: 10, failMsg: "Missing OG meta tags", fixMsg: "Add og:title, og:description, og:image for social sharing" },
-      { label: "Structured data", check: (s) => s > 60, weight: 10, failMsg: "No JSON-LD structured data", fixMsg: "Add Schema.org structured data (e.g., Organization, WebPage)" },
-      { label: "XML Sitemap", check: (s) => s > 45, weight: 10, failMsg: "Sitemap not detected", fixMsg: "Submit an XML sitemap to Google Search Console" },
-      { label: "Robots.txt", check: (s) => s > 40, weight: 10, failMsg: "robots.txt not found", fixMsg: "Create a robots.txt allowing search crawlers" },
-    ],
-    performance: [
-      { label: "First Contentful Paint", check: (s) => s > 70, weight: 20, failMsg: "FCP exceeds 2.5s", fixMsg: "Eliminate render-blocking resources and optimize CSS delivery" },
-      { label: "Largest Contentful Paint", check: (s) => s > 65, weight: 20, failMsg: "LCP exceeds 4.0s", fixMsg: "Optimize largest image/text element; use lazy loading" },
-      { label: "JavaScript bundle size", check: (s) => s > 60, weight: 15, failMsg: "JS bundle too large", fixMsg: "Implement code splitting and tree-shaking" },
-      { label: "Image optimization", check: (s) => s > 55, weight: 15, failMsg: "Unoptimized images detected", fixMsg: "Use modern formats (WebP/AVIF) and serve responsive sizes" },
-      { label: "Caching strategy", check: (s) => s > 50, weight: 10, failMsg: "Weak cache headers", fixMsg: "Set Cache-Control and ETag headers for static assets" },
-      { label: "Server response time", check: (s) => s > 60, weight: 10, failMsg: "TTFB > 800ms", fixMsg: "Use CDN, optimize server, enable compression" },
-      { label: "Minification", check: (s) => s > 45, weight: 10, failMsg: "CSS/JS not minified", fixMsg: "Enable minification in your build toolchain" },
-    ],
-    accessibility: [
-      { label: "Color contrast", check: (s) => s > 70, weight: 20, failMsg: "Insufficient contrast ratio", fixMsg: "Ensure text meets WCAG AA (4.5:1) contrast minimum" },
-      { label: "ARIA attributes", check: (s) => s > 60, weight: 15, failMsg: "Missing ARIA landmarks", fixMsg: "Add role='navigation', 'main', 'banner' to key sections" },
-      { label: "Keyboard navigation", check: (s) => s > 65, weight: 15, failMsg: "Tab order issues", fixMsg: "Ensure all interactive elements are reachable via Tab" },
-      { label: "Form labels", check: (s) => s > 55, weight: 15, failMsg: "Inputs missing labels", fixMsg: "Associate every <input> with a <label> element" },
-      { label: "Alt text on images", check: (s) => s > 50, weight: 10, failMsg: "Decorative images lack alt=''", fixMsg: "Set alt='' for decorative images, descriptive alt for content" },
-      { label: "Focus indicators", check: (s) => s > 60, weight: 10, failMsg: "Focus styles removed", fixMsg: "Never set outline: none without providing focus-visible styles" },
-      { label: "Document language", check: (s) => s > 45, weight: 10, failMsg: "Missing lang attribute", fixMsg: "Add lang='en' (or correct locale) to <html>" },
-      { label: "Video captions", check: (s) => s > 40, weight: 5, failMsg: "No captions on media", fixMsg: "Provide captions or transcripts for video/audio content" },
-    ],
-    mobile: [
-      { label: "Viewport meta tag", check: (s) => s > 75, weight: 20, failMsg: "Missing viewport tag", fixMsg: "Add <meta name='viewport' content='width=device-width, initial-scale=1'>" },
-      { label: "Touch target sizes", check: (s) => s > 65, weight: 15, failMsg: "Small touch targets", fixMsg: "Ensure buttons/links are at least 48x48px" },
-      { label: "Responsive layout", check: (s) => s > 70, weight: 20, failMsg: "Layout breaks on mobile", fixMsg: "Use CSS Grid/Flexbox with relative units (rem, %)" },
-      { label: "Font size readability", check: (s) => s > 55, weight: 10, failMsg: "Body text below 16px", fixMsg: "Set base font-size to at least 16px" },
-      { label: "Horizontal overflow", check: (s) => s > 60, weight: 15, failMsg: "Content exceeds viewport", fixMsg: "Apply overflow-x: hidden and use max-width: 100% on elements" },
-      { label: "Tap delay", check: (s) => s > 50, weight: 10, failMsg: "300ms tap delay present", fixMsg: "Set touch-action: manipulation on interactive elements" },
-      { label: "Content sizing", check: (s) => s > 45, weight: 10, failMsg: "Content not fluid", fixMsg: "Use clamp() and container queries for fluid typography" },
-    ],
-    security: [
-      { label: "HTTPS enforcement", check: (s) => s > 80, weight: 20, failMsg: "No HTTPS redirect", fixMsg: "Redirect HTTP to HTTPS with a 301 and enable HSTS" },
-      { label: "Content Security Policy", check: (s) => s > 65, weight: 15, failMsg: "Missing CSP header", fixMsg: "Add Content-Security-Policy header to prevent XSS" },
-      { label: "X-Frame-Options", check: (s) => s > 55, weight: 12, failMsg: "Clickjacking risk", fixMsg: "Set X-Frame-Options: DENY or SAMEORIGIN" },
-      { label: "XSS Protection", check: (s) => s > 60, weight: 12, failMsg: "Reflected XSS possible", fixMsg: "Set X-XSS-Protection: 1; mode=block and sanitize inputs" },
-      { label: "Secure cookies", check: (s) => s > 50, weight: 10, failMsg: "Cookies missing flags", fixMsg: "Set Secure, HttpOnly, and SameSite=Lax on all cookies" },
-      { label: "Subresource Integrity", check: (s) => s > 45, weight: 10, failMsg: "No SRI on CDN resources", fixMsg: "Add integrity hashes to external <script>/<link> tags" },
-      { label: "Referrer Policy", check: (s) => s > 40, weight: 8, failMsg: "Referrer leakage", fixMsg: "Set Referrer-Policy: strict-origin-when-cross-origin" },
-      { label: "Permissions Policy", check: (s) => s > 35, weight: 8, failMsg: "No permissions policy", fixMsg: "Restrict camera/mic/geolocation with Permissions-Policy header" },
-      { label: "CORS configuration", check: (s) => s > 40, weight: 5, failMsg: "Permissive CORS", fixMsg: "Restrict Access-Control-Allow-Origin to specific origins" },
-    ],
-  };
-
-  for (const cat of Object.keys(checks) as ScoreCategory[]) {
-    const catScore = scores[cat];
-    const catChecks = checks[cat];
-    let detailPassCount = 0;
-
-    for (let i = 0; i < catChecks.length; i++) {
-      const c = catChecks[i];
-      const passed = c.check(catScore + seededRandom(seed, cat.charCodeAt(0) + i) * 15 - 7.5);
-      if (passed) detailPassCount++;
-      allDetails[cat].push({ label: c.label, passed, weight: c.weight });
-      if (!passed) {
-        const sevIdx = seededRandom(seed, 100 + cat.charCodeAt(0) + i);
-        const severity: "critical" | "warning" | "info" =
-          sevIdx < 0.3 ? "critical" : sevIdx < 0.65 ? "warning" : "info";
-        allSuggestions.push({
-          category: cat,
-          severity,
-          title: c.failMsg,
-          description: c.fixMsg,
-        });
-      }
-    }
-
-    const passRate = detailPassCount / catChecks.length;
-    const adjusted = Math.round(catScore * (0.5 + passRate * 0.5));
-    scores[cat] = Math.min(99, Math.max(18, adjusted));
-  }
-
-  const overall = Math.round(
-    (scores.seo + scores.performance + scores.accessibility + scores.mobile + scores.security) / 5
-  );
-
-  return { url, overall, scores, details: allDetails, suggestions: allSuggestions };
-}
-
-function getScoreColor(score: number): string {
-  if (score >= 85) return "#22d65e";
-  if (score >= 65) return "#f5a623";
-  if (score >= 45) return "#ff8533";
-  return "#ff4d6a";
-}
-
-function getScoreLabel(score: number): string {
-  if (score >= 85) return "Excellent";
-  if (score >= 70) return "Good";
-  if (score >= 55) return "Fair";
-  if (score >= 40) return "Poor";
-  return "Critical";
-}
+const PROXIES = [
+  (u: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  (u: string) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+];
 
 function formatUrl(input: string): string {
   let u = input.trim();
-  if (!u.startsWith("http://") && !u.startsWith("https://")) {
-    u = "https://" + u;
-  }
+  if (!u.startsWith("http://") && !u.startsWith("https://")) u = "https://" + u;
   try {
-    const parsed = new URL(u);
-    return parsed.hostname + parsed.pathname.replace(/\/$/, "");
-  } catch {
-    return u;
+    const p = new URL(u);
+    return p.hostname + (p.pathname !== "/" ? p.pathname.replace(/\/$/, "") : "");
+  } catch { return u; }
+}
+
+function getScoreColor(s: number): string {
+  return s >= 85 ? "#22d65e" : s >= 65 ? "#f5a623" : s >= 45 ? "#ff8533" : "#ff4d6a";
+}
+
+function getScoreLabel(s: number): string {
+  return s >= 85 ? "Excellent" : s >= 70 ? "Good" : s >= 55 ? "Fair" : s >= 40 ? "Poor" : "Critical";
+}
+
+function estimatePageSize(html: string): string {
+  const bytes = new TextEncoder().encode(html).length;
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1048576) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / 1048576).toFixed(1)} MB`;
+}
+
+function countOccurrences(html: string, tag: string): number {
+  const regex = new RegExp(`<${tag}[\\s>]`, "gi");
+  const matches = html.match(regex);
+  return matches ? matches.length : 0;
+}
+
+async function fetchUrl(url: string): Promise<{ html: string; headers: Record<string, string>; timing: number } | null> {
+  const start = performance.now();
+  for (const proxyFn of PROXIES) {
+    try {
+      const res = await fetch(proxyFn(url), { signal: AbortSignal.timeout(12000) });
+      if (!res.ok) continue;
+      const html = await res.text();
+      const headers: Record<string, string> = {};
+      res.headers.forEach((v, k) => { headers[k.toLowerCase()] = v; });
+      return { html, headers, timing: Math.round(performance.now() - start) };
+    } catch { continue; }
   }
+  return null;
+}
+
+function analyzeByURL(url: string): { seo: number; performance: number; accessibility: number; mobile: number; security: number } {
+  let seo = 50, perf = 50, a11y = 50, mobile = 50, security = 50;
+  const cleanUrl = url.replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+  const tld = cleanUrl.split(".").pop() || "";
+  const hasWWW = url.includes("www.");
+  const pathDepth = (url.match(/\//g) || []).length - 2;
+  const hasQuery = url.includes("?");
+  const hasHTTPS = url.startsWith("https://");
+  const isShort = cleanUrl.length < 20;
+  const hasHyphen = cleanUrl.includes("-");
+
+  if (hasHTTPS) { seo += 8; security += 18; }
+  else { seo -= 5; security -= 15; }
+  if (isShort) { seo += 5; perf += 3; }
+  if (hasWWW) seo -= 3;
+  if (pathDepth > 3) seo -= 5;
+  if (hasHyphen) seo -= 3;
+  if (tld === "com") seo += 5;
+  else if (tld === "org" || tld === "io") seo += 3;
+  else if (tld === "gov" || tld === "edu") seo += 8;
+  if (hasQuery) { seo -= 3; perf -= 3; }
+  if (!hasQuery) perf += 3;
+
+  return {
+    seo: Math.max(15, Math.min(95, seo)),
+    performance: Math.max(15, Math.min(95, perf)),
+    accessibility: Math.max(15, Math.min(95, a11y)),
+    mobile: Math.max(15, Math.min(95, mobile)),
+    security: Math.max(15, Math.min(95, security)),
+  };
+}
+
+function runFullAudit(url: string, html: string, headers: Record<string, string>, timing: number): AuditResult {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const baseScores = analyzeByURL(url);
+  const allFindings: Record<ScoreCategory, Finding[]> = { seo: [], performance: [], accessibility: [], mobile: [], security: [] };
+  const allSuggestions: Suggestion[] = [];
+
+  function addFinding(cat: ScoreCategory, label: string, passed: boolean, weight: number, detail?: string) {
+    allFindings[cat].push({ label, passed, weight, detail });
+  }
+
+  function addSuggestion(cat: ScoreCategory, severity: "critical" | "warning" | "info", title: string, description: string) {
+    allSuggestions.push({ category: cat, severity, title, description });
+  }
+
+  // ─── SEO ───
+  const title = doc.querySelector("title")?.textContent?.trim() || "";
+  const metaDesc = doc.querySelector('meta[name="description"]')?.getAttribute("content")?.trim() || "";
+  const ogTitle = doc.querySelector('meta[property="og:title"]')?.getAttribute("content");
+  const ogDesc = doc.querySelector('meta[property="og:description"]')?.getAttribute("content");
+  const ogImg = doc.querySelector('meta[property="og:image"]')?.getAttribute("content");
+  const canonical = doc.querySelector('link[rel="canonical"]')?.getAttribute("href");
+  const h1s = doc.querySelectorAll("h1");
+  const h2s = doc.querySelectorAll("h2");
+  const imgs = doc.querySelectorAll("img");
+  const structured = doc.querySelector('script[type="application/ld+json"]');
+  const viewport = doc.querySelector('meta[name="viewport"]');
+  const hasSitemap = html.toLowerCase().includes("sitemap");
+  const hasRobots = html.toLowerCase().includes("robots.txt");
+  const links = doc.querySelectorAll("a[href]");
+  const internalLinks: string[] = [];
+  const externalLinks: string[] = [];
+  links.forEach((a) => {
+    const h = a.getAttribute("href") || "";
+    if (h.startsWith("http") && !h.includes(url.split("/")[0])) externalLinks.push(h);
+    else if (!h.startsWith("#") && !h.startsWith("javascript:")) internalLinks.push(h);
+  });
+
+  addFinding("seo", "Meta title present", title.length > 0, 12, title.length > 0 ? `${title.length} chars` : undefined);
+  if (title.length === 0) addSuggestion("seo", "critical", "Missing <title> tag", "Add a descriptive title tag (50-60 chars) to every page.");
+  else if (title.length > 70) addSuggestion("seo", "warning", "Title too long (" + title.length + " chars)", "Keep titles under 60 characters for optimal SERP display.");
+
+  addFinding("seo", "Meta description present", metaDesc.length > 0, 10, metaDesc.length > 0 ? `${metaDesc.length} chars` : undefined);
+  if (metaDesc.length === 0) addSuggestion("seo", "critical", "Missing meta description", "Add <meta name='description'> (120-160 chars) for search snippets.");
+  else if (metaDesc.length > 170) addSuggestion("seo", "warning", "Meta description too long", "Keep meta descriptions under 160 characters.");
+
+  addFinding("seo", "Open Graph tags", !!ogTitle, 8);
+  if (!ogTitle) addSuggestion("seo", "warning", "Missing og:title", "Open Graph tags improve social sharing appearance.");
+  if (ogTitle && !ogImg) addSuggestion("seo", "info", "Missing og:image", "Add og:image for rich social media previews.");
+
+  addFinding("seo", "Canonical URL", !!canonical, 8);
+  if (!canonical) addSuggestion("seo", "warning", "No canonical URL", "Add <link rel='canonical'> to prevent duplicate content issues.");
+
+  const h1Count = h1s.length;
+  addFinding("seo", "Heading structure (H1)", h1Count === 1, 10, `${h1Count} H1 found`);
+  if (h1Count === 0) addSuggestion("seo", "critical", "No H1 heading", "Every page needs exactly one H1 for semantic structure.");
+  else if (h1Count > 1) addSuggestion("seo", "warning", `${h1Count} H1 tags found`, "Use exactly one H1 per page for proper heading hierarchy.");
+
+  const h2Count = h2s.length;
+  if (h2Count === 0 && h1Count > 0) addSuggestion("seo", "info", "No H2 headings", "Use H2 subheadings to structure content sections.");
+
+  const noAltImgs = Array.from(imgs).filter((img) => !img.getAttribute("alt")).length;
+  const altPass = noAltImgs === 0;
+  addFinding("seo", "Image alt attributes", altPass, 8, imgs.length > 0 ? `${noAltImgs}/${imgs.length} missing alt` : undefined);
+  if (noAltImgs > 0) addSuggestion("seo", "warning", `${noAltImgs} images missing alt text`, "All <img> elements need descriptive alt attributes for accessibility and SEO.");
+
+  addFinding("seo", "Structured data (JSON-LD)", !!structured, 8);
+  if (!structured) addSuggestion("seo", "info", "No structured data", "Add Schema.org JSON-LD for rich search results.");
+
+  addFinding("seo", "Viewport meta tag", !!viewport, 6);
+  addFinding("seo", "XML Sitemap reference", hasSitemap, 5);
+  addFinding("seo", "Internal links found", internalLinks.length > 0, 5, `${internalLinks.length} internal links`);
+  if (internalLinks.length === 0) addSuggestion("seo", "info", "No internal links detected", "Internal linking helps search engines discover content.");
+
+  // ─── PERFORMANCE ───
+  const scripts = doc.querySelectorAll("script[src]");
+  const stylesheets = doc.querySelectorAll('link[rel="stylesheet"]');
+  const totalImages = imgs.length;
+  const lazyImgs = doc.querySelectorAll("img[loading='lazy']");
+  const deferScripts = doc.querySelectorAll("script[defer], script[async]");
+  const inlineStyles = doc.querySelectorAll("style:not([scoped])");
+  const resourceCount = scripts.length + stylesheets.length + totalImages;
+  const pageSize = estimatePageSize(html);
+  const pageSizeKB = parseFloat(pageSize);
+
+  addFinding("performance", "Page HTML size", pageSizeKB < 100, 15, pageSize);
+  if (pageSizeKB > 200) addSuggestion("performance", "warning", `Large page size (${pageSize})`, "Minify HTML, CSS, and JavaScript to reduce page weight.");
+  else if (pageSizeKB > 100) addSuggestion("performance", "info", `Page size ${pageSize} could be optimized`, "Consider further compression and resource optimization.");
+
+  addFinding("performance", "Total resources", resourceCount < 50, 12, `${resourceCount} resources`);
+  if (resourceCount > 80) addSuggestion("performance", "critical", `${resourceCount} resource requests`, "Reduce the number of HTTP requests by bundling and lazy-loading.");
+  else if (resourceCount > 40) addSuggestion("performance", "warning", `${resourceCount} resource requests`, "Aim for under 40 requests for optimal performance.");
+
+  const lazyRatio = totalImages > 0 ? lazyImgs.length / totalImages : 1;
+  addFinding("performance", "Lazy loading on images", lazyRatio > 0.3 || totalImages === 0, 10, totalImages > 0 ? `${lazyImgs.length}/${totalImages} lazy` : "no images");
+  if (totalImages > 5 && lazyRatio < 0.2) addSuggestion("performance", "warning", "Images missing lazy loading", "Add loading='lazy' to below-the-fold images.");
+
+  addFinding("performance", "Async/defer scripts", deferScripts.length > 0 || scripts.length === 0, 10, `${deferScripts.length}/${scripts.length} async/defer`);
+  if (scripts.length > 0 && deferScripts.length < scripts.length * 0.5) addSuggestion("performance", "warning", "Render-blocking scripts detected", "Use async or defer on non-critical scripts.");
+
+  addFinding("performance", "CSS minified/external", stylesheets.length < 5 || inlineStyles.length === 0, 8);
+  if (inlineStyles.length > 3) addSuggestion("performance", "info", `${inlineStyles.length} inline style blocks`, "Move inline CSS to external stylesheets for caching.");
+
+  addFinding("performance", "No excessive inline CSS", inlineStyles.length < 10, 8);
+
+  if (timing > 0) {
+    addFinding("performance", "Proxy response time", timing < 3000, 12, `${timing}ms`);
+    if (timing > 4000) addSuggestion("performance", "warning", `Slow response time (${timing}ms)`, "Server response time affects Largest Contentful Paint (LCP).");
+  }
+
+  // ─── ACCESSIBILITY ───
+  const hasLang = doc.documentElement.hasAttribute("lang");
+  const inputs = doc.querySelectorAll("input:not([type='hidden']), textarea, select");
+  const labeledInputs = doc.querySelectorAll("input:not([type='hidden']):not([type='submit']):not([type='button']):not([type='reset'])");
+  const labels = doc.querySelectorAll("label, [aria-label], [aria-labelledby]");
+  const ariaLandmarks = doc.querySelectorAll("[role='navigation'], [role='main'], [role='banner'], [role='contentinfo'], [role='complementary'], [role='form']");
+  const focusable = doc.querySelectorAll("a[href], button, input, textarea, select, [tabindex]:not([tabindex='-1'])");
+  const hasSkipLink = html.includes("skip") && html.includes("content");
+  const hasAria = doc.querySelectorAll("[aria-]").length > 0;
+
+  addFinding("accessibility", "Document language (lang attr)", hasLang, 12, hasLang ? (doc.documentElement.getAttribute("lang") || undefined) : undefined);
+  if (!hasLang) addSuggestion("accessibility", "critical", "Missing lang attribute on <html>", "Add lang='en' (or correct locale) for screen readers.");
+
+  const inputsNeedLabel = labeledInputs.length;
+  const inputsLabelled = labels.length;
+  const labelRatio = inputsNeedLabel > 0 ? Math.min(labels.length / inputsNeedLabel, 1) : 1;
+  addFinding("accessibility", "Form inputs have labels", labelRatio > 0.5, 12, inputsNeedLabel > 0 ? `${labels.length} labels for ${inputsNeedLabel} inputs` : "no inputs");
+  if (inputsNeedLabel > 0 && labelRatio < 0.3) addSuggestion("accessibility", "critical", "Form inputs missing labels", "Associate every <input> with a <label> or aria-label.");
+
+  addFinding("accessibility", "ARIA landmarks present", ariaLandmarks.length > 0, 10, `${ariaLandmarks.length} landmarks`);
+  if (ariaLandmarks.length === 0) addSuggestion("accessibility", "warning", "No ARIA landmarks", "Add role='navigation', 'main', 'banner' to key page sections.");
+
+  addFinding("accessibility", "Focusable elements exist", focusable.length > 0, 8, `${focusable.length} interactive elements`);
+
+  const altIssues = noAltImgs;
+  addFinding("accessibility", "Images have alt text", altIssues === 0, 10, imgs.length > 0 ? `${noAltImgs}/${imgs.length} missing alt` : undefined);
+
+  addFinding("accessibility", "Heading hierarchy", h1Count <= 1, 8);
+  if (h1Count === 0) addSuggestion("accessibility", "critical", "Missing page heading", "Screen readers rely on heading hierarchy for navigation.");
+  if (h1Count > 1) addSuggestion("accessibility", "warning", `${h1Count} H1 elements`, "Screen readers expect a single H1 per page.");
+
+  addFinding("accessibility", "Skip navigation link", hasSkipLink, 6);
+  if (!hasSkipLink) addSuggestion("accessibility", "info", "No skip-to-content link", "Add a 'Skip to content' link for keyboard users.");
+
+  const hasRoleAttributes = doc.querySelectorAll("[role]").length > 0;
+  addFinding("accessibility", "ARIA attributes used", hasAria || hasRoleAttributes, 8);
+
+  // ─── MOBILE ───
+  const hasViewport = !!viewport;
+  const vpContent = viewport?.getAttribute("content") || "";
+  const hasWidthDeviceWidth = vpContent.includes("width=device-width");
+  const hasInitialScale = vpContent.includes("initial-scale");
+  const hasTouchAction = html.includes("touch-action");
+  const bodyFontSize = doc.querySelector("[style*='font-size']");
+
+  addFinding("mobile", "Viewport meta configured", hasViewport, 18);
+  addFinding("mobile", "width=device-width set", hasWidthDeviceWidth, 16);
+  addFinding("mobile", "initial-scale defined", hasInitialScale, 12);
+  if (!hasViewport) addSuggestion("mobile", "critical", "Missing viewport meta tag", "Add <meta name='viewport' content='width=device-width, initial-scale=1'> for mobile rendering.");
+  if (hasViewport && !hasWidthDeviceWidth) addSuggestion("mobile", "warning", "Viewport missing width=device-width", "This is required for proper mobile scaling.");
+
+  const fontSizes = doc.querySelectorAll("[style*='font-size']");
+  let smallFonts = 0;
+  fontSizes.forEach((el) => {
+    const s = el.getAttribute("style") || "";
+    const m = s.match(/font-size:\s*(\d+)px/);
+    if (m && parseInt(m[1]) < 12) smallFonts++;
+  });
+  addFinding("mobile", "Font size ≥ 12px", smallFonts === 0, 10, smallFonts > 0 ? `${smallFonts} elements < 12px` : undefined);
+  if (smallFonts > 3) addSuggestion("mobile", "warning", `${smallFonts} elements use small font sizes`, "Body text should be at least 16px for mobile readability.");
+
+  addFinding("mobile", "Touch-action support", hasTouchAction, 6);
+  addFinding("mobile", "Responsive images", totalImages > 0, 6);
+  addFinding("mobile", "Horizontal overflow check", !html.includes("overflow-x"), 6);
+
+  const mediaQueries = html.match(/@media/g);
+  const hasMQ = (mediaQueries ? mediaQueries.length : 0) > 0;
+  addFinding("mobile", "CSS media queries present", hasMQ, 10);
+  if (!hasMQ) addSuggestion("mobile", "warning", "No responsive media queries", "Use CSS media queries to adapt layout for mobile screens.");
+
+  addFinding("mobile", "Scalable content", !vpContent.includes("user-scalable=no"), 6);
+  if (vpContent.includes("user-scalable=no")) addSuggestion("mobile", "warning", "Pinch zoom disabled", "Avoid user-scalable=no — it prevents users from zooming.");
+
+  // ─── SECURITY ───
+  const isHTTPS = url.startsWith("https://");
+  const csp = headers["content-security-policy"] || "";
+  const xframe = headers["x-frame-options"] || "";
+  const xss = headers["x-xss-protection"] || "";
+  const hsts = headers["strict-transport-security"] || "";
+  const referrer = headers["referrer-policy"] || "";
+  const ctype = headers["x-content-type-options"] || "";
+  const hasMixedContent = html.includes("http://") && isHTTPS;
+
+  addFinding("security", "HTTPS enforced", isHTTPS, 16);
+  if (!isHTTPS) addSuggestion("security", "critical", "No HTTPS detected", "Enable HTTPS with a valid TLS certificate and redirect HTTP to HTTPS.");
+
+  addFinding("security", "Content Security Policy", !!csp, 14);
+  if (!csp) addSuggestion("security", "warning", "Missing Content-Security-Policy", "CSP mitigates XSS and data injection attacks.");
+
+  addFinding("security", "X-Frame-Options", !!xframe, 10);
+  if (!xframe) addSuggestion("security", "warning", "Clickjacking protection missing", "Set X-Frame-Options: DENY or SAMEORIGIN.");
+
+  addFinding("security", "X-XSS-Protection", !!xss, 8);
+
+  addFinding("security", "HSTS header", !!hsts, 10);
+  if (!hsts) addSuggestion("security", "info", "HSTS not configured", "HTTP Strict-Transport-Security enforces secure connections.");
+
+  addFinding("security", "No mixed content", !hasMixedContent, 10);
+  if (hasMixedContent) addSuggestion("security", "warning", "Mixed content detected", "Serve all resources over HTTPS to avoid browser warnings.");
+
+  addFinding("security", "Referrer-Policy", !!referrer, 8);
+  if (!referrer) addSuggestion("security", "info", "Referrer-Policy not set", "Set Referrer-Policy: strict-origin-when-cross-origin for privacy.");
+
+  addFinding("security", "X-Content-Type-Options", !!ctype, 8);
+
+  const hasForm = inputs.length > 0;
+  if (hasForm) {
+    const secureForms = doc.querySelectorAll("form[action^='https://']");
+    addFinding("security", "Forms submit to HTTPS", secureForms.length > 0, 6);
+    if (secureForms.length === 0) addSuggestion("security", "warning", "Forms not using HTTPS", "Ensure all forms submit to HTTPS endpoints to protect data.");
+  } else {
+    addFinding("security", "Forms submit to HTTPS", true, 6);
+  }
+
+  // ─── WEIGHTED SCORES ───
+  function weightedScore(findings: Finding[], base: number): number {
+    if (findings.length === 0) return base;
+    const totalWeight = findings.reduce((a, f) => a + f.weight, 0);
+    const passedWeight = findings.filter((f) => f.passed).reduce((a, f) => a + f.weight, 0);
+    const raw = (passedWeight / totalWeight) * 100;
+    return Math.round(raw * 0.6 + base * 0.4);
+  }
+
+  const finalScores: Record<ScoreCategory, number> = {
+    seo: Math.min(99, Math.max(10, weightedScore(allFindings.seo, baseScores.seo))),
+    performance: Math.min(99, Math.max(10, weightedScore(allFindings.performance, baseScores.performance))),
+    accessibility: Math.min(99, Math.max(10, weightedScore(allFindings.accessibility, baseScores.accessibility))),
+    mobile: Math.min(99, Math.max(10, weightedScore(allFindings.mobile, baseScores.mobile))),
+    security: Math.min(99, Math.max(10, weightedScore(allFindings.security, baseScores.security))),
+  };
+
+  const overall = Math.round(
+    (finalScores.seo + finalScores.performance + finalScores.accessibility + finalScores.mobile + finalScores.security) / 5
+  );
+
+  return {
+    url,
+    overall,
+    scores: finalScores,
+    findings: allFindings,
+    suggestions: allSuggestions.sort((a, b) => {
+      const order = { critical: 0, warning: 1, info: 2 };
+      return order[a.severity] - order[b.severity];
+    }),
+    pagesize: pageSize,
+    resources: resourceCount,
+    fetchSuccess: true,
+  };
+}
+
+async function runAudit(url: string): Promise<AuditResult> {
+  const cleanUrl = formatUrl(url);
+  const fetched = await fetchUrl(cleanUrl);
+
+  if (fetched) {
+    const result = runFullAudit(cleanUrl, fetched.html, fetched.headers, fetched.timing);
+    return result;
+  }
+
+  const base = analyzeByURL(cleanUrl);
+  const overall = Math.round((base.seo + base.performance + base.accessibility + base.mobile + base.security) / 5);
+  const suggestions: Suggestion[] = [
+    { category: "seo", severity: "info", title: "Could not fetch page content", description: "The audit was performed using URL-based analysis only. Try running the audit again or check that the domain exists." },
+    { category: "performance", severity: "info", title: "Full analysis requires page access", description: "Performance metrics are estimated from URL characteristics. For accurate results, the page needs to be accessible via a CORS proxy." },
+  ];
+
+  return {
+    url: cleanUrl,
+    overall,
+    scores: base,
+    findings: { seo: [], performance: [], accessibility: [], mobile: [], security: [] },
+    suggestions,
+    fetchSuccess: false,
+  };
 }
 
 export default function Home() {
@@ -271,43 +456,61 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [error, setError] = useState("");
+  const [history, setHistory] = useState<string[]>([]);
   const reportRef = useRef<HTMLDivElement>(null);
 
-  const runAudit = useCallback(async () => {
-    if (!url.trim() || !URL_REGEX.test(url.trim())) return;
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("siteaudit_history");
+      if (saved) setHistory(JSON.parse(saved));
+    } catch {}
+  }, []);
 
+  const handleAudit = useCallback(async () => {
+    const input = url.trim();
+    if (!input || !URL_REGEX.test(input)) { setError("Enter a valid domain"); return; }
+    setError("");
     setLoading(true);
     setShowResults(false);
     setResult(null);
     setProgress(0);
 
     const phases = [
-      "Connecting to server...",
+      "Resolving domain...",
+      "Fetching page content...",
       "Analyzing HTML structure...",
-      "Evaluating performance metrics...",
+      "Evaluating SEO factors...",
+      "Measuring performance metrics...",
       "Checking accessibility...",
-      "Testing mobile responsiveness...",
+      "Testing mobile readiness...",
       "Scanning security headers...",
-      "Generating report...",
+      "Compiling report...",
     ];
 
     for (let i = 0; i < phases.length; i++) {
       setPhase(phases[i]);
       setProgress(Math.round(((i + 1) / phases.length) * 100));
-      await new Promise((r) => setTimeout(r, 250 + Math.random() * 350));
+      await new Promise((r) => setTimeout(r, 120 + Math.random() * 250));
     }
 
-    const formatted = formatUrl(url);
-    const auditResult = simulateAudit(formatted);
+    try {
+      const auditResult = await runAudit(url);
+      setResult(auditResult);
+      setLoading(false);
+      setPhase("");
 
-    setResult(auditResult);
-    setLoading(false);
-    setPhase("");
+      const historyItem = formatUrl(url);
+      const updated = [historyItem, ...history.filter((h) => h !== historyItem)].slice(0, 5);
+      setHistory(updated);
+      try { localStorage.setItem("siteaudit_history", JSON.stringify(updated)); } catch {}
 
-    requestAnimationFrame(() => {
-      setShowResults(true);
-    });
-  }, [url]);
+      requestAnimationFrame(() => setShowResults(true));
+    } catch {
+      setError("Audit failed. Try a different URL.");
+      setLoading(false);
+    }
+  }, [url, history]);
 
   const exportPDF = useCallback(async () => {
     if (!reportRef.current) return;
@@ -323,127 +526,134 @@ export default function Home() {
       const w = window.open("");
       if (w) {
         w.document.write(`
-          <html>
-          <head><title>SiteAudit Pro Report</title>
+          <html><head><title>SiteAudit Pro Report</title>
           <style>
             body { margin: 0; display: flex; justify-content: center; background: #050508; }
             img { max-width: 100%; height: auto; }
             @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
-          </style>
-          </head>
-          <body>
-            <img src="${imgData}" onload="window.print();" />
-          </body>
-          </html>
+          </style></head>
+          <body><img src="${imgData}" onload="window.print();" /></body></html>
         `);
         w.document.close();
       }
-    } catch {
-      alert("Could not export PDF. Try downloading the report image.");
-    }
+    } catch { alert("Could not export. Try downloading the report image."); }
     setExporting(false);
   }, []);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") runAudit();
-  };
-
   const isValid = URL_REGEX.test(url.trim());
 
-  useEffect(() => {
-    const hashes = window.location.hash.replace("#", "");
-    if (hashes) {
-      setUrl(hashes);
-    }
-  }, []);
-
   return (
-    <div className="min-h-screen bg-[#050508] text-[#e8edf5] font-sans">
+    <main className="min-h-screen bg-[#050508] text-[#f5f7fa] font-sans">
+      {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(10,211,255,0.06)_0%,_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(155,109,255,0.04)_0%,_transparent_50%)]" />
-        <div
-          className="absolute inset-0 opacity-[0.015]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-          }}
-        />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(10,211,255,0.05)_0%,_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(155,109,255,0.03)_0%,_transparent_50%)]" />
+        <div className="absolute inset-0 opacity-[0.012]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
       </div>
 
-      <div className="relative z-10 max-w-5xl mx-auto px-4 py-6 sm:py-10">
-        {/* Back link */}
-        <a
-          href="../index.html#project-siteaudit-pro"
-          className="inline-flex items-center gap-1.5 text-sm text-white/30 hover:text-white/70 transition-colors mb-8 group"
-        >
-          <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform" />
-          Back to Portfolio
-        </a>
-
-        {/* Header */}
-        <div className="text-center mb-10 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-[10px] uppercase tracking-[0.2em] text-white/40 mb-5">
-            <BarChart3 size={12} className="text-cyan-400" />
-            Audit Tool
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+        {/* Header bar */}
+        <header className="flex items-center justify-between mb-8 sm:mb-12">
+          <div className="flex items-center gap-3">
+            <a href="../index.html#project-siteaudit-pro" className="p-2 rounded-lg bg-[#141527] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] transition-all" title="Back to Portfolio">
+              <ArrowLeft size={16} />
+            </a>
+            <div>
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-black font-bold text-sm">
+                  SA
+                </div>
+                <h1 className="text-lg font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                  SiteAudit Pro
+                </h1>
+              </div>
+              <p className="text-[11px] text-[#8087a3] mt-0.5 flex items-center gap-1.5">
+                <BarChart3 size={11} className="text-cyan-400" />
+                Real-time website analysis engine
+              </p>
+            </div>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight mb-3">
-            Site<span className="text-gradient">Audit</span> Pro
-          </h1>
-          <p className="text-white/40 text-sm sm:text-base max-w-lg mx-auto">
-            Enter any website URL to get a professional-grade audit report with actionable recommendations.
+          <div className="hidden sm:flex items-center gap-2 text-[11px] text-[#8087a3]">
+            <Clock size={12} />
+            <span>Client-side · No backend</span>
+          </div>
+        </header>
+
+        {/* Hero */}
+        <div className="text-center mb-10 sm:mb-14">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] text-[10px] uppercase tracking-[0.15em] text-[#8087a3] mb-5">
+            <Zap size={11} className="text-cyan-400" />
+            Real HTML Analysis
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3 leading-tight">
+            Audit any website<br />
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">in seconds</span>
+          </h2>
+          <p className="text-sm text-[#8087a3] max-w-md mx-auto">
+            Enter a URL to analyze real HTML structure, security headers, SEO factors, and more — all in your browser.
           </p>
         </div>
 
-        {/* Input */}
-        <div className="max-w-2xl mx-auto mb-12 sm:mb-20">
-          <div className="glass-panel rounded-2xl p-2 flex items-center gap-2">
-            <div className="flex-1 flex items-center gap-2 pl-4">
-              <Globe size={16} className="text-white/20 shrink-0" />
+        {/* URL Input */}
+        <div className="max-w-2xl mx-auto mb-10 sm:mb-16">
+          <div className="bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-1.5 flex items-center gap-2 shadow-lg shadow-black/20">
+            <div className="flex-1 flex items-center gap-2.5 pl-4">
+              <Globe size={15} className="text-[#8087a3] shrink-0" />
               <input
                 type="text"
                 value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="example.com"
-                className="w-full bg-transparent text-sm sm:text-base text-white placeholder-white/20 outline-none py-2.5"
+                onChange={(e) => { setUrl(e.target.value); setError(""); }}
+                onKeyDown={(e) => e.key === "Enter" && handleAudit()}
+                placeholder="Enter website URL (e.g., example.com)"
+                className="w-full bg-transparent text-sm text-[#f5f7fa] placeholder-[#8087a3]/50 outline-none py-2.5"
               />
             </div>
             <button
-              onClick={runAudit}
+              onClick={handleAudit}
               disabled={!isValid || loading}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-medium hover:from-cyan-400 hover:to-blue-500 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200 shrink-0"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold hover:from-cyan-400 hover:to-blue-500 hover:scale-[1.02] active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shrink-0 shadow-lg shadow-cyan-500/10"
             >
-              {loading ? (
-                <RefreshCw size={16} className="animate-spin" />
-              ) : (
-                <Search size={16} />
-              )}
-              {loading ? "Scanning..." : "Run Audit"}
+              {loading ? <RefreshCw size={15} className="animate-spin" /> : <Search size={15} />}
+              {loading ? "Scanning" : "Run Audit"}
             </button>
           </div>
+          {error && <p className="text-xs text-red-400/80 mt-2 pl-4">{error}</p>}
+          {!isValid && url.length > 0 && !error && <p className="text-xs text-[#8087a3] mt-2 pl-4">Enter a valid domain (e.g., example.com)</p>}
 
-          {!isValid && url.length > 0 && (
-            <p className="text-xs text-red-400/70 mt-2 pl-4">
-              Enter a valid domain (e.g., example.com)
-            </p>
+          {/* History */}
+          {history.length > 0 && !loading && !showResults && (
+            <div className="mt-3 flex items-center gap-2 flex-wrap">
+              <span className="text-[10px] text-[#8087a3] uppercase tracking-wider">Recent:</span>
+              {history.map((h, i) => (
+                <button
+                  key={i}
+                  onClick={() => setUrl(h)}
+                  className="text-[11px] px-2.5 py-1 rounded-md bg-[#141527] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] hover:border-white/10 transition-all"
+                >
+                  {h}
+                </button>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* Loading phase */}
+        {/* Loading */}
         {loading && (
-          <div className="max-w-xl mx-auto mb-16 text-center animate-fade-up">
-            <div className="glass-panel rounded-2xl p-8">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-2 h-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: "0ms" }} />
-                <div className="w-2 h-2 rounded-full bg-blue-500 animate-bounce" style={{ animationDelay: "150ms" }} />
-                <div className="w-2 h-2 rounded-full bg-purple-500 animate-bounce" style={{ animationDelay: "300ms" }} />
+          <div className="max-w-lg mx-auto mb-16 animate-fade-up">
+            <div className="bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-8 text-center">
+              <div className="flex items-center justify-center gap-2 mb-6">
+                {[0, 150, 300].map((d) => (
+                  <div
+                    key={d}
+                    className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 animate-bounce"
+                    style={{ animationDelay: `${d}ms`, opacity: 0.8 }}
+                  />
+                ))}
               </div>
-              <p className="text-sm text-white/50 mb-4">{phase}</p>
-              <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+              <p className="text-sm text-[#8087a3] mb-4 font-medium">{phase}</p>
+              <div className="h-1.5 bg-white/5 rounded-full overflow-hidden max-w-xs mx-auto">
                 <div
-                  className="h-full bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full transition-all duration-300 ease-out"
+                  className="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -453,97 +663,90 @@ export default function Home() {
 
         {/* Results */}
         {result && showResults && (
-          <div ref={reportRef} className="space-y-6 animate-fade-up">
-            {/* Overall score */}
-            <div className="glass-panel rounded-2xl p-6 sm:p-8">
+          <div ref={reportRef} className="space-y-5 animate-fade-up">
+            {/* Overall + Quick Stats */}
+            <div className="bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
                 <div className="relative shrink-0">
                   <svg width="120" height="120" className="transform -rotate-90">
+                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="6" />
                     <circle
-                      cx="60" cy="60" r="52"
-                      fill="none"
-                      stroke="rgba(255,255,255,0.04)"
-                      strokeWidth="6"
-                    />
-                    <circle
-                      cx="60" cy="60" r="52"
-                      fill="none"
-                      stroke={getScoreColor(result.overall)}
-                      strokeWidth="6"
+                      cx="60" cy="60" r="52" fill="none"
+                      stroke={getScoreColor(result.overall)} strokeWidth="6"
                       strokeLinecap="round"
                       strokeDasharray={`${(result.overall / 100) * 326.7} 326.7`}
                       className="transition-all duration-1000 ease-out"
-                      style={{ strokeDasharray: `${(result.overall / 100) * 326.7} 326.7` }}
                     />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <span className="text-3xl font-bold tracking-tight" style={{ color: getScoreColor(result.overall) }}>
-                      {result.overall}
-                    </span>
-                    <span className="text-[10px] uppercase tracking-[0.15em] text-white/30 mt-0.5">SCORE</span>
+                    <span className="text-3xl font-bold tracking-tight" style={{ color: getScoreColor(result.overall) }}>{result.overall}</span>
+                    <span className="text-[9px] uppercase tracking-[0.15em] text-[#8087a3] mt-0.5">Score</span>
                   </div>
                 </div>
                 <div className="flex-1 text-center sm:text-left">
                   <div className="flex items-center gap-2 justify-center sm:justify-start mb-1">
                     <Award size={16} style={{ color: getScoreColor(result.overall) }} />
-                    <span className="text-lg font-semibold" style={{ color: getScoreColor(result.overall) }}>
-                      {getScoreLabel(result.overall)}
-                  </span>
+                    <span className="text-lg font-semibold" style={{ color: getScoreColor(result.overall) }}>{getScoreLabel(result.overall)}</span>
                   </div>
-                  <p className="text-white/40 text-sm">
-                    Audit report for <span className="text-white/70 font-medium">{result.url}</span>
+                  <p className="text-sm text-[#8087a3]">
+                    Report for <span className="text-[#f5f7fa] font-medium">{result.url}</span>
                   </p>
-                  <p className="text-white/25 text-xs mt-1">
-                    {result.suggestions.length} issues found across 5 categories
-                  </p>
+                  <div className="flex flex-wrap gap-3 mt-3 justify-center sm:justify-start">
+                    {result.pagesize && (
+                      <div className="flex items-center gap-1.5 text-[11px] text-[#8087a3] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
+                        <FileText size={11} /> {result.pagesize}
+                      </div>
+                    )}
+                    {result.resources !== undefined && (
+                      <div className="flex items-center gap-1.5 text-[11px] text-[#8087a3] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
+                        <Layers size={11} /> {result.resources} resources
+                      </div>
+                    )}
+                    {!result.fetchSuccess && (
+                      <div className="flex items-center gap-1.5 text-[11px] text-amber-400/70 bg-amber-500/5 px-2.5 py-1 rounded-md border border-amber-500/10">
+                        <Info size={11} /> URL-based analysis only
+                      </div>
+                    )}
+                    <div className="flex items-center gap-1.5 text-[11px] text-[#8087a3] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
+                      <FileText size={11} /> {result.suggestions.length} issues
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Score cards */}
+            {/* Score Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {CATEGORIES.map((cat, idx) => {
                 const score = result.scores[cat.key];
                 const color = getScoreColor(score);
+                const findings = result.findings[cat.key] || [];
+                const passed = findings.filter((f) => f.passed).length;
+                const total = findings.length;
                 return (
                   <div
                     key={cat.key}
-                    className="glass-card rounded-xl p-5 animate-fade-up"
-                    style={{ animationDelay: `${idx * 80}ms` }}
+                    className="bg-[#0e0f1d] border border-white/[0.06] rounded-xl p-5 transition-all duration-200 hover:border-white/[0.10]"
+                    style={{ animation: `fade-up 0.4s ease-out ${idx * 0.08}s forwards`, opacity: 0 }}
                   >
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center gap-2.5">
-                        <div
-                          className="w-8 h-8 rounded-lg flex items-center justify-center"
-                          style={{ backgroundColor: `${cat.color}12`, color: cat.color }}
-                        >
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style={{ backgroundColor: `${cat.color}15`, color: cat.color }}>
                           {cat.icon}
                         </div>
-                        <span className="text-sm font-medium">{cat.label}</span>
+                        <span className="text-sm font-semibold">{cat.label}</span>
                       </div>
-                      <span
-                        className="text-lg font-bold tabular-nums"
-                        style={{ color }}
-                      >
-                        {score}
-                      </span>
+                      <span className="text-xl font-bold tabular-nums" style={{ color }}>{score}</span>
                     </div>
                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
                       <div
-                        className="h-full rounded-full animate-progress"
-                        style={{
-                          width: `${score}%`,
-                          background: `linear-gradient(90deg, ${cat.color}88, ${cat.color})`,
-                        }}
+                        className="h-full rounded-full transition-all duration-1000 ease-out"
+                        style={{ width: `${score}%`, background: `linear-gradient(90deg, ${cat.color}66, ${cat.color})` }}
                       />
                     </div>
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-[11px] text-white/25 uppercase tracking-wider">
-                        {getScoreLabel(score)}
-                      </span>
-                      <span className="text-[11px] text-white/20">
-                        {result.details[cat.key].filter((d) => d.passed).length}/{result.details[cat.key].length} passed
-                      </span>
+                    <div className="flex items-center justify-between mt-2.5">
+                      <span className="text-[10px] uppercase tracking-wider font-medium" style={{ color: `${color}cc` }}>{getScoreLabel(score)}</span>
+                      {total > 0 && <span className="text-[11px] text-[#8087a3]">{passed}/{total} checks passed</span>}
                     </div>
                   </div>
                 );
@@ -552,44 +755,35 @@ export default function Home() {
 
             {/* Suggestions */}
             {result.suggestions.length > 0 && (
-              <div className="glass-panel rounded-2xl p-6 sm:p-8">
+              <div className="bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
                 <div className="flex items-center gap-2.5 mb-6">
-                  <Lightbulb size={18} className="text-amber-400" />
-                  <h2 className="text-lg font-semibold">
-                    Recommendations
-                  </h2>
-                  <span className="text-xs text-white/30 ml-auto">
-                    {result.suggestions.length} items
-                  </span>
+                  <Lightbulb size={17} className="text-amber-400" />
+                  <h2 className="text-base font-bold">Recommendations</h2>
+                  <span className="text-xs text-[#8087a3] ml-auto">{result.suggestions.length} items</span>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   {result.suggestions.map((s, i) => {
-                    const sev = SEVERITY_CONFIG[s.severity];
+                    const sev = SEVERITY_STYLES[s.severity];
                     const catInfo = CATEGORIES.find((c) => c.key === s.category);
                     return (
                       <div
                         key={i}
-                        className={`${sev.bg} ${sev.color} ${sev.border === "border-red-500/20" ? "border-red-500/15" : sev.border === "border-amber-500/20" ? "border-amber-500/15" : "border-cyan-500/15"} border rounded-xl p-4 animate-fade-up`}
-                        style={{ animationDelay: `${i * 50}ms` }}
+                        className={`${sev.bg} ${sev.border} border rounded-xl p-4 transition-all hover:brightness-110`}
+                        style={{ animation: `fade-up 0.3s ease-out ${i * 0.03}s forwards`, opacity: 0 }}
                       >
                         <div className="flex items-start gap-3">
                           <div className="mt-0.5 shrink-0">{sev.icon}</div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 mb-1 flex-wrap">
-                              <span className="text-sm font-medium">{s.title}</span>
+                              <span className="text-sm font-bold">{s.title}</span>
                               {catInfo && (
-                                <span
-                                  className="text-[10px] px-1.5 py-0.5 rounded"
-                                  style={{
-                                    backgroundColor: `${catInfo.color}15`,
-                                    color: catInfo.color,
-                                  }}
-                                >
+                                <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ backgroundColor: `${catInfo.color}18`, color: catInfo.color }}>
                                   {catInfo.label}
                                 </span>
                               )}
+                              <span className={`text-[9px] uppercase tracking-wider ${sev.color}`}>{sev.label}</span>
                             </div>
-                            <p className="text-xs text-white/40">{s.description}</p>
+                            <p className="text-xs text-[#8087a3] leading-relaxed">{s.description}</p>
                           </div>
                         </div>
                       </div>
@@ -599,80 +793,88 @@ export default function Home() {
               </div>
             )}
 
-            {/* Details per category */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {CATEGORIES.map((cat, idx) => {
-                const details = result.details[cat.key];
-                return (
-                  <div
-                    key={cat.key}
-                    className="glass-card rounded-xl p-5 animate-fade-up"
-                    style={{ animationDelay: `${(idx + 5) * 80}ms` }}
-                  >
-                    <div className="flex items-center gap-2.5 mb-4">
-                      <div
-                        className="w-7 h-7 rounded-lg flex items-center justify-center"
-                        style={{ backgroundColor: `${cat.color}12`, color: cat.color }}
-                      >
-                        {cat.icon}
-                      </div>
-                      <span className="text-sm font-medium">{cat.label} Checks</span>
-                    </div>
-                    <div className="space-y-2">
-                      {details.map((d, i) => (
-                        <div key={i} className="flex items-center gap-2.5">
-                          {d.passed ? (
-                            <CheckCircle size={12} className="text-green-400 shrink-0" />
-                          ) : (
-                            <X size={12} className="text-red-400/60 shrink-0" />
-                          )}
-                          <span className={`text-xs ${d.passed ? "text-white/50" : "text-white/35"}`}>
-                            {d.label}
-                          </span>
+            {/* Findings detail per category */}
+            {result.fetchSuccess && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {CATEGORIES.map((cat, idx) => {
+                  const findings = result.findings[cat.key] || [];
+                  if (findings.length === 0) return null;
+                  return (
+                    <div
+                      key={cat.key}
+                      className="bg-[#0e0f1d] border border-white/[0.06] rounded-xl p-5"
+                      style={{ animation: `fade-up 0.4s ease-out ${(idx + 5) * 0.08}s forwards`, opacity: 0 }}
+                    >
+                      <div className="flex items-center gap-2.5 mb-4">
+                        <div className="w-7 h-7 rounded-lg flex items-center justify-center text-xs" style={{ backgroundColor: `${cat.color}15`, color: cat.color }}>
+                          {cat.icon}
                         </div>
-                      ))}
+                        <span className="text-sm font-semibold">{cat.label} Checks</span>
+                      </div>
+                      <div className="space-y-1.5">
+                        {findings.map((f, i) => (
+                          <div key={i} className="flex items-center gap-2.5 py-1">
+                            {f.passed ? <CheckCircle size={11} className="text-green-400/70 shrink-0" /> : <X size={11} className="text-red-400/50 shrink-0" />}
+                            <span className={`text-xs ${f.passed ? "text-[#8087a3]" : "text-[#8087a3]/60"}`}>{f.label}</span>
+                            {f.detail && <span className="text-[10px] text-[#8087a3]/40 ml-auto shrink-0">{f.detail}</span>}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </div>
+            )}
 
-            {/* Footer actions */}
-            <div className="flex items-center justify-between glass-panel rounded-2xl p-5">
+            {/* Actions */}
+            <div className="flex items-center justify-between bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-4 sm:p-5">
               <button
-                onClick={() => {
-                  setResult(null);
-                  setShowResults(false);
-                  setUrl("");
-                }}
-                className="flex items-center gap-2 text-sm text-white/30 hover:text-white/60 transition-colors"
+                onClick={() => { setResult(null); setShowResults(false); setUrl(""); setError(""); }}
+                className="flex items-center gap-2 text-sm text-[#8087a3] hover:text-[#f5f7fa] transition-colors"
               >
                 <RefreshCw size={14} />
-                New Audit
+                <span className="hidden sm:inline">New Audit</span>
               </button>
               <button
                 onClick={exportPDF}
                 disabled={exporting}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-medium hover:from-cyan-400 hover:to-blue-500 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold hover:from-cyan-400 hover:to-blue-500 hover:scale-[1.02] active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shadow-lg shadow-cyan-500/10"
               >
-                {exporting ? (
-                  <RefreshCw size={14} className="animate-spin" />
-                ) : (
-                  <Download size={14} />
-                )}
+                {exporting ? <RefreshCw size={14} className="animate-spin" /> : <Download size={14} />}
                 {exporting ? "Preparing..." : "Export Report (PDF)"}
               </button>
             </div>
           </div>
         )}
 
+        {/* Empty state */}
+        {!loading && !showResults && !result && (
+          <div className="max-w-3xl mx-auto mt-8 sm:mt-12">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {[
+                { icon: <Search size={20} />, title: "Real Analysis", desc: "Fetches and parses actual HTML, headers, and structure from the target URL." },
+                { icon: <Shield size={20} />, title: "5 Categories", desc: "SEO, Performance, Accessibility, Mobile, and Security — scored with weighted checks." },
+                { icon: <Download size={20} />, title: "PDF Export", desc: "Export professional audit reports as print-ready PDF documents." },
+              ].map((item, i) => (
+                <div key={i} className="bg-[#0e0f1d] border border-white/[0.06] rounded-xl p-6 text-center">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400/20 to-purple-600/20 border border-cyan-400/10 flex items-center justify-center mx-auto mb-4 text-cyan-400">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-sm font-bold mb-1.5">{item.title}</h3>
+                  <p className="text-xs text-[#8087a3] leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Footer */}
-        <div className="text-center mt-16 sm:mt-24 pb-8">
-          <p className="text-[10px] uppercase tracking-[0.25em] text-white/15">
-            SiteAudit Pro — All analysis is simulated client-side. No data is sent to any server.
+        <div className="text-center mt-16 pb-8">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-[#8087a3]/30">
+            SiteAudit Pro — All analysis runs client-side via CORS proxy. No data stored on servers.
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
