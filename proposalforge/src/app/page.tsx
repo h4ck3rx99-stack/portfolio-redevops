@@ -1100,7 +1100,7 @@ export default function Home() {
       {/* Preview Screen - Right */}
       <section className="flex-1 bg-[#050505] overflow-y-auto flex justify-center p-8 md:p-12 relative min-h-screen">
         {/* Floating Portfolio Back Button */}
-        <a href="/" className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#221e12]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all flex items-center gap-1.5 no-print">
+        <a href="../index.html" className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#221e12]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all flex items-center gap-1.5 no-print">
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
           Back to Portfolio
         </a>

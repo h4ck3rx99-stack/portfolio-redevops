@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import Link from "next/link";
 import {
   AreaChart,
   Area,
@@ -368,12 +367,12 @@ export default function Home() {
             Export PNG
           </button>
 
-          <Link 
-            href="/"
+          <a 
+            href="../index.html"
             className="px-3.5 py-2 text-sm font-semibold rounded-lg bg-[#0e0f1d] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] transition-all"
           >
             Back to Portfolio
-          </Link>
+          </a>
         </div>
       </header>
 
