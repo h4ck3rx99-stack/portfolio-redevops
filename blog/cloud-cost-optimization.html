@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How We Cut Cloud Infrastructure Costs by 60% — RE Dev Ops</title>
+    <meta name="description" content="A practical guide to reducing AWS, GCP, and Azure bills by 60% using right-sizing, spot instances, intelligent caching, and infrastructure automation." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://redevops.in/blog/cloud-cost-optimization.html" />
+    <meta property="og:title" content="How We Cut Cloud Infrastructure Costs by 60%" />
+    <meta property="og:description" content="Production-proven strategies to slash your cloud bill without sacrificing performance or reliability." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://redevops.in/blog/cloud-cost-optimization.html" />
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        .blog-article { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
+        .blog-article h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
+        .blog-article .meta { display: flex; gap: 1.5rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .blog-article h2 { font-size: 1.6rem; font-weight: 700; margin-top: 3rem; margin-bottom: 1rem; letter-spacing: -0.02em; }
+        .blog-article h3 { font-size: 1.2rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+        .blog-article p { font-size: 1.05rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.25rem; }
+        .blog-article ul, .blog-article ol { font-size: 1.05rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.25rem; padding-left: 1.5rem; }
+        .blog-article li { margin-bottom: 0.5rem; }
+        .blog-article strong { color: var(--text-color); }
+        .blog-article .highlight-box { background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(99,102,241,0.04)); border: 1px solid rgba(0,229,255,0.1); border-radius: 12px; padding: 2rem; margin: 2rem 0; }
+        .blog-article .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
+        .blog-article .stat-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .blog-article .stat-number { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-color), #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .blog-article .stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.06em; }
+        .blog-article .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); font-size: 0.9rem; margin-bottom: 2rem; text-decoration: none; }
+        .blog-article .back-link:hover { gap: 0.75rem; opacity: 0.8; }
+        .blog-article code { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; background: rgba(255,255,255,0.04); padding: 0.15rem 0.4rem; border-radius: 4px; }
+        .blog-article pre { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 1.5rem; overflow-x: auto; margin: 1.5rem 0; font-size: 0.9rem; line-height: 1.6; }
+        @media (max-width: 668px) { .blog-article { padding: 6rem 1.5rem 3rem; } .blog-article h1 { font-size: 1.8rem; } .blog-article .stat-grid { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="logo">RE Dev Ops</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
+        <nav id="navbarNav">
+            <a href="../index.html#work" class="nav-link">Work</a>
+            <a href="../index.html#blog" class="nav-link">Blog</a>
+            <a href="../index.html#contact" class="nav-link">Contact</a>
+        </nav>
+    </nav>
+
+    <article class="blog-article">
+        <a href="../index.html#blog" class="back-link">&larr; Back to Blog</a>
+        <h1>How We Cut Cloud Infrastructure Costs by 60% Without Losing Performance</h1>
+        <div class="meta">
+            <span>June 21, 2026</span>
+            <span>&middot;</span>
+            <span>8 min read</span>
+            <span>&middot;</span>
+            <span>Infrastructure, DevOps</span>
+        </div>
+
+        <p>Every startup we talk to has the same pain point: cloud bills that grow faster than revenue. After optimizing infrastructure for over a dozen production systems, we've developed a repeatable framework that consistently cuts monthly cloud spend by 50–70% while maintaining (and often improving) performance.</p>
+
+        <div class="stat-grid">
+            <div class="stat-card"><div class="stat-number">60%</div><div class="stat-label">Avg Cost Reduction</div></div>
+            <div class="stat-card"><div class="stat-number">2.3x</div><div class="stat-label">Performance Gain</div></div>
+            <div class="stat-card"><div class="stat-number">$18k/mo</div><div class="stat-label">Saved Per Project</div></div>
+        </div>
+
+        <h2>1. Right-Sizing: The 80/20 of Cloud Savings</h2>
+        <p>Most teams over-provision by 2–3x "just to be safe." <strong>Cloud providers love this.</strong> We use a 3-step right-sizing process:</p>
+        <ul>
+            <li><strong>Audit historical utilization</strong> — Pull 90 days of CloudWatch/GCP Metrics data. Anything below 40% CPU and 60% memory sustained across a week is a resize candidate.</li>
+            <li><strong>Match instance families to workload profiles</strong> — Burstable (T-family) for dev/staging, compute-optimized (C-family) for processing, general-purpose (M-family) for standard web workloads.</li>
+            <li><strong>Automate with tagging</strong> — Tag every resource with <code>tier:production</code>, <code>tier:staging</code>, <code>tier:dev</code>. Apply auto-scaling policies per tier.</li>
+        </ul>
+        <p>We've found that <strong>40% of running instances can be downsized immediately</strong> with zero user impact. Another 20% can be shifted to burstable or reserved instances.</p>
+
+        <h2>2. Spot Instances & Reserved Capacity</h2>
+        <p>For stateless workloads, spot instances offer 60–90% discounts. The key is designing for fault tolerance:</p>
+        <ul>
+            <li>Use spot for batch processing, CI/CD runners, worker queues, and stateless API workers</li>
+            <li>Mix spot and on-demand in auto-scaling groups (e.g., 70% spot / 30% on-demand)</li>
+            <li>Reserve 1- and 3-year terms for predictable database and stateful workloads</li>
+        </ul>
+        <div class="highlight-box">
+            <strong>Real result:</strong> One client's EKS workload went from $24,000/mo to $8,200/mo by moving 75% of worker nodes to spot instances and reserving the control plane. Zero downtime in 6 months.
+        </div>
+
+        <h2>3. Intelligent Caching Strategy</h2>
+        <p>A well-designed caching layer reduces compute costs by cutting duplicate work. We layer caches at three levels:</p>
+        <ol>
+            <li><strong>CDN (CloudFront/Cloudflare)</strong> — Cache static assets at the edge. 95% cache hit rate means origin servers handle 20x fewer requests.</li>
+            <li><strong>Application cache (Redis/Memcached)</strong> — Cache database query results and API responses. A 200ms DB query cached for 60 seconds means 1,440x fewer DB reads per hour per unique request pattern.</li>
+            <li><strong>Database cache (read replicas)</strong> — Use read replicas for reporting and analytics queries. This isolates heavy queries from production traffic.</li>
+        </ol>
+        <p>In one e-commerce project, adding Redis caching reduced database CPU from 85% to 12%, letting us drop from a db.r6g.4xlarge to a db.r6g.xlarge — a <strong>75% cost reduction on the database tier</strong>.</p>
+
+        <h2>4. Infrastructure Automation & Waste Elimination</h2>
+        <p>Orphaned resources are a silent budget killer. We use automated workflows to eliminate waste:</p>
+        <ul>
+            <li><strong>Auto-stop non-production environments</strong> — Shut down dev/staging on nights and weekends (saves ~60% on non-prod costs)</li>
+            <li><strong>Delete orphaned EBS volumes and elastic IPs</strong> — These accumulate fast. Automated sweeps can save $500–2000/mo</li>
+            <li><strong>Right-size EBS volumes</strong> — Move gp3 to gp2 is cheaper for low-throughput volumes. Snapshot and delete old snapshots beyond 90 days</li>
+            <li><strong>Use Infrastructure as Code</strong> — Terraform/Terragrunt with cost estimation as a CI step. Every PR shows the cost impact before deployment</li>
+        </ul>
+
+        <h2>5. Architecture Re-Design for Cost</h2>
+        <p>Sometimes the biggest savings come from rethinking the architecture entirely:</p>
+        <ul>
+            <li><strong>Monolith before microservices</strong> — Start with a well-structured monolith. The operational overhead of microservices adds 3–5x to infrastructure costs for early-stage products</li>
+            <li><strong>Serverless for variable workloads</strong> — Lambda + API Gateway + DynamoDB can handle spiky traffic at a fraction of the cost of provisioned servers</li>
+            <li><strong>Edge computing</strong> — Move computation to Cloudflare Workers or Lambda@Edge. Pay per request, not per hour of idle compute</li>
+        </ul>
+
+        <h2>The Framework</h2>
+        <p>We apply this in a repeatable 4-week engagement: <strong>Audit → Right-Size → Cache → Automate</strong>. Every engagement targets a 50%+ reduction, and we guarantee ROI within the first billing cycle.</p>
+        <p>If your cloud bill is growing faster than your revenue, <a href="../index.html#contact" style="color: var(--accent-color);">talk to us</a>. We'll show you exactly where your money is going and how to stop the leak.</p>
+    </article>
+
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navbarNav = document.getElementById('navbarNav');
+        if (navToggle && navbarNav) {
+            navToggle.addEventListener('click', () => { navToggle.classList.toggle('active'); navbarNav.classList.toggle('active'); });
+            navbarNav.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { navToggle.classList.remove('active'); navbarNav.classList.remove('active'); }));
+        }
+    </script>
+</body>
+</html>
