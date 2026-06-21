@@ -196,17 +196,18 @@
     <!-- FLOATING SOCIALS END -->
 
     <!-- NAVBAR START -->
-    <nav class="navbar" id="navbar">
-        <div class="nav-logo">
-            <a href="#">RE Dev Ops</a>
-        </div>
-        <ul class="nav-links">
-            <li><a href="#about" data-section="about">About</a></li>
-            <li><a href="#work" data-section="work">Work</a></li>
-            <li><a href="#blog" data-section="blog">Blog</a></li>
-            <li><a href="#team" data-section="team">Team</a></li>
-            <li><a href="#contact" data-section="contact">Contact</a></li>
-        </ul>
+    <nav class="navbar">
+        <a href="/" class="logo">RE Dev Ops</a>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="navbarNav">
+            <a href="#about" class="nav-link" data-section="about">About</a>
+            <a href="#work" class="nav-link" data-section="work">Work</a>
+            <a href="#blog" class="nav-link" data-section="blog">Blog</a>
+            <a href="#team" class="nav-link" data-section="team">Team</a>
+            <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+        </nav>
     </nav>
     <!-- NAVBAR END -->
 
@@ -492,7 +493,7 @@
                             <div class="browser-search">redevops.in/proposalforge</div>
                         </div>
                         <div class="browser-screen">
-                            <img src="assets/proposal_forge.png" alt="ProposalForge Screenshot">
+                            <img src="assets/proposal_forge.png" alt="ProposalForge Screenshot" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -531,7 +532,7 @@
                             <div class="browser-search">redevops.in/siteaudit</div>
                         </div>
                         <div class="browser-screen">
-                            <img src="assets/siteaudit.png" alt="SiteAudit Pro Screenshot">
+                            <img src="assets/siteaudit.png" alt="SiteAudit Pro Screenshot" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -570,7 +571,7 @@
                             <div class="browser-search">redevops.in/brandkit</div>
                         </div>
                         <div class="browser-screen">
-                            <img src="assets/brandkit.png" alt="BrandKit Studio Screenshot">
+                            <img src="assets/brandkit.png" alt="BrandKit Studio Screenshot" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -609,7 +610,7 @@
                             <div class="browser-search">redevops.in/dashboard-studio</div>
                         </div>
                         <div class="browser-screen">
-                            <img src="assets/dashboard_studio.png" alt="Dashboard Studio Screenshot">
+                            <img src="assets/dashboard_studio.png" alt="Dashboard Studio Screenshot" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -819,11 +820,11 @@
                     <form class="contact-form" id="contactForm">
                         <div class="form-group">
                             <label for="formName">Name</label>
-                            <input type="text" id="formName" name="name" required placeholder="What should we call you?">
+                            <input type="text" id="formName" name="name" required autocomplete="name" placeholder="What should we call you?">
                         </div>
                         <div class="form-group">
                             <label for="formEmail">Email Address</label>
-                            <input type="email" id="formEmail" name="email" required placeholder="name@domain.com">
+                            <input type="email" id="formEmail" name="email" required inputmode="email" autocomplete="email" placeholder="name@domain.com">
                         </div>
                         <div class="form-group">
                             <label for="formMessage">Tell us about your project</label>
@@ -868,7 +869,7 @@
             window.lenis = lenis;
 
             // --- NAV TRACKING + PROGRESS (runs inside Lenis loop) ---
-            const navLinks = document.querySelectorAll('.nav-links a');
+            const navLinks = document.querySelectorAll('#navbarNav a');
             const trackSections = [
                 document.getElementById('about'),
                 document.getElementById('work'),
@@ -1202,15 +1203,31 @@
                 });
             }
 
-            // Calendly Popup Trigger
-            const bookBtns = document.querySelectorAll('.trigger-calendly');
-            bookBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    Calendly.initPopupWidget({ url: 'https://calendly.com/redevops3/30min' });
-                });
-            });
-        });
+                            // Calendly Popup Trigger
+                            const bookBtns = document.querySelectorAll('.trigger-calendly');
+                            bookBtns.forEach(btn => {
+                                btn.addEventListener('click', (e) => {
+                                    e.preventDefault();
+                                    Calendly.initPopupWidget({ url: 'https://calendly.com/redevops3/30min' });
+                                });
+                            });
+
+                            // Hamburger menu toggle
+                            const navToggle = document.getElementById('navToggle');
+                            const navbarNav = document.getElementById('navbarNav');
+                            if (navToggle && navbarNav) {
+                                navToggle.addEventListener('click', () => {
+                                    navToggle.classList.toggle('active');
+                                    navbarNav.classList.toggle('active');
+                                });
+                                navbarNav.querySelectorAll('a').forEach(link => {
+                                    link.addEventListener('click', () => {
+                                        navToggle.classList.remove('active');
+                                        navbarNav.classList.remove('active');
+                                    });
+                                });
+                            }
+                        });
     </script>
 
 </body>

@@ -117,10 +117,24 @@ export default function Home() {
   // Canvas Drawing Pad Ref & State
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [canvasWidth, setCanvasWidth] = useState(380);
+  const canvasContainerRef = useRef<HTMLDivElement>(null);
 
   // Mark client hydration complete
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  // Responsive canvas width
+  useEffect(() => {
+    const updateWidth = () => {
+      if (canvasContainerRef.current) {
+        setCanvasWidth(Math.min(380, canvasContainerRef.current.clientWidth - 16));
+      }
+    };
+    updateWidth();
+    window.addEventListener('resize', updateWidth);
+    return () => window.removeEventListener('resize', updateWidth);
   }, []);
 
   // Initial Load from LocalStorage
@@ -466,7 +480,7 @@ export default function Home() {
         </div>
 
         {/* Tab Selector */}
-        <div className="flex border-b border-[#221e12]/20 text-xs px-2 pt-2 gap-1 bg-[#0b0b0b]">
+        <div className="no-print flex border-b border-[#221e12]/20 text-xs px-2 pt-2 gap-1 bg-[#0b0b0b]">
           {(["general", "parties", "content", "taxes"] as const).map((tab) => (
             <button
               key={tab}
@@ -565,7 +579,7 @@ export default function Home() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-[#808080] uppercase tracking-wider mb-2">Doc Type</label>
                     <select
@@ -624,7 +638,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-[#808080] uppercase tracking-wider mb-2">Doc Number</label>
                     <input
@@ -649,7 +663,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-[#808080] uppercase tracking-wider mb-2">Issue Date</label>
                     <input
@@ -828,10 +842,10 @@ export default function Home() {
                       {/* Canvas Drawing option */}
                       <div className="space-y-2">
                         <label className="block text-[9px] font-semibold text-[#808080] uppercase">Option B: Draw Signature on Pad</label>
-                        <div className="bg-[#0a0a0a] border border-[#221e12]/30 rounded-lg p-2.5 flex flex-col items-center">
+                        <div ref={canvasContainerRef} className="bg-[#0a0a0a] border border-[#221e12]/30 rounded-lg p-2.5 flex flex-col items-center">
                           <canvas
                             ref={canvasRef}
-                            width={380}
+                            width={canvasWidth}
                             height={100}
                             onMouseDown={startDrawing}
                             onMouseMove={draw}
@@ -1042,7 +1056,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[#221e12]/20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#221e12]/20">
                   <div>
                     <label className="block text-xs font-semibold text-[#808080] uppercase tracking-wider mb-2">Discount (%)</label>
                     <input
@@ -1100,14 +1114,14 @@ export default function Home() {
       {/* Preview Screen - Right */}
       <section className="flex-1 bg-[#050505] overflow-y-auto flex justify-center p-8 md:p-12 relative min-h-screen">
         {/* Floating Portfolio Back Button */}
-        <a href="../index.html" className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#221e12]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all flex items-center gap-1.5 no-print">
+        <a href="../index.html#project-proposal-forge" className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#221e12]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all flex items-center gap-1.5 no-print">
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
           Back to Portfolio
         </a>
 
         {/* Paper Sheet Preview Container */}
         <div 
-          className={`print-container w-full max-w-[800px] min-h-[1130px] rounded-xl shadow-2xl p-12 flex flex-col justify-between transition-all duration-300 border ${
+          className={`print-container w-full max-w-[800px] min-h-0 sm:min-h-[1130px] rounded-xl shadow-2xl p-4 sm:p-12 flex flex-col justify-between transition-all duration-300 border ${
             data.template === "gold" 
               ? "bg-[#0c0c0c] text-[#f5f5f5]" 
               : data.template === "dark"
@@ -1288,7 +1302,7 @@ export default function Home() {
 
                 {/* Subtotals & Taxes */}
                 <div className="flex justify-end print-avoid-break">
-                  <div className="w-64 space-y-2.5 text-xs">
+                  <div className="w-full sm:w-64 space-y-2.5 text-xs">
                     <div className="flex justify-between text-[#808080]">
                       <span>Subtotal:</span>
                       <span className="font-mono font-semibold">{symbol}{subtotal.toLocaleString("en-IN")}</span>

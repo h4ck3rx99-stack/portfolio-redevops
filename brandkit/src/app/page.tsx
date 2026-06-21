@@ -239,7 +239,7 @@ export default function Home() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10">
         {/* Header */}
-        <header className="flex items-center justify-between mb-8">
+        <header className="flex items-center justify-between mb-8 no-print">
           <div className="flex items-center gap-3">
             <a href="../index.html#project-brandkit-studio" className="p-2 rounded-lg" style={{ backgroundColor: darkMode ? "#141527" : "#f0f0f5", border: `1px solid ${borderClr}`, color: darkMode ? "#8087a3" : "#666" }} title="Back to Portfolio">
               <ArrowLeft size={16} />
@@ -269,7 +269,7 @@ export default function Home() {
         </header>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 rounded-xl mb-8 overflow-x-auto" style={{ backgroundColor: darkMode ? "rgba(14,15,29,0.5)" : "rgba(0,0,0,0.04)", border: `1px solid ${borderClr}` }}>
+        <div className="flex gap-1 p-1 rounded-xl mb-8 overflow-x-auto no-print" style={{ backgroundColor: darkMode ? "rgba(14,15,29,0.5)" : "rgba(0,0,0,0.04)", border: `1px solid ${borderClr}` }}>
           {TABS.map((t) => (
             <button
               key={t.key}
@@ -347,9 +347,9 @@ export default function Home() {
                 })}
               </div>
 
-              <div className="mt-6 p-4 rounded-xl" style={{ backgroundColor: darkMode ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.02)" }}>
+              <div className="mt-6 p-4 rounded-xl overflow-x-auto" style={{ backgroundColor: darkMode ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.02)" }}>
                 <div className="text-xs font-medium mb-2 flex items-center gap-2" style={{ color: darkMode ? "#8087a3" : "#888" }}><Grid3X3 size={12} />Contrast Matrix</div>
-                <div className="grid grid-cols-6 gap-1 text-[10px] font-mono">
+                <div className="grid grid-cols-6 gap-1 text-[10px] font-mono min-w-[300px]">
                   <div />
                   {palette.map((c, i) => <div key={i} className="text-center font-bold" style={{ color: darkMode ? "#8087a3" : "#888" }}>{i + 1}</div>)}
                   {palette.map((c, i) => (

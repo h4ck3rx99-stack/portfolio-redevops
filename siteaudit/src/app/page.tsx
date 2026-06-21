@@ -697,7 +697,7 @@ export default function Home() {
             <div className="bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
                 <div className="relative shrink-0">
-                  <svg width="120" height="120" className="transform -rotate-90">
+                  <svg width="120" height="120" className="transform -rotate-90 w-20 sm:w-[120px] h-20 sm:h-[120px]">
                     <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="6" />
                     <circle
                       cx="60" cy="60" r="52" fill="none"

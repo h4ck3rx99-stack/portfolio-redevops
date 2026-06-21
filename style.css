@@ -2526,3 +2526,88 @@ html.lenis {
         border-radius: 16px;
     }
 }
+
+/* ─── MOBILE LAYOUT FIXES ─── */
+
+/* Hamburger menu */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  background: none;
+  border: none;
+  z-index: 1001;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-color, #e0e0e0);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+.nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.active span:nth-child(2) { opacity: 0; }
+.nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 520px) {
+  .nav-toggle { display: flex; }
+  .navbar nav { display: none; flex-direction: column; width: 100%; padding: 1rem 0; gap: 0.75rem; }
+  .navbar nav.active { display: flex; }
+  .navbar { flex-wrap: wrap; }
+}
+
+/* Fix hero mobile - show code window below content */
+@media (max-width: 768px) {
+  .hero-right { display: flex !important; margin-top: 2rem; }
+  .hero-grid { grid-template-columns: 1fr !important; gap: 1rem; }
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: clamp(2rem, 10vw, 2.8rem) !important; }
+}
+
+/* Aurora blobs - reduce on mobile to prevent overflow */
+@media (max-width: 768px) {
+  .blob-1, .blob-2, .blob-3 { display: none; }
+}
+
+/* Folder titles responsive */
+@media (max-width: 560px) {
+  .folder-title { font-size: 1.4rem !important; }
+}
+
+/* Modal fixes for very small screens */
+@media (max-width: 480px) {
+  .modal-body { padding: 0.75rem !important; }
+  .modal-project-title { font-size: 1.6rem !important; }
+  .modal-cta-btn { width: 100% !important; justify-content: center !important; }
+  .modal-right img { max-height: 240px !important; }
+}
+
+/* Safe area insets for notched phones */
+@supports (padding: env(safe-area-inset-top)) {
+  .navbar { padding-left: calc(2rem + env(safe-area-inset-left)) !important; padding-right: calc(2rem + env(safe-area-inset-right)) !important; }
+  .floating-socials-dock { padding-bottom: calc(0.75rem + env(safe-area-inset-bottom)) !important; }
+}
+
+/* Disable hover effects on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .project-folder:hover .folder-browser { opacity: 1 !important; transform: none !important; }
+  .project-folder:hover .folder-front { opacity: 1 !important; }
+  .project-folder .folder-btn .arrow { transform: none !important; }
+  .blog-card:hover .blog-image img { transform: none !important; }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob, .grid-streak-h, .grid-streak-v, .tech-marquee-inner, .hero-grid, .stat-number, [data-lenis-prevent] { animation: none !important; }
+  .hero-fade-in { opacity: 1 !important; transform: none !important; }
+}
+
+/* Touch-friendly tap targets */
+@media (max-width: 768px) {
+  .nav-link { padding: 0.75rem 0 !important; }
+  .folder-btn { padding: 0.75rem 1.25rem !important; }
+}
