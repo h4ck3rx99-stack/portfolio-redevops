@@ -540,10 +540,11 @@ export default function Home() {
             <h1 className="text-lg sm:text-xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: `linear-gradient(to right, ${activeScheme.primary}, ${activeScheme.secondary}, #ff5b94)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
               Dashboard Studio
             </h1>
-            <p className="text-xs text-[#8087a3] flex items-center gap-1.5 mt-0.5">
-              <Database className="w-3 h-3" style={{ color: activeScheme.primary }} />
-              Offline CSV Analytics Panel
-            </p>
+              <p className="text-xs text-[#8087a3] flex items-center gap-1.5 mt-0.5">
+                <Database className="w-3 h-3" style={{ color: activeScheme.primary }} />
+                Offline CSV Analytics Panel
+              </p>
+              <p className="text-[10px] text-[#8087a3]/60 mt-0.5">Drop any CSV — no server, no setup, no upload limits</p>
           </div>
         </div>
 
