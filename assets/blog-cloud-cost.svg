@@ -1,22 +1,58 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270">
   <defs>
-    <linearGradient id="c1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0ad3ff" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.05"/>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#111628"/>
     </linearGradient>
+    <linearGradient id="bar1" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#0ad3ff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0ad3ff" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="bar2" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.4"/>
+    </linearGradient>
+    <linearGradient id="lineg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0ad3ff" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#0ad3ff" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#6366f1" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow1">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
   </defs>
-  <rect width="480" height="270" fill="url(#c1)"/>
-  <g transform="translate(60,60)" stroke="#0ad3ff" stroke-width="1.5" fill="none" opacity="0.3">
-    <rect x="0" y="0" width="80" height="50" rx="4"/>
-    <rect x="100" y="10" width="80" height="40" rx="4"/>
-    <rect x="200" y="5" width="80" height="45" rx="4"/>
-    <rect x="0" y="65" width="80" height="35" rx="4"/>
-    <rect x="100" y="60" width="80" height="40" rx="4"/>
-    <rect x="200" y="62" width="80" height="38" rx="4"/>
+  <rect width="480" height="270" fill="url(#bg1)"/>
+  <!-- Grid lines -->
+  <g stroke="rgba(255,255,255,0.03)" stroke-width="1">
+    <line x1="40" y1="40" x2="440" y2="40"/>
+    <line x1="40" y1="80" x2="440" y2="80"/>
+    <line x1="40" y1="120" x2="440" y2="120"/>
+    <line x1="40" y1="160" x2="440" y2="160"/>
+    <line x1="40" y1="200" x2="440" y2="200"/>
   </g>
-  <g transform="translate(60,60)" stroke="#6366f1" stroke-width="2" fill="none">
-    <polyline points="10,40 50,20 90,35 130,15 170,30 210,10" stroke="#0ad3ff" opacity="0.6"/>
-    <polyline points="10,90 50,70 90,85 130,60 170,75 210,55" stroke="#6366f1" opacity="0.4"/>
+  <!-- Bars representing cost before/after -->
+  <rect x="80" y="90" width="36" height="110" rx="4" fill="url(#bar1)" opacity="0.9"/>
+  <rect x="130" y="70" width="36" height="130" rx="4" fill="url(#bar2)" opacity="0.7"/>
+  <rect x="200" y="110" width="36" height="90" rx="4" fill="url(#bar1)" opacity="0.6"/>
+  <rect x="250" y="60" width="36" height="140" rx="4" fill="url(#bar2)" opacity="0.9"/>
+  <rect x="320" y="100" width="36" height="100" rx="4" fill="url(#bar1)" opacity="0.75"/>
+  <rect x="370" y="50" width="36" height="150" rx="4" fill="url(#bar2)" opacity="0.65"/>
+  <!-- Trendline -->
+  <polyline points="98,90 148,70 218,110 268,60 338,100 388,50" stroke="url(#lineg)" stroke-width="2.5" fill="none" filter="url(#glow1)"/>
+  <!-- Data dots on trendline -->
+  <circle cx="98" cy="90" r="4" fill="#0ad3ff"/>
+  <circle cx="148" cy="70" r="4" fill="#6366f1"/>
+  <circle cx="218" cy="110" r="4" fill="#0ad3ff"/>
+  <circle cx="268" cy="60" r="4" fill="#6366f1"/>
+  <circle cx="338" cy="100" r="4" fill="#0ad3ff"/>
+  <circle cx="388" cy="50" r="4" fill="#6366f1"/>
+  <!-- 60% badge -->
+  <g transform="translate(340,18)">
+    <rect x="-40" y="-14" width="80" height="28" rx="14" fill="#0ad3ff" opacity="0.15" stroke="#0ad3ff" stroke-width="1" stroke-opacity="0.3"/>
+    <text x="0" y="4" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#0ad3ff">-60%</text>
   </g>
-  <text x="50" y="220" font-family="system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.15)" letter-spacing="2">CLOUD INFRASTRUCTURE</text>
+  <!-- Label -->
+  <text x="240" y="240" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="rgba(255,255,255,0.2)" letter-spacing="2">CLOUD COST OPTIMIZATION</text>
 </svg>
