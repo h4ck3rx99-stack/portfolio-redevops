@@ -1,5 +1,6 @@
 "use client";
 
+// Premium ProposalForge - Local Client-Side Invoice & Proposal Generator
 import React, { useState, useEffect, useRef } from "react";
 
 interface Item {
