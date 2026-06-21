@@ -498,7 +498,46 @@
                 </div>
             </div>
 
-            <!-- Folder 2: Dashboard Studio -->
+            <!-- Folder 2: SiteAudit Pro -->
+            <div class="project-folder" data-project="siteaudit-pro">
+                <div class="folder-tab">
+                    <span class="folder-meta">Web Application / 2026</span>
+                    <div class="live-badge">
+                        <span class="live-dot"></span>
+                        <span class="live-text">Live</span>
+                    </div>
+                </div>
+                <div class="folder-body">
+                    <div class="folder-front">
+                        <h3 class="folder-title">SiteAudit Pro</h3>
+                        <p class="folder-desc">A premium client-side website audit tool that simulates professional reports across SEO, performance, accessibility, mobile, and security with animated scores and PDF export.</p>
+                        <div class="folder-tech">
+                            <span>Next.js 15</span>
+                            <span>TypeScript</span>
+                            <span>html2canvas</span>
+                            <span>Tailwind CSS</span>
+                        </div>
+                        <div class="folder-action">
+                            <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
+                        </div>
+                    </div>
+                    <div class="folder-browser">
+                        <div class="browser-header">
+                            <div class="browser-dots">
+                                <span class="browser-dot close"></span>
+                                <span class="browser-dot yellow"></span>
+                                <span class="browser-dot green"></span>
+                            </div>
+                            <div class="browser-search">redevops.in/siteaudit</div>
+                        </div>
+                        <div class="browser-screen">
+                            <img src="assets/siteaudit.png" alt="SiteAudit Pro Screenshot">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Folder 3: Dashboard Studio -->
             <div class="project-folder" data-project="dashboard-studio">
                 <div class="folder-tab">
                     <span class="folder-meta">Web Application / 2026</span>
@@ -537,7 +576,7 @@
                 </div>
             </div>
 
-            <!-- Folder 3: Kinetik Studio -->
+            <!-- Folder 4: Kinetik Studio -->
             <div class="project-folder" data-project="kinetik-studio">
                 <div class="folder-tab">
                     <span class="folder-meta">E-Commerce / SaaS</span>
@@ -576,7 +615,7 @@
                 </div>
             </div>
 
-            <!-- Folder 4: Vortex Analytics -->
+            <!-- Folder 5: Vortex Analytics -->
             <div class="project-folder" data-project="vortex-analytics">
                 <div class="folder-tab">
                     <span class="folder-meta">B2B SaaS / 2024</span>
@@ -863,6 +902,7 @@
                 mouseMultiplier: 1,
                 smoothTouch: false       // Keep native touch behavior on mobile devices for performance
             });
+            window.lenis = lenis;
 
             // --- NAV TRACKING + PROGRESS (runs inside Lenis loop) ---
             const navLinks = document.querySelectorAll('.nav-links a');
@@ -1056,6 +1096,15 @@
                     image: 'assets/proposal_forge.png',
                     link: 'proposalforge/index.html'
                 },
+                'siteaudit-pro': {
+                    title: 'SiteAudit Pro',
+                    category: 'Web Application / Audit Tool',
+                    year: '2026',
+                    desc: 'A premium client-side website audit tool that simulates professional audit reports across SEO, performance, accessibility, mobile, and security categories with animated score visualizations and PDF report export.',
+                    tech: ['Next.js 15', 'TypeScript', 'html2canvas', 'Tailwind CSS'],
+                    image: 'assets/siteaudit.png',
+                    link: 'siteaudit/index.html'
+                },
                 'dashboard-studio': {
                     title: 'Dashboard Studio',
                     category: 'Web Application / Enterprise',
@@ -1110,6 +1159,9 @@
                     // Activate modal
                     modal.classList.add('active');
                     document.body.style.overflow = 'hidden';
+
+                    // Update URL hash quietly without page jump
+                    history.replaceState(null, document.title, `#project-${id}`);
                 });
             });
 
@@ -1119,6 +1171,11 @@
                 // Reset image to transparent pixel to prevent flash on next open
                 document.getElementById('modalImg').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                 document.getElementById('modalLink').href = 'javascript:void(0)';
+
+                // Clear project hash from URL if present quietly
+                if (window.location.hash.startsWith('#project-')) {
+                    history.replaceState(null, document.title, window.location.pathname + window.location.search);
+                }
             };
 
             modalClose.addEventListener('click', closeModal);
@@ -1132,6 +1189,33 @@
                     closeModal();
                 }
             });
+
+            // Restore modal state from URL hash
+            const handleHashRestore = () => {
+                const hash = window.location.hash;
+                if (hash.startsWith('#project-')) {
+                    const projectId = hash.replace('#project-', '');
+                    const folder = document.querySelector(`.project-folder[data-project="${projectId}"]`);
+                    if (folder) {
+                        setTimeout(() => {
+                            if (window.lenis) {
+                                window.lenis.scrollTo(folder, { offset: -120, duration: 1.2 });
+                            } else {
+                                folder.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                            folder.click();
+                        }, 600);
+                    }
+                }
+            };
+
+            // Execute restore on load
+            if (window.location.hash) {
+                handleHashRestore();
+            }
+
+            // Listen for hash changes
+            window.addEventListener('hashchange', handleHashRestore);
 
             // Contact form submit handling
             const contactForm = document.getElementById('contactForm');

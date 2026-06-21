@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  --background: #050508;
+  --foreground: #e8edf5;
+  --card-bg: rgba(12, 14, 24, 0.65);
+  --border: rgba(59, 130, 246, 0.1);
+  --accent-cyan: #0ad3ff;
+  --accent-blue: #3b82f6;
+  --accent-purple: #9b6dff;
+  --accent-green: #22d65e;
+  --accent-yellow: #f5a623;
+  --accent-red: #ff4d6a;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+.glass-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 40px 0 rgba(0, 0, 0, 0.5);
+}
+
+.glass-card {
+  background: rgba(16, 18, 30, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.3);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-green {
+  background: linear-gradient(135deg, var(--accent-green) 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(10, 10, 15, 0.5);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+@keyframes progress-fill {
+  from { width: 0%; }
+}
+
+.animate-progress {
+  animation: progress-fill 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes score-ring {
+  from { stroke-dashoffset: 283; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.5s ease-out forwards;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(10, 211, 255, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(10, 211, 255, 0.25); }
+}
+
+.animate-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
