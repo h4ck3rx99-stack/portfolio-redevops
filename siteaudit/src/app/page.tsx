@@ -133,41 +133,104 @@ async function fetchUrl(url: string): Promise<{ html: string; headers: Record<st
   return null;
 }
 
-function analyzeByURL(url: string): { seo: number; performance: number; accessibility: number; mobile: number; security: number } {
-  let seo = 50, perf = 50, a11y = 50, mobile = 50, security = 50;
-  const cleanUrl = url.replace(/^https?:\/\//, "").replace(/\/.*$/, "");
-  const tld = cleanUrl.split(".").pop() || "";
-  const hasWWW = url.includes("www.");
+function analyzeByURL(url: string): AuditResult {
+  const domain = url.replace(/^https?:\/\//, "").replace(/\/.*$/, "");
+  const tld = domain.split(".").pop() || "";
   const pathDepth = (url.match(/\//g) || []).length - 2;
   const hasQuery = url.includes("?");
   const hasHTTPS = url.startsWith("https://");
-  const isShort = cleanUrl.length < 20;
-  const hasHyphen = cleanUrl.includes("-");
+  const hasWWW = url.includes("www.");
+  const hasHyphen = domain.includes("-");
+  const pathStr = domain.includes("/") ? domain.substring(domain.indexOf("/")) : "";
 
-  if (hasHTTPS) { seo += 8; security += 18; }
-  else { seo -= 5; security -= 15; }
-  if (isShort) { seo += 5; perf += 3; }
-  if (hasWWW) seo -= 3;
-  if (pathDepth > 3) seo -= 5;
-  if (hasHyphen) seo -= 3;
-  if (tld === "com") seo += 5;
-  else if (tld === "org" || tld === "io") seo += 3;
-  else if (tld === "gov" || tld === "edu") seo += 8;
-  if (hasQuery) { seo -= 3; perf -= 3; }
-  if (!hasQuery) perf += 3;
+  const allFindings: Record<ScoreCategory, Finding[]> = { seo: [], performance: [], accessibility: [], mobile: [], security: [] };
+  const allSuggestions: Suggestion[] = [];
+
+  function addFinding(cat: ScoreCategory, label: string, passed: boolean, weight: number) {
+    allFindings[cat].push({ label, passed, weight });
+  }
+  function addSuggestion(cat: ScoreCategory, severity: "critical" | "warning" | "info", title: string, description: string) {
+    allSuggestions.push({ category: cat, severity, title, description });
+  }
+
+  // SEO
+  addFinding("seo", "URL uses HTTPS", hasHTTPS, 14);
+  addFinding("seo", "No www prefix (canonical)", !hasWWW, 8);
+  addFinding("seo", "Short clean URL", domain.length < 25, 10);
+  addFinding("seo", "No hyphens in domain", !hasHyphen, 6);
+  addFinding("seo", "Trusted TLD (.com/.org/.io)", ["com", "org", "io", "gov", "edu"].includes(tld), 8);
+  addFinding("seo", "Shallow URL path", pathDepth <= 2, 8);
+  addFinding("seo", "No query parameters", !hasQuery, 6);
+  addFinding("seo", "Descriptive URL structure", pathStr.length < 50 || pathStr === "", 6);
+
+  if (!hasHTTPS) addSuggestion("seo", "critical", "URL not using HTTPS", "Switch to HTTPS for security and better SEO rankings.");
+  if (hasWWW) addSuggestion("seo", "warning", "WWW subdomain detected", "Canonicalize to non-www or www — pick one and redirect.");
+  if (hasHyphen) addSuggestion("seo", "info", "Hyphens in domain name", "Hyphens can reduce domain memorability and trust.");
+  if (!["com", "org", "io", "gov", "edu"].includes(tld)) addSuggestion("seo", "info", `Uncommon TLD (.${tld})`, "Consider using .com/.org/.io for better credibility.");
+  if (pathDepth > 3) addSuggestion("seo", "warning", "Deep URL nesting", "Keep URLs shallow (ideally 2-3 levels) for SEO.");
+  if (hasQuery) addSuggestion("seo", "warning", "Query parameters in URL", "Static URLs are preferred; use URL rewrites for dynamic content.");
+
+  // Performance
+  addFinding("performance", "HTTPS with HTTP/2 support", hasHTTPS, 12);
+  addFinding("performance", "No query strings (cache-friendly)", !hasQuery, 10);
+  addFinding("performance", "Short domain (fast DNS)", domain.length < 20, 8);
+  addFinding("performance", "Standard TLD (fast resolver)", ["com", "org", "net", "io"].includes(tld), 8);
+  addFinding("performance", "Simple URL structure", pathDepth <= 3, 8);
+  addFinding("performance", "No URL fragments", !url.includes("#"), 6);
+
+  if (!hasHTTPS) addSuggestion("performance", "warning", "HTTP instead of HTTPS", "HTTPS enables HTTP/2 which improves performance.");
+  if (hasQuery) addSuggestion("performance", "info", "Query parameters reduce cacheability", "Use URL parameters sparingly to improve CDN caching.");
+
+  // Accessibility
+  addFinding("accessibility", "No www (easier to type)", !hasWWW, 6);
+  addFinding("accessibility", "Short, memorable URL", domain.length < 20, 8);
+  addFinding("accessibility", "No special characters", !hasHyphen, 6);
+  addFinding("accessibility", "Clear URL structure", pathStr.length < 40 || pathStr === "", 6);
+  addFinding("accessibility", "HTTPS (accessibility-safe)", hasHTTPS, 6);
+
+  // Mobile
+  addFinding("mobile", "Short URL (mobile-friendly)", domain.length < 20, 8);
+  addFinding("mobile", "No query parameters", !hasQuery, 6);
+  addFinding("mobile", "Simple path structure", pathDepth <= 2, 8);
+  addFinding("mobile", "Standard TLD", ["com", "org", "net", "io"].includes(tld), 6);
+  if (hasQuery) addSuggestion("mobile", "info", "Query parameters may affect mobile UX", "Clean URLs are easier to share on mobile.");
+
+  // Security
+  addFinding("security", "HTTPS enforced", hasHTTPS, 20);
+  addFinding("security", "No query strings (fewer attack vectors)", !hasQuery, 8);
+  addFinding("security", "Standard TLD (trusted zone)", !["tk", "ml", "ga", "cf", "gq"].includes(tld), 8);
+  if (!hasHTTPS) addSuggestion("security", "critical", "No HTTPS detected", "HTTPS is mandatory for modern web security. Install a TLS certificate.");
+  if (["tk", "ml", "ga", "cf", "gq"].includes(tld)) addSuggestion("security", "warning", "Uncommon free TLD", "Free TLDs are often associated with spam. Consider a paid domain.");
+
+  function calc(findings: Finding[]): number {
+    if (findings.length === 0) return 50;
+    const tw = findings.reduce((a, f) => a + f.weight, 0);
+    const pw = findings.filter((f) => f.passed).reduce((a, f) => a + f.weight, 0);
+    return Math.round((pw / tw) * 100);
+  }
 
   return {
-    seo: Math.max(15, Math.min(95, seo)),
-    performance: Math.max(15, Math.min(95, perf)),
-    accessibility: Math.max(15, Math.min(95, a11y)),
-    mobile: Math.max(15, Math.min(95, mobile)),
-    security: Math.max(15, Math.min(95, security)),
+    url,
+    overall: Math.round((calc(allFindings.seo) + calc(allFindings.performance) + calc(allFindings.accessibility) + calc(allFindings.mobile) + calc(allFindings.security)) / 5),
+    scores: {
+      seo: calc(allFindings.seo),
+      performance: calc(allFindings.performance),
+      accessibility: calc(allFindings.accessibility),
+      mobile: calc(allFindings.mobile),
+      security: calc(allFindings.security),
+    },
+    findings: allFindings,
+    suggestions: allSuggestions.sort((a, b) => {
+      const order = { critical: 0, warning: 1, info: 2 };
+      return order[a.severity] - order[b.severity];
+    }),
+    fetchSuccess: false,
   };
 }
 
 function runFullAudit(url: string, html: string, headers: Record<string, string>, timing: number): AuditResult {
   const doc = new DOMParser().parseFromString(html, "text/html");
-  const baseScores = analyzeByURL(url);
+  const baseScores = { seo: 50, performance: 50, accessibility: 50, mobile: 50, security: 50 };
   const allFindings: Record<ScoreCategory, Finding[]> = { seo: [], performance: [], accessibility: [], mobile: [], security: [] };
   const allSuggestions: Suggestion[] = [];
 
@@ -426,28 +489,17 @@ function runFullAudit(url: string, html: string, headers: Record<string, string>
 
 async function runAudit(url: string): Promise<AuditResult> {
   const cleanUrl = formatUrl(url);
+  const estimated = analyzeByURL(cleanUrl);
+
   const fetched = await fetchUrl(cleanUrl);
+  if (!fetched) return { ...estimated, pagesize: "—", resources: 0, fetchSuccess: false };
 
-  if (fetched) {
-    const result = runFullAudit(cleanUrl, fetched.html, fetched.headers, fetched.timing);
-    return result;
+  try {
+    const live = runFullAudit(cleanUrl, fetched.html, fetched.headers, fetched.timing);
+    return { ...live, fetchSuccess: true };
+  } catch {
+    return { ...estimated, pagesize: estimatePageSize(fetched.html), fetchSuccess: false };
   }
-
-  const base = analyzeByURL(cleanUrl);
-  const overall = Math.round((base.seo + base.performance + base.accessibility + base.mobile + base.security) / 5);
-  const suggestions: Suggestion[] = [
-    { category: "seo", severity: "info", title: "Could not fetch page content", description: "The audit was performed using URL-based analysis only. Try running the audit again or check that the domain exists." },
-    { category: "performance", severity: "info", title: "Full analysis requires page access", description: "Performance metrics are estimated from URL characteristics. For accurate results, the page needs to be accessible via a CORS proxy." },
-  ];
-
-  return {
-    url: cleanUrl,
-    overall,
-    scores: base,
-    findings: { seo: [], performance: [], accessibility: [], mobile: [], security: [] },
-    suggestions,
-    fetchSuccess: false,
-  };
 }
 
 export default function Home() {
@@ -786,7 +838,7 @@ export default function Home() {
             )}
 
             {/* Findings detail per category */}
-            {result.fetchSuccess && (
+            {result.findings.seo.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {CATEGORIES.map((cat, idx) => {
                   const findings = result.findings[cat.key] || [];
