@@ -1553,6 +1553,7 @@ a {
     align-items: center;
     justify-content: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    overflow: hidden;
 }
 
 .blog-card-thumb svg {
@@ -1561,6 +1562,17 @@ a {
     stroke: rgba(255, 255, 255, 0.12);
     fill: none;
     stroke-width: 1.2;
+}
+
+.blog-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease-out-expo);
+}
+
+.blog-card:hover .blog-card-thumb img {
+    transform: scale(1.05);
 }
 
 .blog-card:hover .blog-card-thumb svg {
@@ -2613,7 +2625,7 @@ html.lenis {
   .project-folder:hover .folder-browser { opacity: 1 !important; transform: none !important; }
   .project-folder:hover .folder-front { opacity: 1 !important; }
   .project-folder .folder-btn .arrow { transform: none !important; }
-  .blog-card:hover .blog-image img { transform: none !important; }
+  .blog-card:hover .blog-card-thumb img { transform: none !important; }
 }
 
 /* Reduced motion preference */
