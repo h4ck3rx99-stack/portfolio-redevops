@@ -82,8 +82,10 @@ const SEVERITY_STYLES = {
 
 const URL_REGEX = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-./?%&=]*)?$/i;
 const PROXIES = [
+  (u: string) => u,
   (u: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
   (u: string) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  (u: string) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`,
 ];
 
 function formatUrl(input: string): string {
@@ -522,23 +524,13 @@ export default function Home() {
         useCORS: true,
         logging: false,
       });
-      const imgData = canvas.toDataURL("image/png");
-      const w = window.open("");
-      if (w) {
-        w.document.write(`
-          <html><head><title>SiteAudit Pro Report</title>
-          <style>
-            body { margin: 0; display: flex; justify-content: center; background: #050508; }
-            img { max-width: 100%; height: auto; }
-            @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
-          </style></head>
-          <body><img src="${imgData}" onload="window.print();" /></body></html>
-        `);
-        w.document.close();
-      }
-    } catch { alert("Could not export. Try downloading the report image."); }
+      const link = document.createElement("a");
+      link.download = `siteaudit-${result?.url?.replace(/[^a-z0-9]/gi, "-") || "report"}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } catch { alert("Could not export. Try a different browser."); }
     setExporting(false);
-  }, []);
+  }, [result]);
 
   const isValid = URL_REGEX.test(url.trim());
 
