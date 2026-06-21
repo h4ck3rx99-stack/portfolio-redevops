@@ -94,3 +94,31 @@ body {
 .animate-glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
+
+@media print {
+  body {
+    background: #050508 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #050508 !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}

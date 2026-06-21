@@ -27,7 +27,7 @@ import {
   Palette,
   Tag,
 } from "lucide-react";
-import html2canvas from "html2canvas";
+
 
 type ScoreCategory =
   | "seo"
@@ -509,7 +509,6 @@ export default function Home() {
   const [phase, setPhase] = useState("");
   const [progress, setProgress] = useState(0);
   const [showResults, setShowResults] = useState(false);
-  const [exporting, setExporting] = useState(false);
   const [error, setError] = useState("");
   const [history, setHistory] = useState<string[]>([]);
   const reportRef = useRef<HTMLDivElement>(null);
@@ -566,30 +565,16 @@ export default function Home() {
     }
   }, [url, history]);
 
-  const exportPDF = useCallback(async () => {
-    if (!reportRef.current) return;
-    setExporting(true);
-    try {
-      const canvas = await html2canvas(reportRef.current, {
-        backgroundColor: "#050508",
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-      const link = document.createElement("a");
-      link.download = `siteaudit-${result?.url?.replace(/[^a-z0-9]/gi, "-") || "report"}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-    } catch { alert("Could not export. Try a different browser."); }
-    setExporting(false);
-  }, [result]);
+  const exportPDF = useCallback(() => {
+    window.print();
+  }, []);
 
   const isValid = URL_REGEX.test(url.trim());
 
   return (
     <main className="min-h-screen bg-[#050508] text-[#f5f7fa] font-sans">
       {/* Background effects */}
-      <div className="fixed inset-0 pointer-events-none">
+      <div className="fixed inset-0 pointer-events-none no-print">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(10,211,255,0.05)_0%,_transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(155,109,255,0.03)_0%,_transparent_50%)]" />
         <div className="absolute inset-0 opacity-[0.012]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
@@ -597,7 +582,7 @@ export default function Home() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
         {/* Header bar */}
-        <header className="flex items-center justify-between mb-8 sm:mb-12">
+        <header className="flex items-center justify-between mb-8 sm:mb-12 no-print">
           <div className="flex items-center gap-3">
             <a href="../index.html#project-siteaudit-pro" className="p-2 rounded-lg bg-[#141527] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] transition-all" title="Back to Portfolio">
               <ArrowLeft size={16} />
@@ -624,7 +609,7 @@ export default function Home() {
         </header>
 
         {/* Hero */}
-        <div className="text-center mb-10 sm:mb-14">
+        <div className="text-center mb-10 sm:mb-14 no-print">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] text-[10px] uppercase tracking-[0.15em] text-[#8087a3] mb-5">
             <Zap size={11} className="text-cyan-400" />
             Real HTML Analysis
@@ -639,7 +624,7 @@ export default function Home() {
         </div>
 
         {/* URL Input */}
-        <div className="max-w-2xl mx-auto mb-10 sm:mb-16">
+        <div className="max-w-2xl mx-auto mb-10 sm:mb-16 no-print">
           <div className="bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-1.5 flex items-center gap-2 shadow-lg shadow-black/20">
             <div className="flex-1 flex items-center gap-2.5 pl-4">
               <Globe size={15} className="text-[#8087a3] shrink-0" />
@@ -666,7 +651,7 @@ export default function Home() {
 
           {/* History */}
           {history.length > 0 && !loading && !showResults && (
-            <div className="mt-3 flex items-center gap-2 flex-wrap">
+            <div className="mt-3 flex items-center gap-2 flex-wrap no-print">
               <span className="text-[10px] text-[#8087a3] uppercase tracking-wider">Recent:</span>
               {history.map((h, i) => (
                 <button
@@ -683,7 +668,7 @@ export default function Home() {
 
         {/* Loading */}
         {loading && (
-          <div className="max-w-lg mx-auto mb-16 animate-fade-up">
+          <div className="max-w-lg mx-auto mb-16 animate-fade-up no-print">
             <div className="bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-8 text-center">
               <div className="flex items-center justify-center gap-2 mb-6">
                 {[0, 150, 300].map((d) => (
@@ -707,7 +692,7 @@ export default function Home() {
 
         {/* Results */}
         {result && showResults && (
-          <div ref={reportRef} className="space-y-5 animate-fade-up">
+          <div ref={reportRef} className="space-y-5 animate-fade-up print-container">
             {/* Overall + Quick Stats */}
             <div className="bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
@@ -871,7 +856,7 @@ export default function Home() {
             )}
 
             {/* Actions */}
-            <div className="flex items-center justify-between bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-4 sm:p-5">
+            <div className="flex items-center justify-between bg-[#0e0f1d] border border-white/[0.06] rounded-2xl p-4 sm:p-5 no-print">
               <button
                 onClick={() => { setResult(null); setShowResults(false); setUrl(""); setError(""); }}
                 className="flex items-center gap-2 text-sm text-[#8087a3] hover:text-[#f5f7fa] transition-colors"
@@ -881,11 +866,10 @@ export default function Home() {
               </button>
               <button
                 onClick={exportPDF}
-                disabled={exporting}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold hover:from-cyan-400 hover:to-blue-500 hover:scale-[1.02] active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shadow-lg shadow-cyan-500/10"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold hover:from-cyan-400 hover:to-blue-500 hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-lg shadow-cyan-500/10"
               >
-                {exporting ? <RefreshCw size={14} className="animate-spin" /> : <Download size={14} />}
-                {exporting ? "Preparing..." : "Export Report (PDF)"}
+                <Download size={14} />
+                Export Report (PDF)
               </button>
             </div>
           </div>
@@ -893,7 +877,7 @@ export default function Home() {
 
         {/* Empty state */}
         {!loading && !showResults && !result && (
-          <div className="max-w-3xl mx-auto mt-8 sm:mt-12">
+          <div className="max-w-3xl mx-auto mt-8 sm:mt-12 no-print">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
                 { icon: <Search size={20} />, title: "Real Analysis", desc: "Fetches and parses actual HTML, headers, and structure from the target URL." },
@@ -913,7 +897,7 @@ export default function Home() {
         )}
 
         {/* Footer */}
-        <div className="text-center mt-16 pb-8">
+        <div className="text-center mt-16 pb-8 no-print">
           <p className="text-[9px] uppercase tracking-[0.2em] text-[#8087a3]/30">
             SiteAudit Pro — All analysis runs client-side via CORS proxy. No data stored on servers.
           </p>
