@@ -652,11 +652,17 @@ a {
         padding: 0 2rem;
     }
     .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
         padding-top: 6rem;
-        padding-bottom: 2rem;
+        padding-bottom: 3rem;
     }
     .hero-right {
-        display: none;
+        justify-content: flex-start;
+        margin-top: 1rem;
+    }
+    .code-window {
+        max-width: 100%;
     }
     .hero-title {
         line-height: 1.05;
@@ -2571,11 +2577,7 @@ html.lenis {
   .navbar { flex-wrap: wrap; }
 }
 
-/* Fix hero mobile - show code window below content */
-@media (max-width: 768px) {
-  .hero-right { display: flex !important; margin-top: 2rem; }
-  .hero-grid { grid-template-columns: 1fr !important; gap: 1rem; }
-}
+/* Mobile hero title sizing */
 @media (max-width: 480px) {
   .hero-title { font-size: clamp(2rem, 10vw, 2.8rem) !important; }
 }
