@@ -498,10 +498,10 @@
                 </div>
             </div>
 
-            <!-- Folder 2: Pulse Fitness -->
-            <div class="project-folder" data-project="pulse-fitness">
+            <!-- Folder 2: Dashboard Studio -->
+            <div class="project-folder" data-project="dashboard-studio">
                 <div class="folder-tab">
-                    <span class="folder-meta">Mobile App / 2025</span>
+                    <span class="folder-meta">Web Application / 2026</span>
                     <div class="live-badge">
                         <span class="live-dot"></span>
                         <span class="live-text">Live</span>
@@ -509,13 +509,13 @@
                 </div>
                 <div class="folder-body">
                     <div class="folder-front">
-                        <h3 class="folder-title">Pulse Fitness</h3>
-                        <p class="folder-desc">A cross-platform fitness companion app featuring offline sync, health dashboard, custom workout plans, and real-time biometric tracking.</p>
+                        <h3 class="folder-title">Dashboard Studio</h3>
+                        <p class="folder-desc">A premium offline CSV data analytics dashboard featuring real-time column mapping, KPI metrics, dynamic Recharts, and PNG exports.</p>
                         <div class="folder-tech">
-                            <span>Flutter</span>
-                            <span>Firebase</span>
-                            <span>Dart</span>
-                            <span>Bloc</span>
+                            <span>Next.js 15</span>
+                            <span>TypeScript</span>
+                            <span>Recharts</span>
+                            <span>Tailwind CSS</span>
                         </div>
                         <div class="folder-action">
                             <span class="folder-btn">Explore Folder <span class="arrow">→</span></span>
@@ -528,10 +528,10 @@
                                 <span class="browser-dot yellow"></span>
                                 <span class="browser-dot green"></span>
                             </div>
-                            <div class="browser-search">pulse.redevops.in</div>
+                            <div class="browser-search">redevops.in/dashboard-studio</div>
                         </div>
                         <div class="browser-screen">
-                            <img src="assets/pulse_fitness.png" alt="Pulse Fitness Screenshot">
+                            <img src="assets/dashboard_studio.png" alt="Dashboard Studio Screenshot">
                         </div>
                     </div>
                 </div>
@@ -1028,12 +1028,12 @@
                         <span>Next.js</span>
                         <span>PostgreSQL</span>
                     </div>
-                    <a id="modalLink" href="https://redevops.in" target="_blank" rel="noopener noreferrer" class="modal-cta-btn">
+                    <a id="modalLink" href="#" class="modal-cta-btn">
                         Launch Project Website <span class="arrow">→</span>
                     </a>
                 </div>
                 <div class="modal-right">
-                    <img id="modalImg" src="assets/aura_capital.png" alt="Project Screenshot Mockup">
+                    <img id="modalImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Project Screenshot Mockup">
                 </div>
             </div>
         </div>
@@ -1056,14 +1056,14 @@
                     image: 'assets/proposal_forge.png',
                     link: '/proposalforge/index.html'
                 },
-                'pulse-fitness': {
-                    title: 'Pulse Fitness',
-                    category: 'Mobile App / iOS & Android',
-                    year: '2025',
-                    desc: 'A cross-platform fitness tracker featuring offline-first storage sync, health metrics dashboards, customized workout plans, and real-time biometric logs. Built with clean state management architectures.',
-                    tech: ['Flutter', 'Firebase', 'Dart', 'Bloc', 'SQLite', 'Apple Health'],
-                    image: 'assets/pulse_fitness.png',
-                    link: 'https://redevops.in'
+                'dashboard-studio': {
+                    title: 'Dashboard Studio',
+                    category: 'Web Application / Enterprise',
+                    year: '2026',
+                    desc: 'A premium offline CSV data analytics dashboard featuring custom column mapping, key KPI metrics, dynamic Recharts visualization (Line, Bar, Pie charts), record search tables, and client-side PNG dashboard image exports.',
+                    tech: ['Next.js 15', 'TypeScript', 'Recharts', 'Tailwind CSS', 'html2canvas'],
+                    image: 'assets/dashboard_studio.png',
+                    link: '/dashboard-studio/index.html'
                 },
                 'kinetik-studio': {
                     title: 'Kinetik Studio',
@@ -1116,6 +1116,8 @@
             const closeModal = () => {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
+                // Reset image to transparent pixel to prevent flash on next open
+                document.getElementById('modalImg').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
             };
 
             modalClose.addEventListener('click', closeModal);
