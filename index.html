@@ -229,7 +229,7 @@
                     <span class="hero-line" style="animation-delay: 0.1s">We build the web.</span>
                     <span class="hero-line hero-line-accent" style="animation-delay: 0.35s">We ship the apps.</span>
                 </h1>
-                <p class="hero-tagline">RE Dev Ops is an independent digital studio — three engineers crafting high-performance interfaces, mobile ecosystems, and the infrastructure that powers them.</p>
+                <p class="hero-tagline">RE Dev Ops is an independent digital studio — three senior engineers crafting high-performance web platforms, custom mobile apps, and the secure cloud systems that power them.</p>
                 <div class="hero-ctas">
                     <a href="#work" class="cta-primary">Explore Work <span class="arrow">→</span></a>
                     <a href="#contact" class="cta-secondary">Get In Touch</a>
@@ -245,32 +245,24 @@
                             <span class="control-dot yellow"></span>
                             <span class="control-dot green"></span>
                         </div>
-                        <div class="window-tab">deployment.yaml</div>
+                        <div class="window-tab">launch.ts</div>
                     </div>
                     <div class="window-body">
-                        <div class="code-line"><span class="line-num">1</span><span class="code-keyword">apiVersion</span>: <span class="code-val">apps/v1</span></div>
-                        <div class="code-line"><span class="line-num">2</span><span class="code-keyword">kind</span>: <span class="code-val">Deployment</span></div>
-                        <div class="code-line"><span class="line-num">3</span><span class="code-keyword">metadata</span>:</div>
-                        <div class="code-line"><span class="line-num">4</span>  <span class="code-keyword">name</span>: <span class="code-val">redevops-app</span></div>
-                        <div class="code-line"><span class="line-num">5</span><span class="code-keyword">spec</span>:</div>
-                        <div class="code-line"><span class="line-num">6</span>  <span class="code-keyword">replicas</span>: <span class="code-number">3</span></div>
-                        <div class="code-line"><span class="line-num">7</span>  <span class="code-keyword">selector</span>:</div>
-                        <div class="code-line"><span class="line-num">8</span>    <span class="code-keyword">matchLabels</span>:</div>
-                        <div class="code-line"><span class="line-num">9</span>      <span class="code-keyword">tier</span>: <span class="code-val">frontend</span></div>
-                        <div class="code-line"><span class="line-num">10</span>  <span class="code-keyword">template</span>:</div>
-                        <div class="code-line"><span class="line-num">11</span>    <span class="code-keyword">metadata</span>:</div>
-                        <div class="code-line"><span class="line-num">12</span>      <span class="code-keyword">labels</span>:</div>
-                        <div class="code-line"><span class="line-num">13</span>        <span class="code-keyword">tier</span>: <span class="code-val">frontend</span></div>
-                        <div class="code-line"><span class="line-num">14</span>    <span class="code-keyword">spec</span>:</div>
-                        <div class="code-line"><span class="line-num">15</span>      <span class="code-keyword">containers</span>:</div>
-                        <div class="code-line"><span class="line-num">16</span>      - <span class="code-keyword">name</span>: <span class="code-val">web-app</span></div>
-                        <div class="code-line"><span class="line-num">17</span>        <span class="code-keyword">image</span>: <span class="code-string">redevops/frontend:latest</span></div>
-                        <div class="code-line"><span class="line-num">18</span>        <span class="code-keyword">ports</span>:</div>
-                        <div class="code-line"><span class="line-num">19</span>        - <span class="code-keyword">containerPort</span>: <span class="code-number">443</span></div>
-                        <div class="code-line"><span class="line-num">20</span>        <span class="code-keyword">resources</span>:</div>
-                        <div class="code-line"><span class="line-num">21</span>          <span class="code-keyword">limits</span>:</div>
-                        <div class="code-line"><span class="line-num">22</span>            <span class="code-keyword">cpu</span>: <span class="code-string">"500m"</span></div>
-                        <div class="code-line"><span class="line-num">23</span>            <span class="code-keyword">memory</span>: <span class="code-string">"512Mi"</span></div>
+                        <div class="code-line"><span class="line-num">1</span><span class="code-keyword">const</span> <span class="code-val">product</span> = {</div>
+                        <div class="code-line"><span class="line-num">2</span>    name: <span class="code-string">"Your Next Idea"</span>,</div>
+                        <div class="code-line"><span class="line-num">3</span>    status: <span class="code-string">"Launching"</span>,</div>
+                        <div class="code-line"><span class="line-num">4</span>    timeline: <span class="code-string">"14 to 30 Days"</span>,</div>
+                        <div class="code-line"><span class="line-num">5</span>    performance: <span class="code-string">"99+ Core Web Vitals"</span>,</div>
+                        <div class="code-line"><span class="line-num">6</span>    scalability: <span class="code-keyword">true</span>,</div>
+                        <div class="code-line"><span class="line-num">7</span>    security: <span class="code-string">"Enterprise-Grade"</span></div>
+                        <div class="code-line"><span class="line-num">8</span>};</div>
+                        <div class="code-line"><span class="line-num">9</span></div>
+                        <div class="code-line"><span class="line-num">10</span><span class="code-keyword">async function</span> <span class="code-val">buildAndDeploy</span>(<span class="code-keyword">idea</span>) {</div>
+                        <div class="code-line"><span class="line-num">11</span>    <span class="code-keyword">const</span> <span class="code-val">design</span> = <span class="code-keyword">await</span> <span class="code-val">createPremiumUI</span>(idea);</div>
+                        <div class="code-line"><span class="line-num">12</span>    <span class="code-keyword">const</span> <span class="code-val">codebase</span> = <span class="code-keyword">await</span> <span class="code-val">writeCleanCode</span>(design);</div>
+                        <div class="code-line"><span class="line-num">13</span>    <span class="code-keyword">const</span> <span class="code-val">deployment</span> = <span class="code-keyword">await</span> <span class="code-val">deployToCloud</span>(codebase);</div>
+                        <div class="code-line"><span class="line-num">14</span>    <span class="code-keyword">return</span> { live: <span class="code-keyword">true</span>, status: <span class="code-string">"Success"</span> };</div>
+                        <div class="code-line"><span class="line-num">15</span>}</div>
                     </div>
                 </div>
             </div>
@@ -354,7 +346,7 @@
                     <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                 </div>
                 <h3 class="service-title">Web<br>Development</h3>
-                <p class="service-desc">We build lightning-fast, visually striking web applications tailored for speed, scalability, and seamless user experiences. From complex frontends to bulletproof backend architectures.</p>
+                <p class="service-desc">We build lightning-fast, visually striking web applications designed to engage users and convert visitors into customers. From premium marketing sites to complex SaaS platforms.</p>
                 <div class="tech-tags">
                     <span>React / Next.js</span>
                     <span>TypeScript</span>
@@ -370,7 +362,7 @@
                     <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="10" y1="4" x2="10" y2="20"/></svg>
                 </div>
                 <h3 class="service-title">App<br>Development</h3>
-                <p class="service-desc">We engineer native-feeling cross-platform mobile ecosystems that look stunning and run flawlessly. Focused on clean state management, smooth gestures, and offline-first reliability.</p>
+                <p class="service-desc">We engineer native cross-platform mobile apps that look stunning, feel responsive, and run flawlessly. Built to deliver a premium user experience on both iOS and Android.</p>
                 <div class="tech-tags">
                     <span>Flutter</span>
                     <span>React Native</span>
@@ -386,7 +378,7 @@
                     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
                 </div>
                 <h3 class="service-title">Infrastructure<br>& DevOps</h3>
-                <p class="service-desc">We design scalable cloud architectures, automate deployment pipelines, and build resilient database systems so your product stays fast, secure, and available at any scale.</p>
+                <p class="service-desc">We build fast, secure, and scalable cloud systems. We automate hosting and optimize server setups so your app never goes down, loads instantly, and runs on an efficient cloud budget.</p>
                 <div class="tech-tags">
                     <span>AWS / GCP</span>
                     <span>Docker / Kubernetes</span>
@@ -557,7 +549,7 @@
                 <div class="folder-body">
                     <div class="folder-front">
                         <h3 class="folder-title">Kinetik Studio</h3>
-                        <p class="folder-desc">A high-fashion minimalist activewear storefront with smooth transitions, custom shopping carts, stripe checkout, and server-side render optimization.</p>
+                        <p class="folder-desc">A high-fashion minimalist activewear storefront with smooth transitions, custom shopping carts, stripe checkout, and instant page load speeds.</p>
                         <div class="folder-tech">
                             <span>Next.js</span>
                             <span>TypeScript</span>
@@ -596,7 +588,7 @@
                 <div class="folder-body">
                     <div class="folder-front">
                         <h3 class="folder-title">Vortex Analytics</h3>
-                        <p class="folder-desc">B2B infrastructure dashboard showing live server metrics, load balancers, database clustering status, and automated deployment logs.</p>
+                        <p class="folder-desc">B2B analytics dashboard showing real-time server health, infrastructure metrics, and automated system alerts.</p>
                         <div class="folder-tech">
                             <span>React</span>
                             <span>Node.js</span>
@@ -638,8 +630,8 @@
                     <div class="blog-card-thumb"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="6" y="10" width="36" height="28" rx="3"/><path d="M6 18h36"/><circle cx="16" cy="26" r="2"/><circle cx="24" cy="26" r="2"/><circle cx="32" cy="26" r="2"/></svg></div>
                     <div class="blog-card-body">
                         <time class="blog-date">Jun 12, 2026</time>
-                        <h3 class="blog-title">Why We Chose Next.js Over a Static Site Generator</h3>
-                        <p class="blog-excerpt">Performance, developer experience, and when SSR actually matters — a honest breakdown from the team shipping production apps.</p>
+                        <h3 class="blog-title">Why We Build Products with Next.js (And What It Means for Your Business)</h3>
+                        <p class="blog-excerpt">How choosing the right technical framework impacts your search engine visibility (SEO), page load speed, and customer conversion rates.</p>
                         <a href="#" class="blog-link" aria-label="Read Why We Chose Next.js">Read article →</a>
                     </div>
                 </article>
@@ -648,8 +640,8 @@
                     <div class="blog-card-thumb"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M24 6L8 18v12l16 12 16-12V18L24 6z"/><path d="M8 18l16 12 16-12"/><path d="M24 30V6"/></svg></div>
                     <div class="blog-card-body">
                         <time class="blog-date">May 28, 2026</time>
-                        <h3 class="blog-title">Containerizing a Full-Stack App Without the Bloat</h3>
-                        <p class="blog-excerpt">Multistage builds, Alpine images, and why a 100MB container is 99MB too much. Our production Dockerfile walkthrough.</p>
+                        <h3 class="blog-title">Scaling Product Infrastructure Without Ballooning Your Budget</h3>
+                        <p class="blog-excerpt">How we architect cloud systems to scale to thousands of active users while keeping hosting bills minimal. Our production deployment setup.</p>
                         <a href="#" class="blog-link" aria-label="Read Containerizing a Full-Stack App">Read article →</a>
                     </div>
                 </article>
@@ -658,8 +650,8 @@
                     <div class="blog-card-thumb"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 20c0-6 6-10 12-10s12 4 12 10"/><path d="M8 24h4v12H8z"/><path d="M36 24h4v12h-4z"/><path d="M16 30v10"/><path d="M32 30v10"/><path d="M20 28v8"/><path d="M28 28v8"/></svg></div>
                     <div class="blog-card-body">
                         <time class="blog-date">Apr 15, 2026</time>
-                        <h3 class="blog-title">Designing a Design System From Scratch</h3>
-                        <p class="blog-excerpt">How we built a reusable component library that actually gets used — tokens, typography, and the one principle that kept it from collapsing.</p>
+                        <h3 class="blog-title">Building a Design System That Speeds Up Product Launches</h3>
+                        <p class="blog-excerpt">How creating a reusable UI component library saves months of development time, keeps your branding consistent, and lets you ship new features in days.</p>
                         <a href="#" class="blog-link" aria-label="Read Designing a Design System From Scratch">Read article →</a>
                     </div>
                 </article>
