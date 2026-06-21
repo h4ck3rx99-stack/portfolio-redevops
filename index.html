@@ -1028,7 +1028,7 @@
                         <span>Next.js</span>
                         <span>PostgreSQL</span>
                     </div>
-                    <a id="modalLink" href="#" target="_self" class="modal-cta-btn">
+                    <a id="modalLink" href="javascript:void(0)" target="_self" class="modal-cta-btn">
                         Launch Project Website <span class="arrow">→</span>
                     </a>
                 </div>
@@ -1118,6 +1118,7 @@
                 document.body.style.overflow = '';
                 // Reset image to transparent pixel to prevent flash on next open
                 document.getElementById('modalImg').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+                document.getElementById('modalLink').href = 'javascript:void(0)';
             };
 
             modalClose.addEventListener('click', closeModal);
