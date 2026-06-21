@@ -1,0 +1,14 @@
+{
+  "name": "RE Dev Ops — Web, Mobile & DevOps Studio",
+  "short_name": "RE Dev Ops",
+  "description": "Independent digital studio building high-performance web apps, mobile apps, and cloud infrastructure.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050508",
+  "theme_color": "#0ad3ff",
+  "icons": [
+    { "src": "/favicon-32x32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/favicon-48x48.png", "sizes": "48x48", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
