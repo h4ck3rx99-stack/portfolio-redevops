@@ -17,6 +17,7 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -2590,11 +2591,23 @@ html.lenis {
 }
 
 /* Mobile hero title sizing */
+/* Small phone fixes (overrides earlier 768px rules) */
 @media (max-width: 480px) {
-  .hero-title { font-size: clamp(2rem, 10vw, 2.8rem) !important; }
+  .hero { padding: 0 1.25rem !important; }
+  .hero-grid { padding-top: 5rem !important; padding-bottom: 2rem !important; gap: 1.5rem !important; }
+  .hero-title { font-size: clamp(1.8rem, 9vw, 2.4rem) !important; line-height: 1.1 !important; }
+  .hero-tagline { font-size: 0.9rem !important; }
+  .code-window { max-width: 100% !important; }
+  .section { padding: 4rem 1.25rem !important; }
+  .about-section { padding: 4rem 1.25rem !important; }
+  .services-section { padding: 4rem 1.25rem !important; }
+  .work-section { padding: 4rem 1.25rem !important; }
+  .team-section { padding: 4rem 1.25rem !important; }
+  .footer-section { padding: 4rem 1.25rem 2rem !important; }
+  .advantage-section { padding: 4rem 1.25rem !important; }
 }
 
-/* Aurora blobs - reduce on mobile to prevent overflow */
+/* Aurora blobs - hide on mobile to prevent overflow */
 @media (max-width: 768px) {
   .blob-1, .blob-2, .blob-3 { display: none; }
 }
