@@ -1937,6 +1937,8 @@ a {
 }
 /* --- CONTACT / FOOTER SECTION --- */
 .footer-section {
+    position: relative;
+    overflow: hidden;
     min-height: 90vh;
     width: 100%;
     padding: 10rem 4rem 4rem 4rem;
@@ -1945,6 +1947,30 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.consulting-card, .footer-container {
+    position: relative;
+    z-index: 2;
+}
+
+.footer-watermark {
+    position: absolute;
+    bottom: -3.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: clamp(6rem, 21vw, 24rem);
+    font-weight: 900;
+    font-family: 'Space Grotesk', sans-serif;
+    color: rgba(255, 255, 255, 0.012);
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+    white-space: nowrap;
+    text-align: center;
+    width: 100%;
 }
 
 .footer-container {
