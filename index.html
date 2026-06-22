@@ -1309,7 +1309,8 @@
             if (canvas) {
                 const ctx = canvas.getContext('2d');
                 let particles = [];
-                let mouse = { x: null, y: null, active: false };
+                let camX = 0, camY = 0;
+                let targetCamX = 0, targetCamY = 0;
 
                 const resizeCanvas = () => {
                     const rect = canvas.parentElement.getBoundingClientRect();
@@ -1319,68 +1320,75 @@
                 resizeCanvas();
                 window.addEventListener('resize', resizeCanvas);
 
-                // Track mouse relative to hero container
+                // Track mouse relative to hero container for 3D Camera Parallax
                 const heroElement = canvas.parentElement;
                 heroElement.addEventListener('mousemove', (e) => {
                     const rect = heroElement.getBoundingClientRect();
-                    mouse.x = e.clientX - rect.left;
-                    mouse.y = e.clientY - rect.top;
-                    mouse.active = true;
+                    const mx = e.clientX - rect.left;
+                    const my = e.clientY - rect.top;
+                    targetCamX = (mx - rect.width / 2) * 0.15;
+                    targetCamY = (my - rect.height / 2) * 0.15;
                 });
                 heroElement.addEventListener('mouseleave', () => {
-                    mouse.active = false;
+                    targetCamX = 0;
+                    targetCamY = 0;
                 });
 
                 class Particle {
                     constructor() {
-                        this.x = Math.random() * canvas.width;
-                        this.y = Math.random() * canvas.height;
-                        this.baseX = this.x;
-                        this.baseY = this.y;
-                        this.vx = (Math.random() - 0.5) * 0.4;
-                        this.vy = (Math.random() - 0.5) * 0.4;
-                        this.radius = Math.random() * 2 + 1;
+                        this.reset(true);
+                    }
+                    reset(initRandomZ = false) {
+                        this.x = (Math.random() - 0.5) * canvas.width * 1.6;
+                        this.y = (Math.random() - 0.5) * canvas.height * 1.6;
+                        this.z = initRandomZ ? Math.random() * 1000 : 1000;
+                        this.vx = (Math.random() - 0.5) * 0.2;
+                        this.vy = (Math.random() - 0.5) * 0.2;
+                        this.radius = Math.random() * 1.2 + 0.8;
                         this.color = Math.random() > 0.5 ? 'rgba(0, 229, 255, 0.25)' : 'rgba(189, 94, 255, 0.2)';
                     }
                     update() {
-                        // Magnetic orbit physics
-                        if (mouse.active) {
-                            const dx = mouse.x - this.x;
-                            const dy = mouse.y - this.y;
-                            const dist = Math.sqrt(dx*dx + dy*dy);
-                            const maxDist = 180;
-                            if (dist < maxDist) {
-                                // Acceleration toward cursor (gravity pull)
-                                const force = (maxDist - dist) / maxDist;
-                                const strength = 0.05; // orbit pull strength
-                                // perpendicular vector for swirl effect
-                                const sx = -dy / (dist || 1);
-                                const sy = dx / (dist || 1);
-                                
-                                this.vx += (dx / dist) * force * strength + sx * force * 0.1;
-                                this.vy += (dy / dist) * force * strength + sy * force * 0.1;
-                            }
-                        }
-
-                        // Apply velocities and drag (damping)
                         this.x += this.vx;
                         this.y += this.vy;
-                        this.vx *= 0.96;
-                        this.vy *= 0.96;
+                        this.z -= 0.4; // Slowly move forward in depth
 
-                        // Drift organically
-                        this.vx += (Math.random() - 0.5) * 0.05;
-                        this.vy += (Math.random() - 0.5) * 0.05;
-
-                        // Wall boundaries check
-                        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                        // Reset when too close to camera
+                        if (this.z <= 10) {
+                            this.reset(false);
+                        }
                     }
                     draw() {
-                        ctx.beginPath();
-                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                        ctx.fillStyle = this.color;
-                        ctx.fill();
+                        const focalLength = 350;
+                        const scale = focalLength / (focalLength + this.z);
+                        
+                        // Projected coordinate calculation with camera parallax shift
+                        const px = (canvas.width / 2) + (this.x - camX * (1.2 - scale)) * scale;
+                        const py = (canvas.height / 2) + (this.y - camY * (1.2 - scale)) * scale;
+
+                        if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
+                            ctx.beginPath();
+                            ctx.arc(px, py, this.radius * scale * 2.2, 0, Math.PI * 2);
+                            
+                            // Smoothly fade in/out based on depth
+                            let alpha = 1.0;
+                            if (this.z > 800) {
+                                alpha = (1000 - this.z) / 200;
+                            } else if (this.z < 200) {
+                                alpha = (this.z - 10) / 190;
+                            }
+                            alpha = Math.max(0, Math.min(1, alpha)) * 0.35;
+                            ctx.fillStyle = this.color.replace(/0\.\d+/, alpha.toFixed(3));
+                            ctx.fill();
+
+                            this.projX = px;
+                            this.projY = py;
+                            this.projScale = scale;
+                            return true;
+                        }
+                        this.projX = null;
+                        this.projY = null;
+                        this.projScale = null;
+                        return false;
                     }
                 }
 
@@ -1392,23 +1400,34 @@
                 const animate = () => {
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     
+                    camX += (targetCamX - camX) * 0.05;
+                    camY += (targetCamY - camY) * 0.05;
+
                     // Draw connections
                     for (let i = 0; i < particles.length; i++) {
                         particles[i].update();
-                        particles[i].draw();
+                        const drawn = particles[i].draw();
+                        if (!drawn) continue;
                         
-                        // Particle lines interaction
+                        // Particle lines interaction in 3D depth
                         for (let j = i + 1; j < particles.length; j++) {
-                            const dx = particles[i].x - particles[j].x;
-                            const dy = particles[i].y - particles[j].y;
+                            if (!particles[j].projX) continue;
+                            const dx = particles[i].projX - particles[j].projX;
+                            const dy = particles[i].projY - particles[j].projY;
                             const dist = Math.sqrt(dx*dx + dy*dy);
-                            if (dist < 100) {
-                                ctx.beginPath();
-                                ctx.strokeStyle = `rgba(0, 229, 255, ${0.08 * (1 - dist/100)})`;
-                                ctx.lineWidth = 0.5;
-                                ctx.moveTo(particles[i].x, particles[i].y);
-                                ctx.lineTo(particles[j].x, particles[j].y);
-                                ctx.stroke();
+                            
+                            const maxDist = 85 * particles[i].projScale;
+                            if (dist < maxDist) {
+                                const dz = Math.abs(particles[i].z - particles[j].z);
+                                if (dz < 150) {
+                                    ctx.beginPath();
+                                    const lineAlpha = 0.08 * (1 - dist / maxDist) * particles[i].projScale;
+                                    ctx.strokeStyle = `rgba(0, 229, 255, ${lineAlpha.toFixed(3)})`;
+                                    ctx.lineWidth = 0.45 * particles[i].projScale;
+                                    ctx.moveTo(particles[i].projX, particles[i].projY);
+                                    ctx.lineTo(particles[j].projX, particles[j].projY);
+                                    ctx.stroke();
+                                }
                             }
                         }
                     }
@@ -1447,7 +1466,7 @@
                 const renderCursor = () => {
                     // Eased coordinates (lerp)
                     const ease = 0.16;
-                    const dotEase = 0.4;
+                    const dotEase = 0.8;
                     curX += (mouseX - curX) * ease;
                     curY += (mouseY - curY) * ease;
                     
@@ -1466,8 +1485,8 @@
                     const stretch = Math.min(1 + speed / 90, 1.8);
                     const squeeze = 1 / stretch;
 
-                    cursor.style.transform = `translate3d(${curX}px, ${curY}px, 0) rotate(${angle}rad) scale(${stretch}, ${squeeze})`;
-                    cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
+                    cursor.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%) rotate(${angle}rad) scale(${stretch}, ${squeeze})`;
+                    cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
 
                     requestAnimationFrame(renderCursor);
                 };
@@ -1612,6 +1631,31 @@
                     card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
                 });
             });
+
+            // ==========================================
+            // 6. 3D PERSPECTIVE CODE WINDOW TILTING
+            // ==========================================
+            const codeWindow = document.querySelector('.code-window');
+            if (codeWindow) {
+                codeWindow.addEventListener('mousemove', (e) => {
+                    const rect = codeWindow.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const px = (x / rect.width) - 0.5;
+                    const py = (y / rect.height) - 0.5;
+                    
+                    const maxRotate = 5; // Subtle tilt for larger element
+                    const rotateX = -py * maxRotate;
+                    const rotateY = px * maxRotate;
+                    
+                    codeWindow.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+                });
+                
+                codeWindow.addEventListener('mouseleave', () => {
+                    codeWindow.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+                });
+            }
 
         });
     </script>

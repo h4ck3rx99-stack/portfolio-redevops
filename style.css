@@ -364,13 +364,14 @@ a {
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 50px rgba(0, 229, 255, 0.02);
     overflow: hidden;
-    transition: var(--transition-smooth);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .code-window:hover {
     border-color: rgba(0, 229, 255, 0.2);
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 60px rgba(0, 229, 255, 0.05);
-    transform: translateY(-2px);
 }
 
 .window-header {
@@ -675,8 +676,6 @@ a {
     min-height: 80vh;
     width: 100%;
     padding: 10rem 4rem;
-    display: flex;
-    align-items: center;
     background-color: var(--bg-color);
     border-top: 1px solid rgba(255, 255, 255, 0.05); /* Ultra-subtle section boundary */
 }
@@ -698,6 +697,7 @@ a {
     color: var(--text-color);
     position: sticky;
     top: 6rem; /* Keeps label visible as you scroll past on desktop */
+    white-space: nowrap;
 }
 
 .about-content {
