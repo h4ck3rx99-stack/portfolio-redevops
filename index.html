@@ -83,7 +83,7 @@
         "member": [
             { "@type": "Person", "name": "Aayush Kumar", "jobTitle": "Founder & Lead Engineer", "sameAs": ["https://www.linkedin.com/in/aayushkumar-redevops/", "https://github.com/h4ck3rx99-stack"] },
             { "@type": "Person", "name": "Abhishikth Srivathsav", "jobTitle": "Frontend Engineer", "sameAs": ["https://www.linkedin.com/in/abhishikh-srivathsav-4566043b2/", "https://github.com/abhishikthg21"] },
-            { "@type": "Person", "name": "Ujwal Soneni", "jobTitle": "Backend Engineer", "sameAs": ["https://www.linkedin.com/in/ujwal-soneni-148b95417", "https://github.com/Ujwal-Developer"] }
+            { "@type": "Person", "name": "Ujwal Soneni", "jobTitle": "Full Stack Developer", "sameAs": ["https://www.linkedin.com/in/ujwal-soneni-148b95417", "https://github.com/Ujwal-Developer"] }
         ],
         "makesOffer": [
             { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Web Development" } },
@@ -1393,8 +1393,13 @@
                     const angle = Math.atan2(dy, dx);
                     
                     // Squish & Stretch factor
-                    const stretch = Math.min(1 + speed / 90, 1.8);
-                    const squeeze = 1 / stretch;
+                    let stretch = Math.min(1 + speed / 90, 1.8);
+                    let squeeze = 1 / stretch;
+                    
+                    if (cursor.classList.contains('clicking')) {
+                        stretch *= 0.8;
+                        squeeze *= 0.8;
+                    }
 
                     cursor.style.transform = `translate3d(${curX}px, ${curY}px, 0) translate(-50%, -50%) rotate(${angle}rad) scale(${stretch}, ${squeeze})`;
                     cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0) translate(-50%, -50%)`;
