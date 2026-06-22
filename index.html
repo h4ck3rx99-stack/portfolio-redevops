@@ -228,6 +228,9 @@
 
 <!-- HERO SECTION START -->
     <header class="hero">
+        <!-- Interactive Magnetic Particle Backdrop -->
+        <canvas id="bgCanvas" class="bg-canvas"></canvas>
+
         <!-- Floating Aurora Blobs -->
         <div class="aurora-blob blob-1"></div>
         <div class="aurora-blob blob-2"></div>
@@ -254,31 +257,87 @@
             
             <div class="hero-right">
                 <!-- Glassmorphic IDE Code Window -->
-                <div class="code-window">
+                <div class="code-window" style="position: relative;">
                     <div class="window-header">
                         <div class="window-controls">
                             <span class="control-dot close"></span>
                             <span class="control-dot yellow"></span>
                             <span class="control-dot green"></span>
                         </div>
-                        <div class="window-tab">launch.ts</div>
+                        <div class="window-tabs-container">
+                            <span class="window-tab active" data-tab="launch">launch.ts</span>
+                            <span class="window-tab" data-tab="deploy">deploy.yml</span>
+                            <span class="window-tab" data-tab="styles">styles.css</span>
+                        </div>
+                        <button id="runPipelineBtn" class="run-pipeline-btn" title="Run Deploy Pipeline">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width: 10px; height: 10px; margin-right: 2px;"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                            Run
+                        </button>
                     </div>
-                    <div class="window-body">
-                        <div class="code-line"><span class="line-num">1</span><span class="code-keyword">const</span> <span class="code-val">product</span> = {</div>
-                        <div class="code-line"><span class="line-num">2</span>    name: <span class="code-string">"Your Next Idea"</span>,</div>
-                        <div class="code-line"><span class="line-num">3</span>    status: <span class="code-string">"Launching"</span>,</div>
-                        <div class="code-line"><span class="line-num">4</span>    timeline: <span class="code-string">"14 to 30 Days"</span>,</div>
-                        <div class="code-line"><span class="line-num">5</span>    performance: <span class="code-string">"99+ Core Web Vitals"</span>,</div>
-                        <div class="code-line"><span class="line-num">6</span>    scalability: <span class="code-keyword">true</span>,</div>
-                        <div class="code-line"><span class="line-num">7</span>    security: <span class="code-string">"Enterprise-Grade"</span></div>
-                        <div class="code-line"><span class="line-num">8</span>};</div>
-                        <div class="code-line"><span class="line-num">9</span></div>
-                        <div class="code-line"><span class="line-num">10</span><span class="code-keyword">async function</span> <span class="code-val">buildAndDeploy</span>(<span class="code-keyword">idea</span>) {</div>
-                        <div class="code-line"><span class="line-num">11</span>    <span class="code-keyword">const</span> <span class="code-val">design</span> = <span class="code-keyword">await</span> <span class="code-val">createPremiumUI</span>(idea);</div>
-                        <div class="code-line"><span class="line-num">12</span>    <span class="code-keyword">const</span> <span class="code-val">codebase</span> = <span class="code-keyword">await</span> <span class="code-val">writeCleanCode</span>(design);</div>
-                        <div class="code-line"><span class="line-num">13</span>    <span class="code-keyword">const</span> <span class="code-val">deployment</span> = <span class="code-keyword">await</span> <span class="code-val">deployToCloud</span>(codebase);</div>
-                        <div class="code-line"><span class="line-num">14</span>    <span class="code-keyword">return</span> { live: <span class="code-keyword">true</span>, status: <span class="code-string">"Success"</span> };</div>
-                        <div class="code-line"><span class="line-num">15</span>}</div>
+                    <div class="window-body" style="position: relative;">
+                        <!-- Tab 1: launch.ts -->
+                        <div id="tabContent_launch" class="tab-content active-content">
+                            <div class="code-line"><span class="line-num">1</span><span class="code-keyword">const</span> <span class="code-val">product</span> = {</div>
+                            <div class="code-line"><span class="line-num">2</span>    name: <span class="code-string">"Your Next Idea"</span>,</div>
+                            <div class="code-line"><span class="line-num">3</span>    status: <span class="code-string">"Launching"</span>,</div>
+                            <div class="code-line"><span class="line-num">4</span>    timeline: <span class="code-string">"14 to 30 Days"</span>,</div>
+                            <div class="code-line"><span class="line-num">5</span>    performance: <span class="code-string">"99+ Core Web Vitals"</span>,</div>
+                            <div class="code-line"><span class="line-num">6</span>    scalability: <span class="code-keyword">true</span>,</div>
+                            <div class="code-line"><span class="line-num">7</span>    security: <span class="code-string">"Enterprise-Grade"</span></div>
+                            <div class="code-line"><span class="line-num">8</span>};</div>
+                            <div class="code-line"><span class="line-num">9</span></div>
+                            <div class="code-line"><span class="line-num">10</span><span class="code-keyword">async function</span> <span class="code-val">buildAndDeploy</span>(<span class="code-keyword">idea</span>) {</div>
+                            <div class="code-line"><span class="line-num">11</span>    <span class="code-keyword">const</span> <span class="code-val">design</span> = <span class="code-keyword">await</span> <span class="code-val">createPremiumUI</span>(idea);</div>
+                            <div class="code-line"><span class="line-num">12</span>    <span class="code-keyword">const</span> <span class="code-val">codebase</span> = <span class="code-keyword">await</span> <span class="code-val">writeCleanCode</span>(design);</div>
+                            <div class="code-line"><span class="line-num">13</span>    <span class="code-keyword">const</span> <span class="code-val">deployment</span> = <span class="code-keyword">await</span> <span class="code-val">deployToCloud</span>(codebase);</div>
+                            <div class="code-line"><span class="line-num">14</span>    <span class="code-keyword">return</span> { live: <span class="code-keyword">true</span>, status: <span class="code-string">"Success"</span> };</div>
+                            <div class="code-line"><span class="line-num">15</span>}</div>
+                        </div>
+
+                        <!-- Tab 2: deploy.yml -->
+                        <div id="tabContent_deploy" class="tab-content" style="display: none;">
+                            <div class="code-line"><span class="line-num">1</span><span class="code-keyword">name</span>: Ship MVP to Production</div>
+                            <div class="code-line"><span class="line-num">2</span><span class="code-keyword">on</span>:</div>
+                            <div class="code-line"><span class="line-num">3</span>  <span class="code-keyword">push</span>:</div>
+                            <div class="code-line"><span class="line-num">4</span>    <span class="code-keyword">branches</span>: [ main ]</div>
+                            <div class="code-line"><span class="line-num">5</span><span class="code-keyword">jobs</span>:</div>
+                            <div class="code-line"><span class="line-num">6</span>  <span class="code-keyword">deploy</span>:</div>
+                            <div class="code-line"><span class="line-num">7</span>    <span class="code-keyword">runs-on</span>: ubuntu-latest</div>
+                            <div class="code-line"><span class="line-num">8</span>    <span class="code-keyword">steps</span>:</div>
+                            <div class="code-line"><span class="line-num">9</span>      - <span class="code-keyword">uses</span>: actions/checkout@v4</div>
+                            <div class="code-line"><span class="line-num">10</span>      - <span class="code-keyword">name</span>: Build and Sync Next.js</div>
+                            <div class="code-line"><span class="line-num">11</span>        <span class="code-keyword">run</span>: npm ci &amp;&amp; npm run build</div>
+                            <div class="code-line"><span class="line-num">12</span>      - <span class="code-keyword">name</span>: Docker Containerize</div>
+                            <div class="code-line"><span class="line-num">13</span>        <span class="code-keyword">run</span>: docker build -t redevops-mvp .</div>
+                            <div class="code-line"><span class="line-num">14</span>      - <span class="code-keyword">name</span>: Push to AWS ECR &amp; EKS</div>
+                            <div class="code-line"><span class="line-num">15</span>        <span class="code-keyword">run</span>: kubectl apply -f k8s/</div>
+                        </div>
+
+                        <!-- Tab 3: styles.css -->
+                        <div id="tabContent_styles" class="tab-content" style="display: none;">
+                            <div class="code-line"><span class="line-num">1</span><span class="code-keyword">:root</span> {</div>
+                            <div class="code-line"><span class="line-num">2</span>    <span class="code-val">--accent-glow</span>: <span class="code-string">linear-gradient(135deg, #00f0ff, #bd5eff)</span>;</div>
+                            <div class="code-line"><span class="line-num">3</span>    <span class="code-val">--design-fidelity</span>: <span class="code-string">100%</span>;</div>
+                            <div class="code-line"><span class="line-num">4</span>    <span class="code-val">--speed-index</span>: <span class="code-string">0.4s</span>;</div>
+                            <div class="code-line"><span class="line-num">5</span>}</div>
+                            <div class="code-line"><span class="line-num">6</span></div>
+                            <div class="code-line"><span class="line-num">7</span><span class="code-keyword">.premium-mvp</span> {</div>
+                            <div class="code-line"><span class="line-num">8</span>    <span class="code-keyword">display</span>: grid;</div>
+                            <div class="code-line"><span class="line-num">9</span>    <span class="code-keyword">place-items</span>: center;</div>
+                            <div class="code-line"><span class="line-num">10</span>    <span class="code-keyword">backdrop-filter</span>: <span class="code-val">blur</span>(12px);</div>
+                            <div class="code-line"><span class="line-num">11</span>    <span class="code-keyword">transition</span>: transform <span class="code-keyword">var</span>(--speed-index) <span class="code-val">cubic-bezier</span>(0.16, 1, 0.3, 1);</div>
+                            <div class="code-line"><span class="line-num">12</span>    <span class="code-keyword">box-shadow</span>: 0 0 40px <span class="code-keyword">var</span>(--accent-glow);</div>
+                            <div class="code-line"><span class="line-num">13</span>}</div>
+                        </div>
+
+                        <!-- Live Terminal Simulator Overlay -->
+                        <div id="terminalOverlay" class="terminal-overlay">
+                            <div class="terminal-topbar">
+                                <span class="terminal-name">DevOps Build Runner (CI/CD)</span>
+                                <span id="terminalCloseBtn" class="terminal-close">Terminate [X]</span>
+                            </div>
+                            <div id="terminalBody" class="terminal-body"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1242,8 +1301,324 @@
                                     });
                                 });
                             }
-                        });
+
+            // ==========================================
+            // 1. INTERACTIVE BACKDROP CANVAS PARTICLES
+            // ==========================================
+            const canvas = document.getElementById('bgCanvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                let mouse = { x: null, y: null, active: false };
+
+                const resizeCanvas = () => {
+                    const rect = canvas.parentElement.getBoundingClientRect();
+                    canvas.width = rect.width;
+                    canvas.height = rect.height;
+                };
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
+
+                // Track mouse relative to hero container
+                const heroElement = canvas.parentElement;
+                heroElement.addEventListener('mousemove', (e) => {
+                    const rect = heroElement.getBoundingClientRect();
+                    mouse.x = e.clientX - rect.left;
+                    mouse.y = e.clientY - rect.top;
+                    mouse.active = true;
+                });
+                heroElement.addEventListener('mouseleave', () => {
+                    mouse.active = false;
+                });
+
+                class Particle {
+                    constructor() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = Math.random() * canvas.height;
+                        this.baseX = this.x;
+                        this.baseY = this.y;
+                        this.vx = (Math.random() - 0.5) * 0.4;
+                        this.vy = (Math.random() - 0.5) * 0.4;
+                        this.radius = Math.random() * 2 + 1;
+                        this.color = Math.random() > 0.5 ? 'rgba(0, 229, 255, 0.25)' : 'rgba(189, 94, 255, 0.2)';
+                    }
+                    update() {
+                        // Magnetic orbit physics
+                        if (mouse.active) {
+                            const dx = mouse.x - this.x;
+                            const dy = mouse.y - this.y;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            const maxDist = 180;
+                            if (dist < maxDist) {
+                                // Acceleration toward cursor (gravity pull)
+                                const force = (maxDist - dist) / maxDist;
+                                const strength = 0.05; // orbit pull strength
+                                // perpendicular vector for swirl effect
+                                const sx = -dy / (dist || 1);
+                                const sy = dx / (dist || 1);
+                                
+                                this.vx += (dx / dist) * force * strength + sx * force * 0.1;
+                                this.vy += (dy / dist) * force * strength + sy * force * 0.1;
+                            }
+                        }
+
+                        // Apply velocities and drag (damping)
+                        this.x += this.vx;
+                        this.y += this.vy;
+                        this.vx *= 0.96;
+                        this.vy *= 0.96;
+
+                        // Drift organically
+                        this.vx += (Math.random() - 0.5) * 0.05;
+                        this.vy += (Math.random() - 0.5) * 0.05;
+
+                        // Wall boundaries check
+                        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+                    }
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                        ctx.fillStyle = this.color;
+                        ctx.fill();
+                    }
+                }
+
+                // Initialize 60 particles
+                for (let i = 0; i < 60; i++) {
+                    particles.push(new Particle());
+                }
+
+                const animate = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Draw connections
+                    for (let i = 0; i < particles.length; i++) {
+                        particles[i].update();
+                        particles[i].draw();
+                        
+                        // Particle lines interaction
+                        for (let j = i + 1; j < particles.length; j++) {
+                            const dx = particles[i].x - particles[j].x;
+                            const dy = particles[i].y - particles[j].y;
+                            const dist = Math.sqrt(dx*dx + dy*dy);
+                            if (dist < 100) {
+                                ctx.beginPath();
+                                ctx.strokeStyle = `rgba(0, 229, 255, ${0.08 * (1 - dist/100)})`;
+                                ctx.lineWidth = 0.5;
+                                ctx.moveTo(particles[i].x, particles[i].y);
+                                ctx.lineTo(particles[j].x, particles[j].y);
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                    requestAnimationFrame(animate);
+                };
+                animate();
+            }
+
+            // ==========================================
+            // 2. VELOCITY-DISTORTED CUSTOM CURSOR FOLLOWER
+            // ==========================================
+            const cursor = document.getElementById('customCursor');
+            const cursorDot = document.getElementById('customCursorDot');
+            if (cursor && cursorDot) {
+                let mouseX = 0, mouseY = 0;
+                let curX = 0, curY = 0;
+                let dotX = 0, dotY = 0;
+                let isCursorVisible = false;
+
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                    if (!isCursorVisible) {
+                        cursor.style.opacity = '1';
+                        cursorDot.style.opacity = '1';
+                        isCursorVisible = true;
+                    }
+                });
+
+                document.addEventListener('mouseleave', () => {
+                    cursor.style.opacity = '0';
+                    cursorDot.style.opacity = '0';
+                    isCursorVisible = false;
+                });
+
+                const renderCursor = () => {
+                    // Eased coordinates (lerp)
+                    const ease = 0.16;
+                    const dotEase = 0.4;
+                    curX += (mouseX - curX) * ease;
+                    curY += (mouseY - curY) * ease;
+                    
+                    dotX += (mouseX - dotX) * dotEase;
+                    dotY += (mouseY - dotY) * dotEase;
+
+                    // Calculate speed/velocity vector
+                    const dx = mouseX - curX;
+                    const dy = mouseY - curY;
+                    const speed = Math.sqrt(dx*dx + dy*dy);
+                    
+                    // Rotation angle matching path vector
+                    const angle = Math.atan2(dy, dx);
+                    
+                    // Squish & Stretch factor
+                    const stretch = Math.min(1 + speed / 90, 1.8);
+                    const squeeze = 1 / stretch;
+
+                    cursor.style.transform = `translate3d(${curX}px, ${curY}px, 0) rotate(${angle}rad) scale(${stretch}, ${squeeze})`;
+                    cursorDot.style.transform = `translate3d(${dotX}px, ${dotY}px, 0)`;
+
+                    requestAnimationFrame(renderCursor);
+                };
+                requestAnimationFrame(renderCursor);
+
+                // Add Hover Effects on interactive elements
+                const interactiveSelectors = 'a, button, .project-folder, .window-tab, .social-link, .titlebar-dot, .terminal-close';
+                const addHoverClass = () => cursor.classList.add('hovering');
+                const removeHoverClass = () => cursor.classList.remove('hovering');
+                
+                const wireInteractiveCursorEvents = () => {
+                    document.querySelectorAll(interactiveSelectors).forEach(el => {
+                        el.removeEventListener('mouseenter', addHoverClass);
+                        el.removeEventListener('mouseleave', removeHoverClass);
+                        el.addEventListener('mouseenter', addHoverClass);
+                        el.addEventListener('mouseleave', removeHoverClass);
+                    });
+                };
+                wireInteractiveCursorEvents();
+                
+                // Keep cursor hovers updated dynamically (e.g. modal loads/tabs clicks)
+                const observer = new MutationObserver(wireInteractiveCursorEvents);
+                observer.observe(document.body, { childList: true, subtree: true });
+
+                document.addEventListener('mousedown', () => cursor.classList.add('clicking'));
+                document.addEventListener('mouseup', () => cursor.classList.remove('clicking'));
+            }
+
+            // ==========================================
+            // 3. MULTI-TAB IDE PANEL SWAPPING
+            // ==========================================
+            const tabs = document.querySelectorAll('.window-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Reset active states
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Swap content panels
+                    const tabName = tab.dataset.tab;
+                    document.querySelectorAll('.tab-content').forEach(panel => {
+                        panel.style.display = 'none';
+                        panel.classList.remove('active-content');
+                    });
+                    
+                    const targetPanel = document.getElementById(`tabContent_${tabName}`);
+                    if (targetPanel) {
+                        targetPanel.style.display = 'block';
+                        targetPanel.classList.add('active-content');
+                    }
+                });
+            });
+
+            // ==========================================
+            // 4. SIMULATED TERMINAL PIPELINE BUILD
+            // ==========================================
+            const runPipelineBtn = document.getElementById('runPipelineBtn');
+            const terminalOverlay = document.getElementById('terminalOverlay');
+            const terminalCloseBtn = document.getElementById('terminalCloseBtn');
+            const terminalBody = document.getElementById('terminalBody');
+            
+            if (runPipelineBtn && terminalOverlay && terminalBody) {
+                let isRunning = false;
+
+                const runPipelineAnimation = async () => {
+                    if (isRunning) return;
+                    isRunning = true;
+                    terminalOverlay.classList.add('active');
+                    terminalBody.innerHTML = '';
+
+                    const logs = [
+                        { text: "$ npx redevops ship --mvp", delay: 100, color: "#ffffff" },
+                        { text: "⏳ [1/4] DESIGN SYSTEM AUDIT...", delay: 500, color: "#bd5eff" },
+                        { text: "   ✔ Loading design tokens from HSL theme engine", delay: 200, color: "#8087a3" },
+                        { text: "   ✔ Auditing contrast ratios (WCAG AAA compliance)", delay: 150, color: "#8087a3" },
+                        { text: "   ✔ Minimizing SVG inline assets... OK", delay: 150, color: "#8087a3" },
+                        { text: "⚡ [2/4] COMPILING STATIC FRONTEND...", delay: 600, color: "#00f0ff" },
+                        { text: "   ✔ Running TypeScript compiler (tsc)", delay: 300, color: "#8087a3" },
+                        { text: "   ✔ Compiling Next.js 15 production assets", delay: 400, color: "#8087a3" },
+                        { text: "   ✔ Converting absolute paths to relative ('./')", delay: 300, color: "#8087a3" },
+                        { text: "   ✔ 0.4s Speed Index threshold: PASSED", delay: 200, color: "#8087a3" },
+                        { text: "📦 [3/4] BUILDING CONTAINER ENVIRONMENT...", delay: 500, color: "#f5a623" },
+                        { text: "   ✔ Building Docker production layer", delay: 250, color: "#8087a3" },
+                        { text: "   ✔ Compacting layer volumes (124MB base)", delay: 200, color: "#8087a3" },
+                        { text: "🚀 [4/4] AWS ECS / S3 CDN DEPLOYMENT...", delay: 600, color: "#22d65e" },
+                        { text: "   ✔ Purging edge caches & uploading assets to S3", delay: 350, color: "#8087a3" },
+                        { text: "   ✔ Performing rolling update on EKS cluster", delay: 300, color: "#8087a3" },
+                        { text: "   ✔ AWS CloudWatch health metrics check: 100%", delay: 300, color: "#8087a3" },
+                        { text: "\n🎉 BUILD COMPLETE! MVP LIVE & LIVE PREVIEW READY.", delay: 400, color: "#22d65e", bold: true },
+                        { text: "👉 Local Offline Address: portfolio/index.html", delay: 100, color: "#00f0ff" }
+                    ];
+
+                    const sleep = ms => new Promise(res => setTimeout(res, ms));
+
+                    for (const log of logs) {
+                        await sleep(log.delay);
+                        const row = document.createElement('div');
+                        row.className = 'terminal-log-row';
+                        row.style.color = log.color;
+                        if (log.bold) row.style.fontWeight = 'bold';
+                        row.textContent = log.text;
+                        terminalBody.appendChild(row);
+                        terminalBody.scrollTop = terminalBody.scrollHeight;
+                    }
+
+                    // Append flashing cursor at the end
+                    const cursorSpan = document.createElement('span');
+                    cursorSpan.className = 'terminal-cursor';
+                    terminalBody.appendChild(cursorSpan);
+                    isRunning = false;
+                };
+
+                runPipelineBtn.addEventListener('click', runPipelineAnimation);
+                
+                const closeTerminal = () => {
+                    terminalOverlay.classList.remove('active');
+                };
+                terminalCloseBtn.addEventListener('click', closeTerminal);
+            }
+
+            // ==========================================
+            // 5. 3D PERSPECTIVE FOLDER TILTING
+            // ==========================================
+            const folderCards = document.querySelectorAll('.project-folder');
+            folderCards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const px = (x / rect.width) - 0.5;
+                    const py = (y / rect.height) - 0.5;
+                    
+                    const maxRotate = 10; // Max rotation degrees
+                    const rotateX = -py * maxRotate;
+                    const rotateY = px * maxRotate;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.025)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+                });
+            });
+
+        });
     </script>
+
+    <!-- Custom trailing cursor elements (Oryzo AI inspired) -->
+    <div id="customCursor" class="custom-cursor"></div>
+    <div id="customCursorDot" class="custom-cursor-dot"></div>
 
 </body>
 </html>

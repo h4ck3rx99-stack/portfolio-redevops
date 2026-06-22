@@ -2684,3 +2684,247 @@ pre, code, .window-body, .browser-screen, .folder-browser { max-width: 100%; ove
   .nav-link { padding: 0.75rem 0 !important; }
   .folder-btn { padding: 0.75rem 1.25rem !important; }
 }
+
+/* --- HIGH FIDELITY INTERACTION STYLES (ORYZO AI INSPIRED) --- */
+
+/* Backdrop Canvas */
+.bg-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Custom Cursor Follower */
+.custom-cursor {
+    width: 32px;
+    height: 32px;
+    border: 1.5px solid rgba(0, 229, 255, 0.4);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 99999;
+    transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+    mix-blend-mode: screen;
+    display: block;
+    opacity: 0;
+}
+
+.custom-cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 99999;
+    mix-blend-mode: screen;
+    display: block;
+    opacity: 0;
+}
+
+.custom-cursor.hovering {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 229, 255, 0.08);
+    border-color: rgba(0, 229, 255, 0.8);
+}
+
+.custom-cursor.clicking {
+    transform: translate(-50%, -50%) scale(0.8);
+    background-color: rgba(189, 94, 255, 0.15);
+    border-color: rgba(189, 94, 255, 0.8);
+}
+
+/* IDE Code Window Headers & Active States */
+.window-tabs-container {
+    display: flex;
+    gap: 4px;
+    margin-left: 1.25rem;
+    flex-grow: 1;
+}
+
+.window-tab {
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 0.72rem !important;
+    color: var(--text-muted);
+    background: rgba(10, 10, 10, 0.3) !important;
+    padding: 0.3rem 0.8rem !important;
+    border-radius: 4px 4px 0 0 !important;
+    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    border-bottom: none !important;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+}
+
+.window-tab.active {
+    color: #00f0ff !important;
+    background: rgba(14, 15, 29, 0.95) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: inset 0 2px 0 #00f0ff;
+}
+
+.window-tab:hover:not(.active) {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Run pipeline terminal trigger */
+.run-pipeline-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(189, 94, 255, 0.1));
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    color: #00f0ff;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.68rem;
+    font-family: monospace;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    margin-right: 0.25rem;
+}
+
+.run-pipeline-btn:hover {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.2), rgba(189, 94, 255, 0.2));
+    border-color: #00f0ff;
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.run-pipeline-btn:active {
+    transform: translateY(0);
+}
+
+.run-pipeline-btn svg {
+    width: 8px;
+    height: 8px;
+    fill: currentColor;
+}
+
+/* Terminal logs screen inside IDE */
+.terminal-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: #080914;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    font-family: 'JetBrains Mono', monospace, Courier;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    padding: 1.25rem;
+    color: #8087a3;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+.terminal-overlay.active {
+    transform: translateY(0);
+}
+
+.terminal-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.terminal-name {
+    color: #bd5eff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+}
+
+.terminal-close {
+    cursor: pointer;
+    color: #8087a3;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    border: 1px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.01);
+    transition: all 0.2s;
+}
+
+.terminal-close:hover {
+    color: #ffffff;
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.12);
+}
+
+.terminal-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    font-family: monospace;
+    white-space: pre-wrap;
+    text-align: left;
+}
+
+.terminal-log-row {
+    margin-bottom: 0.25rem;
+    opacity: 0;
+    transform: translateY(4px);
+    animation: termRowShow 0.15s forwards;
+}
+
+@keyframes termRowShow {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.terminal-cursor {
+    display: inline-block;
+    width: 6px;
+    height: 12px;
+    background: #00f0ff;
+    animation: termFlash 0.8s infinite;
+    vertical-align: middle;
+    margin-left: 2px;
+}
+
+@keyframes termFlash {
+    50% { opacity: 0; }
+}
+
+/* 3D preserved styling for folders */
+.project-folder {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
+}
+
+.folder-front {
+    transform: translateZ(24px);
+    transform-style: preserve-3d;
+}
+
+.folder-browser {
+    transform: translateZ(12px);
+}
+
+/* Hides custom trailing cursor elements on touch-based devices */
+@media (max-width: 768px) {
+    .custom-cursor, .custom-cursor-dot {
+        display: none !important;
+    }
+}
