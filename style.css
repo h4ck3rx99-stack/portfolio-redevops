@@ -2713,8 +2713,8 @@ pre, code, .window-body, .browser-screen, .folder-browser { max-width: 100%; ove
 
 /* --- HIGH FIDELITY INTERACTION STYLES (ORYZO AI INSPIRED) --- */
 
-/* Backdrop Canvas */
-.bg-canvas {
+/* Backdrop Spotlight */
+.hero-spotlight {
     position: absolute;
     top: 0;
     left: 0;
@@ -2722,6 +2722,12 @@ pre, code, .window-body, .browser-screen, .folder-browser { max-width: 100%; ove
     height: 100%;
     z-index: 0;
     pointer-events: none;
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 30%),
+        rgba(0, 229, 255, 0.04),
+        rgba(189, 94, 255, 0.02) 40%,
+        transparent 80%
+    );
 }
 
 /* Custom Cursor Follower */

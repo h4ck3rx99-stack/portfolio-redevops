@@ -228,8 +228,8 @@
 
 <!-- HERO SECTION START -->
     <header class="hero">
-        <!-- Interactive Magnetic Particle Backdrop -->
-        <canvas id="bgCanvas" class="bg-canvas"></canvas>
+        <!-- Interactive Backdrop Spotlight Glow -->
+        <div id="heroSpotlight" class="hero-spotlight"></div>
 
         <!-- Floating Aurora Blobs -->
         <div class="aurora-blob blob-1"></div>
@@ -1304,137 +1304,27 @@
                             }
 
             // ==========================================
-            // 1. INTERACTIVE BACKDROP CANVAS PARTICLES
+            // 1. INTERACTIVE BACKDROP SPOTLIGHT GLOW
             // ==========================================
-            const canvas = document.getElementById('bgCanvas');
-            if (canvas) {
-                const ctx = canvas.getContext('2d');
-                let particles = [];
-                let camX = 0, camY = 0;
-                let targetCamX = 0, targetCamY = 0;
-
-                const resizeCanvas = () => {
-                    const rect = canvas.parentElement.getBoundingClientRect();
-                    canvas.width = rect.width;
-                    canvas.height = rect.height;
+            const heroElement = document.querySelector('.hero');
+            const spotlight = document.getElementById('heroSpotlight');
+            if (heroElement && spotlight) {
+                const updateSpotlight = (x, y) => {
+                    spotlight.style.setProperty('--mouse-x', `${x}px`);
+                    spotlight.style.setProperty('--mouse-y', `${y}px`);
                 };
-                resizeCanvas();
-                window.addEventListener('resize', resizeCanvas);
-
-                // Track mouse relative to hero container for 3D Camera Parallax
-                const heroElement = canvas.parentElement;
+                
                 heroElement.addEventListener('mousemove', (e) => {
                     const rect = heroElement.getBoundingClientRect();
-                    const mx = e.clientX - rect.left;
-                    const my = e.clientY - rect.top;
-                    targetCamX = (mx - rect.width / 2) * 0.15;
-                    targetCamY = (my - rect.height / 2) * 0.15;
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    updateSpotlight(x, y);
                 });
+                
                 heroElement.addEventListener('mouseleave', () => {
-                    targetCamX = 0;
-                    targetCamY = 0;
+                    const rect = heroElement.getBoundingClientRect();
+                    updateSpotlight(rect.width / 2, rect.height / 3);
                 });
-
-                class Particle {
-                    constructor() {
-                        this.reset(true);
-                    }
-                    reset(initRandomZ = false) {
-                        this.x = (Math.random() - 0.5) * canvas.width * 1.6;
-                        this.y = (Math.random() - 0.5) * canvas.height * 1.6;
-                        this.z = initRandomZ ? Math.random() * 1000 : 1000;
-                        this.vx = (Math.random() - 0.5) * 0.2;
-                        this.vy = (Math.random() - 0.5) * 0.2;
-                        this.radius = Math.random() * 1.2 + 0.8;
-                        this.color = Math.random() > 0.5 ? 'rgba(0, 229, 255, 0.25)' : 'rgba(189, 94, 255, 0.2)';
-                    }
-                    update() {
-                        this.x += this.vx;
-                        this.y += this.vy;
-                        this.z -= 0.4; // Slowly move forward in depth
-
-                        // Reset when too close to camera
-                        if (this.z <= 10) {
-                            this.reset(false);
-                        }
-                    }
-                    draw() {
-                        const focalLength = 350;
-                        const scale = focalLength / (focalLength + this.z);
-                        
-                        // Projected coordinate calculation with camera parallax shift
-                        const px = (canvas.width / 2) + (this.x - camX * (1.2 - scale)) * scale;
-                        const py = (canvas.height / 2) + (this.y - camY * (1.2 - scale)) * scale;
-
-                        if (px >= 0 && px <= canvas.width && py >= 0 && py <= canvas.height) {
-                            ctx.beginPath();
-                            ctx.arc(px, py, this.radius * scale * 2.2, 0, Math.PI * 2);
-                            
-                            // Smoothly fade in/out based on depth
-                            let alpha = 1.0;
-                            if (this.z > 800) {
-                                alpha = (1000 - this.z) / 200;
-                            } else if (this.z < 200) {
-                                alpha = (this.z - 10) / 190;
-                            }
-                            alpha = Math.max(0, Math.min(1, alpha)) * 0.35;
-                            ctx.fillStyle = this.color.replace(/0\.\d+/, alpha.toFixed(3));
-                            ctx.fill();
-
-                            this.projX = px;
-                            this.projY = py;
-                            this.projScale = scale;
-                            return true;
-                        }
-                        this.projX = null;
-                        this.projY = null;
-                        this.projScale = null;
-                        return false;
-                    }
-                }
-
-                // Initialize 60 particles
-                for (let i = 0; i < 60; i++) {
-                    particles.push(new Particle());
-                }
-
-                const animate = () => {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    
-                    camX += (targetCamX - camX) * 0.05;
-                    camY += (targetCamY - camY) * 0.05;
-
-                    // Draw connections
-                    for (let i = 0; i < particles.length; i++) {
-                        particles[i].update();
-                        const drawn = particles[i].draw();
-                        if (!drawn) continue;
-                        
-                        // Particle lines interaction in 3D depth
-                        for (let j = i + 1; j < particles.length; j++) {
-                            if (!particles[j].projX) continue;
-                            const dx = particles[i].projX - particles[j].projX;
-                            const dy = particles[i].projY - particles[j].projY;
-                            const dist = Math.sqrt(dx*dx + dy*dy);
-                            
-                            const maxDist = 85 * particles[i].projScale;
-                            if (dist < maxDist) {
-                                const dz = Math.abs(particles[i].z - particles[j].z);
-                                if (dz < 150) {
-                                    ctx.beginPath();
-                                    const lineAlpha = 0.08 * (1 - dist / maxDist) * particles[i].projScale;
-                                    ctx.strokeStyle = `rgba(0, 229, 255, ${lineAlpha.toFixed(3)})`;
-                                    ctx.lineWidth = 0.45 * particles[i].projScale;
-                                    ctx.moveTo(particles[i].projX, particles[i].projY);
-                                    ctx.lineTo(particles[j].projX, particles[j].projY);
-                                    ctx.stroke();
-                                }
-                            }
-                        }
-                    }
-                    requestAnimationFrame(animate);
-                };
-                animate();
             }
 
             // ==========================================
