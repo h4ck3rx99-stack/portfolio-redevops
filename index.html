@@ -1498,56 +1498,6 @@
                 terminalCloseBtn.addEventListener('click', closeTerminal);
             }
 
-            // ==========================================
-            // 5. 3D PERSPECTIVE FOLDER TILTING
-            // ==========================================
-            const folderCards = document.querySelectorAll('.project-folder');
-            folderCards.forEach(card => {
-                card.addEventListener('mousemove', (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const px = (x / rect.width) - 0.5;
-                    const py = (y / rect.height) - 0.5;
-                    
-                    const maxRotate = 10; // Max rotation degrees
-                    const rotateX = -py * maxRotate;
-                    const rotateY = px * maxRotate;
-                    
-                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.025)`;
-                });
-                
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
-                });
-            });
-
-            // ==========================================
-            // 6. 3D PERSPECTIVE CODE WINDOW TILTING
-            // ==========================================
-            const codeWindow = document.querySelector('.code-window');
-            if (codeWindow) {
-                codeWindow.addEventListener('mousemove', (e) => {
-                    const rect = codeWindow.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    
-                    const px = (x / rect.width) - 0.5;
-                    const py = (y / rect.height) - 0.5;
-                    
-                    const maxRotate = 5; // Subtle tilt for larger element
-                    const rotateX = -py * maxRotate;
-                    const rotateY = px * maxRotate;
-                    
-                    codeWindow.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
-                });
-                
-                codeWindow.addEventListener('mouseleave', () => {
-                    codeWindow.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
-                });
-            }
-
         });
     </script>
 
