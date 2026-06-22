@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /favicon.ico
 
 Sitemap: https://redevops.in/sitemap.xml

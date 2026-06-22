@@ -931,19 +931,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            // --- 1. INITIALIZE LENIS SMOOTH SCROLL ---
-            const lenis = new Lenis({
-                duration: 1.2,           // How long the scroll animation lasts (in seconds)
-                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Premium deceleration curve
-                direction: 'vertical',   // vertical, horizontal
-                gestureDirection: 'vertical',
-                smooth: true,
-                mouseMultiplier: 1,
-                smoothTouch: false       // Keep native touch behavior on mobile devices for performance
-            });
-            window.lenis = lenis;
-
-            // --- NAV TRACKING + PROGRESS (runs inside Lenis loop) ---
+            // --- 1. INITIALIZE LENIS SMOOTH SCROLL (Touch-Safe) ---
             const navLinks = document.querySelectorAll('#navbarNav a');
             const trackSections = [
                 document.getElementById('about'),
@@ -954,17 +942,14 @@
             ];
             const progressBar = document.getElementById('scrollProgress');
 
-            function raf(time) {
-                lenis.raf(time);
-
-                // Update progress bar
+            // Shared scroll state updater for progress bar and active navbar items
+            const updateScrollStates = () => {
                 const scrollTop = window.scrollY;
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
                 const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
                 progressBar.style.width = progress + '%';
 
-                // Update active nav — last section whose top is at or above trigger line
-                const triggerLine = 120;
+                const triggerLine = 160;
                 let current = '';
                 for (let i = 0; i < trackSections.length; i++) {
                     const section = trackSections[i];
@@ -976,12 +961,35 @@
                 navLinks.forEach(link => {
                     link.classList.toggle('active', link.getAttribute('href') === '#' + current);
                 });
+            };
 
+            // Detect touch screens to run native scroll and prevent momentum locks
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            
+            if (!isTouchDevice) {
+                const lenis = new Lenis({
+                    duration: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                    direction: 'vertical',
+                    gestureDirection: 'vertical',
+                    smooth: true,
+                    mouseMultiplier: 1,
+                    smoothTouch: false
+                });
+                window.lenis = lenis;
+
+                function raf(time) {
+                    lenis.raf(time);
+                    updateScrollStates();
+                    requestAnimationFrame(raf);
+                }
                 requestAnimationFrame(raf);
+            } else {
+                window.addEventListener('scroll', updateScrollStates, { passive: true });
+                updateScrollStates();
             }
-            requestAnimationFrame(raf);
 
-            // Sync navbar link clicks with Lenis smooth scrolling
+            // Sync navbar link clicks with smooth scrolling (Lenis / native fallback)
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -990,10 +998,20 @@
                     
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
-                        lenis.scrollTo(targetElement, {
-                            offset: 0,
-                            duration: 1.2
-                        });
+                        if (window.lenis) {
+                            window.lenis.scrollTo(targetElement, {
+                                offset: -80,
+                                duration: 1.2
+                            });
+                        } else {
+                            const offset = 80;
+                            const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+                            const offsetPosition = elementPosition - offset;
+                            window.scrollTo({
+                                top: offsetPosition,
+                                behavior: 'smooth'
+                            });
+                        }
                     }
                 });
             });
@@ -1189,6 +1207,7 @@
                     // Activate modal
                     modal.classList.add('active');
                     document.body.style.overflow = 'hidden';
+                    if (window.lenis) window.lenis.stop();
 
                     // Update URL hash quietly without page jump
                     history.replaceState(null, document.title, `#project-${id}`);
@@ -1198,6 +1217,7 @@
             const closeModal = () => {
                 modal.classList.remove('active');
                 document.body.style.overflow = '';
+                if (window.lenis) window.lenis.start();
                 // Reset image to transparent pixel to prevent flash on next open
                 document.getElementById('modalImg').src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
                 document.getElementById('modalLink').href = 'javascript:void(0)';
