@@ -17,13 +17,20 @@
 
 html {
     overflow-x: hidden;
+    scrollbar-color: rgba(0, 229, 255, 0.35) transparent;
+    scrollbar-width: thin;
 }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0, 229, 255, 0.3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0, 229, 255, 0.5); }
 
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-main);
     overflow-x: hidden;
+    overflow-y: hidden;
     -webkit-font-smoothing: antialiased;
     position: relative;
 }
