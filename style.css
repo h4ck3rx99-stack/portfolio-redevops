@@ -1190,12 +1190,42 @@ a {
     }
 }
 
+@media (max-width: 768px) {
+    .folder-browser {
+        position: static;
+        width: 100%;
+        height: auto;
+        transform: none;
+        opacity: 0.25;
+        margin-top: 1.5rem;
+        border-radius: 8px;
+        pointer-events: none;
+    }
+    .folder-browser .browser-screen {
+        height: auto;
+        aspect-ratio: 16 / 10;
+    }
+    .folder-browser .browser-screen img {
+        object-fit: contain;
+        opacity: 0.6;
+    }
+    .folder-body {
+        overflow: visible;
+    }
+    .folder-desc {
+        max-width: 100%;
+    }
+    .folder-front {
+        z-index: 1;
+    }
+}
+
 @media (max-width: 560px) {
     .folder-browser {
         display: none !important;
     }
-    .folder-desc {
-        max-width: 100%;
+    .folder-body {
+        background: linear-gradient(135deg, rgba(0,229,255,0.04), rgba(99,102,241,0.02));
     }
 }
 
