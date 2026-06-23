@@ -2646,7 +2646,7 @@ html.lenis {
   .hero-grid { padding-top: 5rem !important; padding-bottom: 2rem !important; gap: 1.5rem !important; }
   .hero-title { font-size: clamp(1.8rem, 9vw, 2.4rem) !important; line-height: 1.1 !important; }
   .hero-tagline { font-size: 0.9rem !important; }
-  .code-window { max-width: 100% !important; }
+  .hero-right { display: none !important; }
   .section { padding: 4rem 1.25rem !important; }
   .about-section { padding: 4rem 1.25rem !important; }
   .services-section { padding: 4rem 1.25rem !important; }
