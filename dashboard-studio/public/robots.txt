@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://dashboard-studio.redevops.in/sitemap.xml
+Sitemap: https://dashboardstudio.redevops.in/sitemap.xml

@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Dashboard Studio — Premium CSV Analytics Dashboard",
   description: "Upload any sales or revenue CSV file, map the columns, and analyze metrics, trends, and shares offline using interactive charts.",
-  metadataBase: new URL("https://dashboard-studio.redevops.in"),
+  metadataBase: new URL("https://dashboardstudio.redevops.in"),
   alternates: {
     canonical: "/",
   },
