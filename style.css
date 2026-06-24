@@ -678,9 +678,8 @@ a {
 }
 /* --- ABOUT SECTION --- */
 .about-section {
-    min-height: 100vh;
     width: 100%;
-    padding: 12rem 4rem 10rem 4rem;
+    padding: 0 4rem;
     background-color: var(--bg-color);
     border-top: 1px solid rgba(255, 255, 255, 0.05); /* Ultra-subtle section boundary */
 }
@@ -692,7 +691,10 @@ a {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
-    min-height: 55vh; /* Extends grid height so sticky label stays locked longer */
+    padding-top: 12rem;
+    padding-bottom: 10rem;
+    min-height: 100vh; /* Grid itself takes full height so sticky label stays locked until end of section */
+    box-sizing: border-box;
 }
 
 .about-label {
@@ -735,12 +737,15 @@ a {
 /* Mobile responsive adjustments */
 @media (max-width: 968px) {
     .about-section {
-        padding: 6rem 2rem;
+        padding: 0 2rem;
     }
     
     .about-grid {
         grid-template-columns: 1fr; /* Stacks vertically on smaller screens */
         gap: 2rem;
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+        min-height: auto;
     }
     
     .about-label {
@@ -2690,7 +2695,8 @@ html.lenis {
   .hero-tagline { font-size: 0.9rem !important; }
   .hero-right { display: none !important; }
   .section { padding: 4rem 1.25rem !important; }
-  .about-section { padding: 4rem 1.25rem !important; }
+  .about-section { padding: 0 1.25rem !important; }
+  .about-grid { padding-top: 4rem !important; padding-bottom: 4rem !important; }
   .services-section { padding: 4rem 1.25rem !important; }
   .work-section { padding: 4rem 1.25rem !important; }
   .team-section { padding: 4rem 1.25rem !important; }
