@@ -597,7 +597,7 @@ export default function Home() {
           </button>
 
           <a 
-            href="../index.html#project-dashboard-studio"
+            href="../index.html#project-dashboardstudio"
             className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#0e0f1d] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] transition-all"
           >
             Back to Portfolio
