@@ -1266,11 +1266,19 @@
                     if (folder) {
                         setTimeout(() => {
                             if (window.lenis) {
-                                window.lenis.scrollTo(folder, { offset: -120, duration: 1.2 });
+                                window.lenis.scrollTo(folder, { 
+                                    offset: -120, 
+                                    duration: 1.2,
+                                    onComplete: () => {
+                                        folder.click();
+                                    }
+                                });
                             } else {
                                 folder.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                setTimeout(() => {
+                                    folder.click();
+                                }, 800);
                             }
-                            folder.click();
                         }, 600);
                     }
                 }
