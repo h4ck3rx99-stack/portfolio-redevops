@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found | RE Dev Ops</title>
+    <meta name="description" content="The page you are looking for does not exist. Return to RE Dev Ops home page.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Inline styles to make the 404 container look extra premium -->
+    <style>
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+        .error-code {
+            font-size: clamp(6rem, 15vw, 10rem);
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, var(--accent-color), #6366f1, #ff5b94);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.15));
+            animation: pulseGlow 4s infinite alternate;
+        }
+        .error-title {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+        .error-message {
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            color: var(--text-muted);
+            max-width: 460px;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+        .error-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #000000;
+            background-color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .error-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(0, 229, 255, 0.4);
+            background-color: transparent;
+            color: var(--accent-color);
+        }
+        @keyframes pulseGlow {
+            0% { filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.1)); }
+            100% { filter: drop-shadow(0 0 45px rgba(0, 229, 255, 0.3)); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Aurora Blobs -->
+    <div class="aurora-blob blob-1"></div>
+    <div class="aurora-blob blob-2"></div>
+    <div class="aurora-blob blob-3"></div>
+
+    <!-- Main Container -->
+    <div class="error-container">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Lost in Space</h1>
+        <p class="error-message">The page you are looking for has either been moved, deleted, or never existed in the first place.</p>
+        <a href="/" class="error-btn" id="homeLink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Return to Portfolio
+        </a>
+    </div>
+
+    <script>
+        // Support offline local file:// previews
+        if (window.location.protocol === 'file:') {
+            document.getElementById('homeLink').href = 'index.html';
+        }
+    </script>
+</body>
+</html>

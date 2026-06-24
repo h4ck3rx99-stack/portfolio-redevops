@@ -1,0 +1,24 @@
+{
+  "redirects": [
+    {
+      "source": "/proposalforge/:path*",
+      "destination": "https://proposalforge.redevops.in/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/siteaudit/:path*",
+      "destination": "https://siteaudit.redevops.in/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/brandkit/:path*",
+      "destination": "https://brandkit.redevops.in/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/dashboardstudio/:path*",
+      "destination": "https://dashboardstudio.redevops.in/:path*",
+      "permanent": true
+    }
+  ]
+}
