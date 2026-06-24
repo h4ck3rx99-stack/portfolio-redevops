@@ -692,11 +692,12 @@ a {
     width: 100%;
     max-width: 1400px;
     margin: 0 auto;
+    min-height: 55vh; /* Extends grid height so sticky label stays locked longer */
 }
 
 .about-label {
     position: sticky;
-    top: 7.5rem; /* Sticks exactly below the blurred navbar */
+    top: 6.5rem; /* Sits closer below the blurred navbar */
     align-self: start;
 }
 
@@ -743,7 +744,11 @@ a {
     }
     
     .about-label {
-        position: static; /* Removes sticky positioning on mobile */
+        position: sticky;
+        top: 4.5rem; /* Sticks below mobile header */
+        background-color: var(--bg-color); /* Prevents scroll text overlap */
+        padding: 1rem 0;
+        z-index: 10;
     }
     
     .about-label h2 {
