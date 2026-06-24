@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import {
   ArrowLeft,
   Palette,
@@ -190,6 +190,17 @@ function copyToClipboard(text: string) {
 }
 
 export default function Home() {
+  const [backUrl, setBackUrl] = useState("../index.html#project-brandkit-studio");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
+      if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
+        setBackUrl("https://redevops.in/#project-brandkit-studio");
+      }
+    }
+  }, []);
+
   const [tab, setTab] = useState<Tab>("palette");
   const [baseColor, setBaseColor] = useState("#6366f1");
   const [harmony, setHarmony] = useState<Harmony>("monochromatic");
@@ -241,7 +252,7 @@ export default function Home() {
         {/* Header */}
         <header className="flex items-center justify-between mb-8 no-print">
           <div className="flex items-center gap-3">
-            <a href="../index.html#project-brandkit-studio" className="p-2 rounded-lg" style={{ backgroundColor: darkMode ? "#141527" : "#f0f0f5", border: `1px solid ${borderClr}`, color: darkMode ? "#8087a3" : "#666" }} title="Back to Portfolio">
+            <a href={backUrl} className="p-2 rounded-lg" style={{ backgroundColor: darkMode ? "#141527" : "#f0f0f5", border: `1px solid ${borderClr}`, color: darkMode ? "#8087a3" : "#666" }} title="Back to Portfolio">
               <ArrowLeft size={16} />
             </a>
             <div>

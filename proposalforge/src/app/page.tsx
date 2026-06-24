@@ -113,6 +113,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<"general" | "parties" | "content" | "taxes">("general");
   const [saveStatus, setSaveStatus] = useState<"Saved" | "Saving..." | "Ready">("Ready");
   const [isClient, setIsClient] = useState(false);
+  const [backUrl, setBackUrl] = useState("../index.html#project-proposal-forge");
 
   // Canvas Drawing Pad Ref & State
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -123,6 +124,12 @@ export default function Home() {
   // Mark client hydration complete
   useEffect(() => {
     setIsClient(true);
+    if (typeof window !== "undefined") {
+      const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
+      if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
+        setBackUrl("https://redevops.in/#project-proposal-forge");
+      }
+    }
   }, []);
 
   // Responsive canvas width
@@ -1114,7 +1121,7 @@ export default function Home() {
       {/* Preview Screen - Right */}
       <section className="flex-1 bg-[#050505] overflow-y-auto flex justify-center p-8 md:p-12 relative min-h-screen">
         {/* Floating Portfolio Back Button */}
-        <a href="../index.html#project-proposal-forge" className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#221e12]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all flex items-center gap-1.5 no-print">
+        <a href={backUrl} className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#221e12]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all flex items-center gap-1.5 no-print">
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
           Back to Portfolio
         </a>

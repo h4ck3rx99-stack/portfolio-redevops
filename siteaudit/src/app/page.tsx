@@ -503,6 +503,17 @@ async function runAudit(url: string): Promise<AuditResult> {
 }
 
 export default function Home() {
+  const [backUrl, setBackUrl] = useState("../index.html#project-siteaudit-pro");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
+      if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
+        setBackUrl("https://redevops.in/#project-siteaudit-pro");
+      }
+    }
+  }, []);
+
   const [url, setUrl] = useState("");
   const [result, setResult] = useState<AuditResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -584,7 +595,7 @@ export default function Home() {
         {/* Header bar */}
         <header className="flex items-center justify-between mb-8 sm:mb-12 no-print">
           <div className="flex items-center gap-3">
-            <a href="../index.html#project-siteaudit-pro" className="p-2 rounded-lg bg-[#141527] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] transition-all" title="Back to Portfolio">
+            <a href={backUrl} className="p-2 rounded-lg bg-[#141527] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] transition-all" title="Back to Portfolio">
               <ArrowLeft size={16} />
             </a>
             <div>

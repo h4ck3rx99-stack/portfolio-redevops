@@ -128,6 +128,17 @@ const THEME_SCHEMES: ThemeScheme[] = [
 ];
 
 export default function Home() {
+  const [backUrl, setBackUrl] = useState("../index.html#project-dashboardstudio");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
+      if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
+        setBackUrl("https://redevops.in/#project-dashboardstudio");
+      }
+    }
+  }, []);
+
   const [csvContent, setCsvContent] = useState<string>(demoCSV);
   const [fileName, setFileName] = useState<string>("Acme Sales Demo.csv");
   const [parsedData, setParsedData] = useState<CSVData>({ headers: [], rows: [] });
@@ -597,7 +608,7 @@ export default function Home() {
           </button>
 
           <a 
-            href="../index.html#project-dashboardstudio"
+            href={backUrl}
             className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#0e0f1d] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] transition-all"
           >
             Back to Portfolio
