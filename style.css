@@ -30,7 +30,6 @@ body {
     color: var(--text-color);
     font-family: var(--font-main);
     overflow-x: hidden;
-    overflow-y: hidden;
     -webkit-font-smoothing: antialiased;
     position: relative;
 }
