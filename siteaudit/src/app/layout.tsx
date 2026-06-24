@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SiteAudit Pro — Website Audit & Analysis Tool",
   description: "Professional client-side website audit tool. Analyze SEO, performance, accessibility, mobile readiness, and security with detailed reports and PDF export.",
+  metadataBase: new URL("https://siteaudit.redevops.in"),
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({

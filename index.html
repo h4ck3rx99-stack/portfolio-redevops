@@ -123,10 +123,10 @@
         "description": "A selection of products designed and engineered by RE Dev Ops",
         "url": "https://redevops.in/#work",
         "itemListElement": [
-            { "@type": "SoftwareApplication", "position": 1, "name": "ProposalForge", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "url": "https://redevops.in/proposalforge/" },
-            { "@type": "SoftwareApplication", "position": 2, "name": "SiteAudit Pro", "applicationCategory": "WebApplication", "operatingSystem": "Web", "url": "https://redevops.in/siteaudit/" },
-            { "@type": "SoftwareApplication", "position": 3, "name": "BrandKit Studio", "applicationCategory": "DesignApplication", "operatingSystem": "Web", "url": "https://redevops.in/brandkit/" },
-            { "@type": "SoftwareApplication", "position": 4, "name": "Dashboard Studio", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "url": "https://redevops.in/dashboard-studio/" }
+            { "@type": "SoftwareApplication", "position": 1, "name": "ProposalForge", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "url": "https://proposalforge.redevops.in/" },
+            { "@type": "SoftwareApplication", "position": 2, "name": "SiteAudit Pro", "applicationCategory": "WebApplication", "operatingSystem": "Web", "url": "https://siteaudit.redevops.in/" },
+            { "@type": "SoftwareApplication", "position": 3, "name": "BrandKit Studio", "applicationCategory": "DesignApplication", "operatingSystem": "Web", "url": "https://brandkit.redevops.in/" },
+            { "@type": "SoftwareApplication", "position": 4, "name": "Dashboard Studio", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "url": "https://dashboard-studio.redevops.in/" }
         ]
     }
     </script>
@@ -574,7 +574,7 @@
                                 <span class="browser-dot yellow"></span>
                                 <span class="browser-dot green"></span>
                             </div>
-                            <div class="browser-search">redevops.in/proposalforge</div>
+                            <div class="browser-search">proposalforge.redevops.in</div>
                         </div>
                         <div class="browser-screen">
                             <img src="assets/proposal_forge.png" alt="ProposalForge — Next.js invoice generator with GST calculator, logo upload, and PDF export" loading="lazy">
@@ -613,7 +613,7 @@
                                 <span class="browser-dot yellow"></span>
                                 <span class="browser-dot green"></span>
                             </div>
-                            <div class="browser-search">redevops.in/siteaudit</div>
+                            <div class="browser-search">siteaudit.redevops.in</div>
                         </div>
                         <div class="browser-screen">
                             <img src="assets/siteaudit.png" alt="SiteAudit Pro — website audit tool for SEO, performance, accessibility, and security with PDF export" loading="lazy">
@@ -652,7 +652,7 @@
                                 <span class="browser-dot yellow"></span>
                                 <span class="browser-dot green"></span>
                             </div>
-                            <div class="browser-search">redevops.in/brandkit</div>
+                            <div class="browser-search">brandkit.redevops.in</div>
                         </div>
                         <div class="browser-screen">
                             <img src="assets/brandkit.png" alt="BrandKit Studio — brand identity toolkit with color palette generator, gradients, font pairings, and CSS export" loading="lazy">
@@ -691,7 +691,7 @@
                                 <span class="browser-dot yellow"></span>
                                 <span class="browser-dot green"></span>
                             </div>
-                            <div class="browser-search">redevops.in/dashboard-studio</div>
+                            <div class="browser-search">dashboard-studio.redevops.in</div>
                         </div>
                         <div class="browser-screen">
                             <img src="assets/dashboard_studio.png" alt="Dashboard Studio — offline CSV analytics dashboard with KPI metrics, interactive charts, and PNG export" loading="lazy">
@@ -1161,7 +1161,8 @@
                     desc: 'A premium client-side invoice and proposal generator featuring dynamic templates (Gold, Dark, Light), real-time tax/GST calculators, customizable client profiles, company logo uploads, and clean vector PDF print layout systems.',
                     tech: ['Next.js 15', 'TypeScript', 'Tailwind CSS', 'LocalStorage'],
                     image: 'assets/proposal_forge.png',
-                    link: 'proposalforge/index.html'
+                    link: 'proposalforge/index.html',
+                    onlineUrl: 'https://proposalforge.redevops.in/'
                 },
                 'siteaudit-pro': {
                     title: 'SiteAudit Pro',
@@ -1170,7 +1171,8 @@
                     desc: 'A premium client-side website audit tool that simulates professional audit reports across SEO, performance, accessibility, mobile, and security categories with animated score visualizations and PDF report export.',
                     tech: ['Next.js 15', 'TypeScript', 'html2canvas', 'Tailwind CSS'],
                     image: 'assets/siteaudit.png',
-                    link: 'siteaudit/index.html'
+                    link: 'siteaudit/index.html',
+                    onlineUrl: 'https://siteaudit.redevops.in/'
                 },
                 'brandkit-studio': {
                     title: 'BrandKit Studio',
@@ -1179,7 +1181,8 @@
                     desc: 'A brand identity toolkit with color palette generation (monochromatic, complementary, triadic, and more), gradient creator, font pairings, live brand previews on business cards, social banners, and websites, plus CSS variable export.',
                     tech: ['Next.js 15', 'TypeScript', 'Tailwind CSS', 'HSL Color Engine'],
                     image: 'assets/brandkit.png',
-                    link: 'brandkit/index.html'
+                    link: 'brandkit/index.html',
+                    onlineUrl: 'https://brandkit.redevops.in/'
                 },
                 'dashboard-studio': {
                     title: 'Dashboard Studio',
@@ -1188,7 +1191,8 @@
                     desc: 'A premium offline CSV data analytics dashboard featuring custom column mapping, key KPI metrics, dynamic Recharts visualization (Line, Bar, Pie charts), record search tables, and client-side PNG dashboard image exports.',
                     tech: ['Next.js 15', 'TypeScript', 'Recharts', 'Tailwind CSS', 'html2canvas'],
                     image: 'assets/dashboard_studio.png',
-                    link: 'dashboard-studio/index.html'
+                    link: 'dashboard-studio/index.html',
+                    onlineUrl: 'https://dashboard-studio.redevops.in/'
                 },
             };
 
@@ -1203,7 +1207,10 @@
                     document.getElementById('modalMeta').textContent = `${data.category} / ${data.year}`;
                     document.getElementById('modalDesc').textContent = data.desc;
                     document.getElementById('modalImg').src = data.image;
-                    document.getElementById('modalLink').href = data.link;
+                    
+                    // Route to online subdomain if hosted, or relative path if loading locally (offline file://)
+                    const isLocalFile = window.location.protocol === 'file:';
+                    document.getElementById('modalLink').href = isLocalFile ? data.link : (data.onlineUrl || data.link);
 
                     // Tech tags
                     const techContainer = document.getElementById('modalTech');

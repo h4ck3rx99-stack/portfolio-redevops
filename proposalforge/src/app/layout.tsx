@@ -15,6 +15,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ProposalForge — Premium Invoice & Proposal Generator",
   description: "Create professional proposals and invoices with real-time tax calculations, templates, and instant PDF downloads. Completely client-side and secure.",
+  metadataBase: new URL("https://proposalforge.redevops.in"),
+  alternates: {
+    canonical: "/",
+  },
 };
 
 export default function RootLayout({
