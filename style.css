@@ -748,11 +748,10 @@ a {
     }
     
     .about-label {
-        position: sticky;
-        top: 4.5rem; /* Sticks below mobile header */
-        background-color: var(--bg-color); /* Prevents scroll text overlap */
-        padding: 1rem 0;
-        z-index: 10;
+        position: static;
+        background-color: transparent;
+        padding: 0;
+        z-index: 1;
     }
     
     .about-label h2 {
