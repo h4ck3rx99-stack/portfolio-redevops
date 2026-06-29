@@ -750,12 +750,15 @@ a {
     .about-label {
         position: static;
         background-color: transparent;
-        padding: 0;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(0, 229, 255, 0.25);
+        margin-bottom: 1rem;
         z-index: 1;
+        display: inline-block;
     }
     
     .about-label h2 {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     
     .about-content {
