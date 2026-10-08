@@ -1,19 +1,36 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-cyan-300: #e3fa96;
+  --color-cyan-400: #d4f56b;
+  --color-cyan-500: #c8ea5c;
+  --color-cyan-600: #a9cc3f;
+  --color-blue-400: #c8ea5c;
+  --color-blue-500: #b9dd4e;
+  --color-blue-600: #a9cc3f;
+  --color-purple-400: #f0b37e;
+  --color-purple-500: #e9a466;
+  --color-purple-600: #d98f50;
+  --color-pink-400: #f0b37e;
+}
+
+
 :root {
-  --background: #050508;
-  --foreground: #f5f7fa;
-  --card-bg: rgba(14, 15, 29, 0.65);
+  --background: #0a0a0b;
+  --foreground: #ededef;
+  --card-bg: rgba(19, 19, 22, 0.65);
   --border: rgba(255, 255, 255, 0.06);
-  --accent-cyan: #0ad3ff;
-  --accent-purple: #9b6dff;
+  --accent-cyan: #d4f56b;
+  --accent-purple: #f0b37e;
   --accent-pink: #f472b6;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
 
@@ -51,3 +68,10 @@ body {
   .h-28 { height: 5rem; }
   .h-36 { height: 5rem; }
 }
+
+body {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #d4f56b; color: #0b0d04; }

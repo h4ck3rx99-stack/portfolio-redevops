@@ -119,12 +119,12 @@ interface ThemeScheme {
 }
 
 const THEME_SCHEMES: ThemeScheme[] = [
-  { name: "Cyan Spark", primary: "#00f0ff", secondary: "#bd5eff", glow: "rgba(0, 240, 255, 0.15)" },
-  { name: "Neon Rose", primary: "#ff5b94", secondary: "#bd5eff", glow: "rgba(255, 91, 148, 0.15)" },
-  { name: "Emerald Wave", primary: "#10b981", secondary: "#059669", glow: "rgba(16, 185, 129, 0.15)" },
-  { name: "Amber Fusion", primary: "#f59e0b", secondary: "#ef4444", glow: "rgba(245, 158, 11, 0.15)" },
-  { name: "Sapphire Deep", primary: "#3b82f6", secondary: "#8b5cf6", glow: "rgba(59, 130, 246, 0.15)" },
-  { name: "Cyber Sunset", primary: "#ffaa00", secondary: "#ff007f", glow: "rgba(255, 170, 0, 0.15)" }
+  { name: "Studio Lime", primary: "#d4f56b", secondary: "#f0b37e", glow: "rgba(212, 245, 107, 0.12)" },
+  { name: "Ember", primary: "#f0b37e", secondary: "#e07a5f", glow: "rgba(240, 179, 126, 0.12)" },
+  { name: "Emerald", primary: "#34d399", secondary: "#a7f3d0", glow: "rgba(52, 211, 153, 0.12)" },
+  { name: "Glacier", primary: "#8fb8ff", secondary: "#d4e3ff", glow: "rgba(143, 184, 255, 0.12)" },
+  { name: "Amber", primary: "#f5b544", secondary: "#ef6f50", glow: "rgba(245, 181, 68, 0.12)" },
+  { name: "Mono", primary: "#ededef", secondary: "#8d8d96", glow: "rgba(237, 237, 239, 0.08)" }
 ];
 
 export default function Home() {
@@ -134,13 +134,13 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
       if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
-        setBackUrl("https://redevops.in/#project-dashboardstudio");
+        setBackUrl("https://redevops.in/#work");
       }
     }
   }, []);
 
   const [csvContent, setCsvContent] = useState<string>(demoCSV);
-  const [fileName, setFileName] = useState<string>("Acme Sales Demo.csv");
+  const [fileName, setFileName] = useState<string>("sample-sales-q2.csv");
   const [parsedData, setParsedData] = useState<CSVData>({ headers: [], rows: [] });
   
   // Theme State
@@ -150,7 +150,7 @@ export default function Home() {
     return [
       activeScheme.primary,
       activeScheme.secondary,
-      "#ff5b94",
+      "#f0b37e",
       "#3b82f6",
       "#10b981",
       "#f59e0b"
@@ -511,7 +511,7 @@ export default function Home() {
   };
 
   const loadDemo = () => {
-    setFileName("Acme Sales Demo.csv");
+    setFileName("sample-sales-q2.csv");
     setCsvContent(demoCSV);
     setCurrentPage(1);
   };
@@ -521,7 +521,7 @@ export default function Home() {
       // Temporarily hide elements that shouldn't show on exports if any, html2canvas renders what is visible
       html2canvas(dashboardRef.current, {
         useCORS: true,
-        backgroundColor: "#050508",
+        backgroundColor: "#0a0a0b",
         scale: 2 // Improve quality
       }).then(canvas => {
         const link = document.createElement("a");
@@ -539,23 +539,23 @@ export default function Home() {
   } as React.CSSProperties;
 
   return (
-    <main className="min-h-screen flex flex-col bg-[#050508] text-[#f5f7fa]" style={dynamicStyles}>
+    <main className="min-h-screen flex flex-col bg-[#0a0a0b] text-[#ededef]" style={dynamicStyles}>
       
       {/* Top Banner Header */}
-      <header className="no-print p-6 border-b border-white/5 bg-[#0b0c16]/50 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-4">
+      <header className="no-print p-6 border-b border-white/5 bg-[#0f0f12]/50 backdrop-blur-md flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-black" style={{ backgroundImage: `linear-gradient(135deg, ${activeScheme.primary}, ${activeScheme.secondary})` }}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center font-black text-black" style={{ backgroundColor: activeScheme.primary }}>
             DS
           </div>
           <div>
-            <h1 className="text-lg sm:text-xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: `linear-gradient(to right, ${activeScheme.primary}, ${activeScheme.secondary}, #ff5b94)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <h1 className="text-lg sm:text-xl font-semibold tracking-tight text-[#ededef]">
               Dashboard Studio
             </h1>
-              <p className="text-xs text-[#8087a3] flex items-center gap-1.5 mt-0.5">
+              <p className="text-xs text-[#8d8d96] flex items-center gap-1.5 mt-0.5">
                 <Database className="w-3 h-3" style={{ color: activeScheme.primary }} />
                 Offline CSV Analytics Panel
               </p>
-              <p className="text-[10px] text-[#8087a3]/60 mt-0.5">Drop any CSV — no server, no setup, no upload limits</p>
+              <p className="text-[10px] text-[#8d8d96]/60 mt-0.5">Drop any CSV — no server, no setup, no upload limits</p>
           </div>
         </div>
 
@@ -571,7 +571,7 @@ export default function Home() {
           <button 
             onClick={triggerFileSelect}
             className="flex items-center gap-2 px-2.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg text-black hover:scale-[1.01] hover:brightness-110 active:scale-95 transition-all shadow-md cursor-pointer"
-            style={{ backgroundImage: `linear-gradient(to right, ${activeScheme.primary}, ${activeScheme.secondary})` }}
+            style={{ backgroundColor: activeScheme.primary }}
           >
             <Upload className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Upload CSV File
@@ -579,9 +579,9 @@ export default function Home() {
           
           <button 
             onClick={loadDemo}
-            className="flex items-center gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#141527] border border-blue-900/30 hover:bg-[#1a1b37] transition-all"
+            className="flex items-center gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#18181c] border border-white/[0.07] hover:bg-[#212124] transition-all"
             style={{ color: activeScheme.primary }}
-            title="Load Acme sample sales dataset"
+            title="Load a sample sales dataset"
           >
             <RefreshCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             Demo Data
@@ -590,7 +590,7 @@ export default function Home() {
           <button 
             onClick={exportAsPNG}
             disabled={parsedData.rows.length === 0}
-            className="flex items-center gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#141527] border border-blue-900/30 text-[#f5f7fa] hover:bg-[#1a1b37] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="flex items-center gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#18181c] border border-white/[0.07] text-[#ededef] hover:bg-[#212124] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             title="Save dashboard container as PNG image"
           >
             <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -600,7 +600,7 @@ export default function Home() {
           <button 
             onClick={exportFilteredCSV}
             disabled={filteredRows.length === 0}
-            className="flex items-center gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#141527] border border-blue-900/30 text-[#f5f7fa] hover:bg-[#1a1b37] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            className="flex items-center gap-2 px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#18181c] border border-white/[0.07] text-[#ededef] hover:bg-[#212124] disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             title="Download currently filtered records as a CSV file"
           >
             <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -609,7 +609,7 @@ export default function Home() {
 
           <a 
             href={backUrl}
-            className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#0e0f1d] border border-white/5 text-[#8087a3] hover:text-[#f5f7fa] transition-all"
+            className="px-2.5 py-1.5 sm:px-3.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg bg-[#131316] border border-white/5 text-[#8d8d96] hover:text-[#ededef] transition-all"
           >
             Back to Portfolio
           </a>
@@ -620,14 +620,14 @@ export default function Home() {
       <div className="flex-1 flex flex-col lg:flex-row min-h-screen lg:min-h-0 lg:h-[calc(100vh-89px)] overflow-visible lg:overflow-hidden">
         
         {/* Left Sidebar Control Panel */}
-        <aside className="no-print w-full lg:w-[320px] shrink-0 border-r border-blue-950/30 bg-[#080914] p-6 flex flex-col gap-6 overflow-y-auto max-h-[50vh] lg:max-h-none">
+        <aside className="no-print w-full lg:w-[320px] shrink-0 border-r border-white/[0.05] bg-[#0c0c0f] p-6 flex flex-col gap-6 overflow-y-auto max-h-[50vh] lg:max-h-none">
           
           {/* Active File Metadata Badge */}
           <div className="p-4 rounded-xl glass-card flex items-center gap-3">
             <FileText className="w-8 h-8" style={{ color: activeScheme.secondary }} />
             <div className="overflow-hidden">
-              <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Active File</span>
-              <p className="text-sm font-bold text-[#f5f7fa] truncate" title={fileName}>{fileName}</p>
+              <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Active File</span>
+              <p className="text-sm font-bold text-[#ededef] truncate" title={fileName}>{fileName}</p>
               <span 
                 className="text-[10px] px-1.5 py-0.5 rounded font-mono mt-1 inline-block"
                 style={{ color: activeScheme.primary, backgroundColor: `${activeScheme.primary}1a` }}
@@ -647,44 +647,44 @@ export default function Home() {
             {parsedData.headers.length > 0 ? (
               <div className="space-y-3">
                 <div>
-                  <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">Date Column</label>
+                  <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">Date Column</label>
                   <select
                     value={dateCol}
                     onChange={(e) => setDateCol(e.target.value)}
-                    className="w-full bg-[#141527] border border-blue-900/30 text-sm text-[#f5f7fa] rounded-lg p-2 outline-none"
+                    className="w-full bg-[#18181c] border border-white/[0.07] text-sm text-[#ededef] rounded-lg p-2 outline-none"
                   >
                     {parsedData.headers.map(h => <option key={h} value={h}>{h}</option>)}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">Value (Revenue) Column</label>
+                  <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">Value (Revenue) Column</label>
                   <select
                     value={revenueCol}
                     onChange={(e) => setRevenueCol(e.target.value)}
-                    className="w-full bg-[#141527] border border-blue-900/30 text-sm text-[#f5f7fa] rounded-lg p-2 outline-none"
+                    className="w-full bg-[#18181c] border border-white/[0.07] text-sm text-[#ededef] rounded-lg p-2 outline-none"
                   >
                     {parsedData.headers.map(h => <option key={h} value={h}>{h}</option>)}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">Category Column</label>
+                  <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">Category Column</label>
                   <select
                     value={categoryCol}
                     onChange={(e) => setCategoryCol(e.target.value)}
-                    className="w-full bg-[#141427] border border-blue-900/30 text-sm text-[#f5f7fa] rounded-lg p-2 outline-none"
+                    className="w-full bg-[#19191c] border border-white/[0.07] text-sm text-[#ededef] rounded-lg p-2 outline-none"
                   >
                     {parsedData.headers.map(h => <option key={h} value={h}>{h}</option>)}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">Units / Qty Column</label>
+                  <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">Units / Qty Column</label>
                   <select
                     value={unitsCol}
                     onChange={(e) => setUnitsCol(e.target.value)}
-                    className="w-full bg-[#141527] border border-blue-900/30 text-sm text-[#f5f7fa] rounded-lg p-2 outline-none"
+                    className="w-full bg-[#18181c] border border-white/[0.07] text-sm text-[#ededef] rounded-lg p-2 outline-none"
                   >
                     <option value="">-- None (Disable) --</option>
                     {parsedData.headers.map(h => <option key={h} value={h}>{h}</option>)}
@@ -692,11 +692,11 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">Currency Symbol</label>
+                  <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">Currency Symbol</label>
                   <select
                     value={currencySymbol}
                     onChange={(e) => setCurrencySymbol(e.target.value)}
-                    className="w-full bg-[#141527] border border-blue-900/30 text-sm text-[#f5f7fa] rounded-lg p-2 outline-none"
+                    className="w-full bg-[#18181c] border border-white/[0.07] text-sm text-[#ededef] rounded-lg p-2 outline-none"
                   >
                     <option value="$">USD ($)</option>
                     <option value="₹">INR (₹)</option>
@@ -707,7 +707,7 @@ export default function Home() {
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-[#8087a3] italic">Upload a CSV file to configure layout mappings.</p>
+              <p className="text-xs text-[#8d8d96] italic">Upload a CSV file to configure layout mappings.</p>
             )}
           </div>
 
@@ -723,24 +723,24 @@ export default function Home() {
                 {/* Search query box */}
                 <div className="relative">
                   <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Search className="w-4 h-4 text-[#8087a3]" />
+                    <Search className="w-4 h-4 text-[#8d8d96]" />
                   </span>
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full bg-[#141527] border border-blue-900/30 text-sm text-[#f5f7fa] rounded-lg pl-9 pr-3 py-2.5 outline-none"
+                    className="w-full bg-[#18181c] border border-white/[0.07] text-sm text-[#ededef] rounded-lg pl-9 pr-3 py-2.5 outline-none"
                     placeholder="Search records..."
                   />
                 </div>
 
                 {/* Category Dropdown Filter */}
                 <div>
-                  <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">Category Filter</label>
+                  <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">Category Filter</label>
                   <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="w-full bg-[#141527] border border-blue-900/30 text-sm text-[#f5f7fa] rounded-lg p-2 outline-none"
+                    className="w-full bg-[#18181c] border border-white/[0.07] text-sm text-[#ededef] rounded-lg p-2 outline-none"
                   >
                     <option value="all">All Categories</option>
                     {categoriesList.map(cat => (
@@ -752,39 +752,39 @@ export default function Home() {
                 {/* Date Range Picker Filter */}
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">Start Date</label>
+                    <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">Start Date</label>
                     <input
                       type="date"
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      className="w-full bg-[#141527] border border-blue-900/30 text-xs text-[#f5f7fa] rounded-lg p-1.5 outline-none"
+                      className="w-full bg-[#18181c] border border-white/[0.07] text-xs text-[#ededef] rounded-lg p-1.5 outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">End Date</label>
+                    <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">End Date</label>
                     <input
                       type="date"
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      className="w-full bg-[#141527] border border-blue-900/30 text-xs text-[#f5f7fa] rounded-lg p-1.5 outline-none"
+                      className="w-full bg-[#18181c] border border-white/[0.07] text-xs text-[#ededef] rounded-lg p-1.5 outline-none"
                     />
                   </div>
                 </div>
 
                 {/* Minimum Revenue Threshold input */}
                 <div>
-                  <label className="block text-[10px] text-[#8087a3] uppercase font-bold mb-1.5">Min Revenue ({symbol})</label>
+                  <label className="block text-[10px] text-[#8d8d96] uppercase font-bold mb-1.5">Min Revenue ({symbol})</label>
                   <input
                     type="number"
                     value={minRevenue}
                     onChange={(e) => setMinRevenue(e.target.value)}
-                    className="w-full bg-[#141527] border border-blue-900/30 text-sm text-[#f5f7fa] rounded-lg p-2 outline-none"
+                    className="w-full bg-[#18181c] border border-white/[0.07] text-sm text-[#ededef] rounded-lg p-2 outline-none"
                     placeholder="e.g. 1000"
                   />
                 </div>
               </div>
             ) : (
-              <p className="text-xs text-[#8087a3] italic">Upload a CSV to unlock filter panel options.</p>
+              <p className="text-xs text-[#8d8d96] italic">Upload a CSV to unlock filter panel options.</p>
             )}
           </div>
 
@@ -801,11 +801,11 @@ export default function Home() {
                   onClick={() => setActiveScheme(scheme)}
                   className={`p-2 rounded-lg border text-[9px] font-semibold text-center transition-all cursor-pointer ${
                     activeScheme.name === scheme.name 
-                      ? "bg-[#141527]" 
-                      : "bg-[#0b0c16] border-white/5 hover:border-white/10"
+                      ? "bg-[#18181c]" 
+                      : "bg-[#0f0f12] border-white/5 hover:border-white/10"
                   }`}
                   style={{ 
-                    color: activeScheme.name === scheme.name ? scheme.primary : "#8087a3",
+                    color: activeScheme.name === scheme.name ? scheme.primary : "#8d8d96",
                     borderColor: activeScheme.name === scheme.name ? scheme.primary : "rgba(255, 255, 255, 0.05)"
                   }}
                 >
@@ -817,10 +817,10 @@ export default function Home() {
           </div>
 
           {/* Helper instructions tooltip note */}
-          <div className="mt-auto p-4.5 bg-[#0f1124] border border-blue-950/50 rounded-xl flex gap-3 text-xs text-[#8087a3]">
+          <div className="mt-auto p-4.5 bg-[#131316] border border-white/5 rounded-xl flex gap-3 text-xs text-[#8d8d96]">
             <HelpCircle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: activeScheme.primary }} />
             <div>
-              <p className="font-semibold text-[#f5f7fa] mb-0.5 font-sans">Quick Mapping Tip</p>
+              <p className="font-semibold text-[#ededef] mb-0.5 font-sans">Quick Mapping Tip</p>
               Map the columns of *any* sales CSV to dynamically re-render these charts instantly.
             </div>
           </div>
@@ -828,7 +828,7 @@ export default function Home() {
         </aside>
 
         {/* Main Dashboard Canvas & Tables Panel */}
-        <section className="flex-1 overflow-y-auto bg-[#050508] p-6 lg:p-8 flex flex-col gap-6" ref={dashboardRef}>
+        <section className="flex-1 overflow-y-auto bg-[#0a0a0b] p-6 lg:p-8 flex flex-col gap-6" ref={dashboardRef}>
           
           {/* Tabs Selector Navigation */}
           <div className="flex border-b border-white/5 gap-1.5 text-sm">
@@ -842,8 +842,8 @@ export default function Home() {
                 onClick={() => setActiveTab(tab.id as "overview" | "detailed" | "table")}
                 className={`py-2 px-4 rounded-t-lg font-semibold transition-all cursor-pointer ${
                   activeTab === tab.id 
-                    ? "bg-[#0b0c16] border-t border-x border-white/5" 
-                    : "text-[#8087a3] hover:text-[#f5f7fa]"
+                    ? "bg-[#0f0f12] border-t border-x border-white/5" 
+                    : "text-[#8d8d96] hover:text-[#ededef]"
                 }`}
                 style={activeTab === tab.id ? { color: activeScheme.primary, borderTopColor: activeScheme.primary } : {}}
               >
@@ -867,11 +867,11 @@ export default function Home() {
                       <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-3xl flex items-center justify-center" style={{ backgroundColor: `${activeScheme.primary}0d` }}>
                         <DollarSign className="w-6 h-6" style={{ color: activeScheme.primary }} />
                       </div>
-                      <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Total Revenue</span>
-                      <p className="text-2xl font-black text-[#f5f7fa] mt-1.5 truncate">
+                      <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Total Revenue</span>
+                      <p className="text-2xl font-black text-[#ededef] mt-1.5 truncate">
                         {symbol}{kpis.totalRevenue.toLocaleString("en-IN", { maximumFractionDigits: 0 })}
                       </p>
-                      <div className="flex items-center gap-1 mt-2 text-[10px] text-[#8087a3]">
+                      <div className="flex items-center gap-1 mt-2 text-[10px] text-[#8d8d96]">
                         <TrendingUp className="w-3 h-3" style={{ color: activeScheme.primary }} />
                         <span>Based on active filters</span>
                       </div>
@@ -882,25 +882,25 @@ export default function Home() {
                       <div className="absolute top-0 right-0 w-16 h-16 rounded-bl-3xl flex items-center justify-center" style={{ backgroundColor: `${activeScheme.secondary}0d` }}>
                         <TrendingUp className="w-6 h-6" style={{ color: activeScheme.secondary }} />
                       </div>
-                      <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Avg Transaction</span>
-                      <p className="text-2xl font-black text-[#f5f7fa] mt-1.5 truncate">
+                      <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Avg Transaction</span>
+                      <p className="text-2xl font-black text-[#ededef] mt-1.5 truncate">
                         {symbol}{kpis.aov.toLocaleString("en-IN", { maximumFractionDigits: 0 })}
                       </p>
-                      <div className="flex items-center gap-1 mt-2 text-[10px] text-[#8087a3]">
+                      <div className="flex items-center gap-1 mt-2 text-[10px] text-[#8d8d96]">
                         <span>AOV per transaction</span>
                       </div>
                     </div>
 
                     {/* KPI 3: Total Sales counts */}
                     <div className="p-5 rounded-2xl glass-panel relative overflow-hidden group hover:scale-[1.01] transition-all">
-                      <div className="absolute top-0 right-0 w-16 h-16 bg-[#ff5b94]/5 rounded-bl-3xl flex items-center justify-center">
-                        <ShoppingCart className="w-6 h-6 text-[#ff5b94]" />
+                      <div className="absolute top-0 right-0 w-16 h-16 bg-[#f0b37e]/5 rounded-bl-3xl flex items-center justify-center">
+                        <ShoppingCart className="w-6 h-6 text-[#f0b37e]" />
                       </div>
-                      <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Total Transactions</span>
-                      <p className="text-2xl font-black text-[#f5f7fa] mt-1.5">
+                      <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Total Transactions</span>
+                      <p className="text-2xl font-black text-[#ededef] mt-1.5">
                         {kpis.count.toLocaleString()}
                       </p>
-                      <div className="flex items-center gap-1 mt-2 text-[10px] text-[#8087a3]">
+                      <div className="flex items-center gap-1 mt-2 text-[10px] text-[#8d8d96]">
                         <span>Count of rows in dataset</span>
                       </div>
                     </div>
@@ -910,11 +910,11 @@ export default function Home() {
                       <div className="absolute top-0 right-0 w-16 h-16 bg-blue-500/5 rounded-bl-3xl flex items-center justify-center">
                         <Percent className="w-6 h-6 text-blue-400" />
                       </div>
-                      <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Max Transaction</span>
-                      <p className="text-2xl font-black text-[#f5f7fa] mt-1.5 truncate">
+                      <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Max Transaction</span>
+                      <p className="text-2xl font-black text-[#ededef] mt-1.5 truncate">
                         {symbol}{kpis.maxSale.toLocaleString("en-IN", { maximumFractionDigits: 0 })}
                       </p>
-                      <div className="flex items-center gap-1 mt-2 text-[10px] text-[#8087a3]">
+                      <div className="flex items-center gap-1 mt-2 text-[10px] text-[#8d8d96]">
                         <span>Highest ticket value</span>
                       </div>
                     </div>
@@ -932,22 +932,22 @@ export default function Home() {
                       <div className="space-y-4 text-xs">
                         
                         {/* Insight 1: Sales Velocity */}
-                        <div className="flex items-start gap-3 p-3 bg-[#0d0e1b]/40 border border-white/5 rounded-xl">
+                        <div className="flex items-start gap-3 p-3 bg-[#121215]/40 border border-white/5 rounded-xl">
                           <span className="w-2 h-2 rounded-full mt-1.5 shrink-0 animate-pulse" style={{ backgroundColor: activeScheme.primary }} />
                           <div>
                             <p className="font-semibold text-white">Sales Velocity Rate</p>
-                            <p className="text-[#8087a3] mt-0.5">
+                            <p className="text-[#8d8d96] mt-0.5">
                               Generating an average of <span className="font-semibold text-white">{symbol}{insights.velocity.toLocaleString("en-IN", { maximumFractionDigits: 0 })}/day</span> across the active transaction dates.
                             </p>
                           </div>
                         </div>
 
                         {/* Insight 2: Chronological Growth */}
-                        <div className="flex items-start gap-3 p-3 bg-[#0d0e1b]/40 border border-white/5 rounded-xl">
+                        <div className="flex items-start gap-3 p-3 bg-[#121215]/40 border border-white/5 rounded-xl">
                           <span className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${insights.growth >= 0 ? "bg-emerald-400" : "bg-red-400"}`} />
                           <div>
                             <p className="font-semibold text-white">Chronological Timeline Trend</p>
-                            <p className="text-[#8087a3] mt-0.5">
+                            <p className="text-[#8d8d96] mt-0.5">
                               {insights.growth !== 0 ? (
                                 <>
                                   Revenue shifted by <span className={`font-semibold ${insights.growth >= 0 ? "text-emerald-400" : "text-red-400"}`}>{insights.growth >= 0 ? "+" : ""}{insights.growth.toFixed(1)}%</span> when comparing the first half of the timeline to the second half.
@@ -960,22 +960,22 @@ export default function Home() {
                         </div>
 
                         {/* Insight 3: Dominance */}
-                        <div className="flex items-start gap-3 p-3 bg-[#0d0e1b]/40 border border-white/5 rounded-xl">
+                        <div className="flex items-start gap-3 p-3 bg-[#121215]/40 border border-white/5 rounded-xl">
                           <span className="w-2 h-2 rounded-full mt-1.5 shrink-0" style={{ backgroundColor: activeScheme.secondary }} />
                           <div>
                             <p className="font-semibold text-white">Category Concentration</p>
-                            <p className="text-[#8087a3] mt-0.5">
+                            <p className="text-[#8d8d96] mt-0.5">
                               The top performing category <span className="font-semibold text-white">&ldquo;{insights.topCategoryName}&rdquo;</span> is dominant, accounting for <span className="font-semibold text-white">{insights.topCategoryShare.toFixed(1)}%</span> of total aggregated revenue.
                             </p>
                           </div>
                         </div>
 
                         {/* Insight 4: Peak Weekday */}
-                        <div className="flex items-start gap-3 p-3 bg-[#0d0e1b]/40 border border-white/5 rounded-xl">
-                          <span className="w-2 h-2 rounded-full mt-1.5 shrink-0 bg-[#ff5b94]" />
+                        <div className="flex items-start gap-3 p-3 bg-[#121215]/40 border border-white/5 rounded-xl">
+                          <span className="w-2 h-2 rounded-full mt-1.5 shrink-0 bg-[#f0b37e]" />
                           <div>
                             <p className="font-semibold text-white">Peak Weekday Activity</p>
-                            <p className="text-[#8087a3] mt-0.5">
+                            <p className="text-[#8d8d96] mt-0.5">
                               The highest cumulative revenue is recorded on <span className="font-semibold text-white">{insights.peakWeekday}s</span>, indicating high transaction density on this day.
                             </p>
                           </div>
@@ -993,43 +993,43 @@ export default function Home() {
                       <div className="grid grid-cols-2 gap-4 h-full">
                         
                         {/* Median sale size */}
-                        <div className="p-4 bg-[#0d0e1b]/40 border border-white/5 rounded-xl flex flex-col justify-between">
-                          <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Median Sale Size</span>
+                        <div className="p-4 bg-[#121215]/40 border border-white/5 rounded-xl flex flex-col justify-between">
+                          <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Median Sale Size</span>
                           <p className="text-xl font-bold text-white mt-1">
                             {symbol}{insights.medianSale.toLocaleString("en-IN", { maximumFractionDigits: 0 })}
                           </p>
-                          <span className="text-[9px] text-[#8087a3] mt-2 block">Filters out extreme high/low skew</span>
+                          <span className="text-[9px] text-[#8d8d96] mt-2 block">Filters out extreme high/low skew</span>
                         </div>
 
                         {/* Units sold count */}
-                        <div className="p-4 bg-[#0d0e1b]/40 border border-white/5 rounded-xl flex flex-col justify-between">
-                          <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Total Units Sold</span>
+                        <div className="p-4 bg-[#121215]/40 border border-white/5 rounded-xl flex flex-col justify-between">
+                          <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Total Units Sold</span>
                           <p className="text-xl font-bold text-white mt-1">
                             {unitsCol ? insights.totalUnits.toLocaleString() : "N/A"}
                           </p>
-                          <span className="text-[9px] text-[#8087a3] mt-2 block">
+                          <span className="text-[9px] text-[#8d8d96] mt-2 block">
                             {unitsCol ? `Mapped to "${unitsCol}"` : "Map Units column to track count"}
                           </span>
                         </div>
 
                         {/* Avg unit price */}
-                        <div className="p-4 bg-[#0d0e1b]/40 border border-white/5 rounded-xl flex flex-col justify-between">
-                          <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Average Unit Price</span>
+                        <div className="p-4 bg-[#121215]/40 border border-white/5 rounded-xl flex flex-col justify-between">
+                          <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Average Unit Price</span>
                           <p className="text-xl font-bold text-white mt-1">
                             {unitsCol && insights.totalUnits > 0 
                               ? `${symbol}${insights.avgUnitPrice.toLocaleString("en-IN", { maximumFractionDigits: 1 })}` 
                               : "N/A"}
                           </p>
-                          <span className="text-[9px] text-[#8087a3] mt-2 block">Total revenue divided by units</span>
+                          <span className="text-[9px] text-[#8d8d96] mt-2 block">Total revenue divided by units</span>
                         </div>
 
                         {/* Data Quality Health */}
-                        <div className="p-4 bg-[#0d0e1b]/40 border border-white/5 rounded-xl flex flex-col justify-between">
-                          <span className="block text-[10px] text-[#8087a3] font-bold uppercase tracking-wider">Record Coverage</span>
+                        <div className="p-4 bg-[#121215]/40 border border-white/5 rounded-xl flex flex-col justify-between">
+                          <span className="block text-[10px] text-[#8d8d96] font-bold uppercase tracking-wider">Record Coverage</span>
                           <p className="text-xl font-bold text-emerald-400 mt-1">
                             100%
                           </p>
-                          <span className="text-[9px] text-[#8087a3] mt-2 block">{filteredRows.length} valid rows processed</span>
+                          <span className="text-[9px] text-[#8d8d96] mt-2 block">{filteredRows.length} valid rows processed</span>
                         </div>
 
                       </div>
@@ -1046,7 +1046,7 @@ export default function Home() {
                         <h3 className="text-sm font-bold uppercase tracking-wider" style={{ color: activeScheme.secondary }}>
                           Revenue Trend Over Time
                         </h3>
-                        <span className="text-[10px] text-[#8087a3] font-semibold bg-white/5 px-2 py-0.5 rounded">
+                        <span className="text-[10px] text-[#8d8d96] font-semibold bg-white/5 px-2 py-0.5 rounded">
                           Timeline Linegraph
                         </span>
                       </div>
@@ -1088,7 +1088,7 @@ export default function Home() {
                             </AreaChart>
                           </ResponsiveContainer>
                         ) : (
-                          <div className="h-full flex items-center justify-center text-[#8087a3] italic">No chart trend data available</div>
+                          <div className="h-full flex items-center justify-center text-[#8d8d96] italic">No chart trend data available</div>
                         )}
                       </div>
                     </div>
@@ -1099,7 +1099,7 @@ export default function Home() {
                         <h3 className="text-sm font-bold uppercase tracking-wider" style={{ color: activeScheme.primary }}>
                           Revenue Share
                         </h3>
-                        <span className="text-[10px] text-[#8087a3] font-semibold bg-white/5 px-2 py-0.5 rounded">
+                        <span className="text-[10px] text-[#8d8d96] font-semibold bg-white/5 px-2 py-0.5 rounded">
                           Pie Chart
                         </span>
                       </div>
@@ -1127,7 +1127,7 @@ export default function Home() {
                             </PieChart>
                           </ResponsiveContainer>
                         ) : (
-                          <div className="text-xs text-[#8087a3] italic">No chart data</div>
+                          <div className="text-xs text-[#8d8d96] italic">No chart data</div>
                         )}
                       </div>
 
@@ -1136,7 +1136,7 @@ export default function Home() {
                         {pieData.slice(0, 4).map((entry, index) => (
                           <div key={entry.name} className="flex items-center gap-1.5 overflow-hidden">
                             <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: COLORS[index % COLORS.length] }}></span>
-                            <span className="text-[#8087a3] truncate">{entry.name}</span>
+                            <span className="text-[#8d8d96] truncate">{entry.name}</span>
                           </div>
                         ))}
                       </div>
@@ -1179,7 +1179,7 @@ export default function Home() {
                           </BarChart>
                         </ResponsiveContainer>
                       ) : (
-                        <div className="h-full flex items-center justify-center text-[#8087a3] italic">No chart data</div>
+                        <div className="h-full flex items-center justify-center text-[#8d8d96] italic">No chart data</div>
                       )}
                     </div>
                   </div>
@@ -1201,7 +1201,7 @@ export default function Home() {
                         .sort((a, b) => b.rev - a.rev)
                         .slice(0, 8)
                         .map((t, idx) => (
-                          <div key={idx} className="p-3 bg-[#111222]/50 border border-white/5 rounded-xl flex items-center justify-between">
+                          <div key={idx} className="p-3 bg-[#161619]/50 border border-white/5 rounded-xl flex items-center justify-between">
                             <div className="flex items-center gap-3">
                               <span 
                                 className="w-6 h-6 rounded-md flex items-center justify-center text-xs font-bold"
@@ -1210,8 +1210,8 @@ export default function Home() {
                                 #{idx + 1}
                               </span>
                               <div>
-                                <h4 className="text-xs font-bold text-[#f5f7fa]">{t.cat}</h4>
-                                <span className="text-[9px] text-[#8087a3]">{t.date}</span>
+                                <h4 className="text-xs font-bold text-[#ededef]">{t.cat}</h4>
+                                <span className="text-[9px] text-[#8d8d96]">{t.date}</span>
                               </div>
                             </div>
                             <span className="text-xs font-bold font-mono" style={{ color: activeScheme.primary }}>
@@ -1221,7 +1221,7 @@ export default function Home() {
                         ))}
                       
                       {filteredRows.length === 0 && (
-                        <p className="text-xs text-[#8087a3] text-center italic py-12">No records found.</p>
+                        <p className="text-xs text-[#8d8d96] text-center italic py-12">No records found.</p>
                       )}
                     </div>
                   </div>
@@ -1235,7 +1235,7 @@ export default function Home() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-left text-xs border-collapse">
                       <thead>
-                        <tr className="border-b border-white/5 text-[#8087a3] uppercase font-bold tracking-wider text-[10px]">
+                        <tr className="border-b border-white/5 text-[#8d8d96] uppercase font-bold tracking-wider text-[10px]">
                           <th className="py-3 px-4 w-12">#</th>
                           {parsedData.headers.map(h => (
                             <th key={h} className="py-3 px-4">{h}</th>
@@ -1244,8 +1244,8 @@ export default function Home() {
                       </thead>
                       <tbody className="divide-y divide-white/5">
                         {paginatedRows.map((row, idx) => (
-                          <tr key={idx} className="hover:bg-[#121326]/30 transition-all">
-                            <td className="py-3.5 px-4 font-mono text-[#8087a3]">
+                          <tr key={idx} className="hover:bg-[#18181b]/30 transition-all">
+                            <td className="py-3.5 px-4 font-mono text-[#8d8d96]">
                               {(currentPage - 1) * itemsPerPage + idx + 1}
                             </td>
                             {parsedData.headers.map(h => {
@@ -1268,7 +1268,7 @@ export default function Home() {
                         ))}
                         {filteredRows.length === 0 && (
                           <tr>
-                            <td colSpan={parsedData.headers.length + 1} className="py-12 text-center text-[#8087a3] italic">
+                            <td colSpan={parsedData.headers.length + 1} className="py-12 text-center text-[#8d8d96] italic">
                               No records found matching current filter thresholds.
                             </td>
                           </tr>
@@ -1279,7 +1279,7 @@ export default function Home() {
 
                   {/* Pagination Footer */}
                   {totalPages > 1 && (
-                    <div className="flex items-center justify-between pt-4 border-t border-white/5 text-[10px] sm:text-xs text-[#8087a3]">
+                    <div className="flex items-center justify-between pt-4 border-t border-white/5 text-[10px] sm:text-xs text-[#8d8d96]">
                       <span>
                         Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredRows.length)} of {filteredRows.length} records
                       </span>
@@ -1287,17 +1287,17 @@ export default function Home() {
                         <button
                           disabled={currentPage === 1}
                           onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                          className="p-1.5 rounded-md bg-[#141527] border border-blue-900/30 text-[#f5f7fa] disabled:opacity-50 hover:bg-[#1f2038] transition-all"
+                          className="p-1.5 rounded-md bg-[#18181c] border border-white/[0.07] text-[#ededef] disabled:opacity-50 hover:bg-[#252528] transition-all"
                         >
                           <ChevronLeft className="w-4 h-4" />
                         </button>
-                        <span className="font-semibold text-[#f5f7fa]">
+                        <span className="font-semibold text-[#ededef]">
                           Page {currentPage} of {totalPages}
                         </span>
                         <button
                           disabled={currentPage === totalPages}
                           onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                          className="p-1.5 rounded-md bg-[#141527] border border-blue-900/30 text-[#f5f7fa] disabled:opacity-50 hover:bg-[#1f2038] transition-all"
+                          className="p-1.5 rounded-md bg-[#18181c] border border-white/[0.07] text-[#ededef] disabled:opacity-50 hover:bg-[#252528] transition-all"
                         >
                           <ChevronRight className="w-4 h-4" />
                         </button>
@@ -1311,23 +1311,23 @@ export default function Home() {
             </div>
           ) : (
             // Empty Upload Prompt Page
-            <div className="flex-1 flex flex-col items-center justify-center py-20 px-6 text-center border-2 border-dashed border-blue-900/10 rounded-2xl bg-[#090a18]/20">
+            <div className="flex-1 flex flex-col items-center justify-center py-20 px-6 text-center border-2 border-dashed border-white/[0.07] rounded-2xl bg-[#0e0e11]/20">
               <Upload className="w-12 h-12 mb-4 animate-bounce" style={{ color: activeScheme.secondary }} />
-              <h2 className="text-lg font-bold text-[#f5f7fa]">No CSV File Uploaded</h2>
-              <p className="text-sm text-[#8087a3] max-w-sm mt-1.5">
+              <h2 className="text-lg font-bold text-[#ededef]">No CSV File Uploaded</h2>
+              <p className="text-sm text-[#8d8d96] max-w-sm mt-1.5">
                 Upload any sales or transaction record CSV file to generate charts and metrics dashboard locally.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mt-6">
                 <button
                   onClick={triggerFileSelect}
                   className="px-5 py-2.5 text-black font-bold rounded-lg text-sm hover:scale-[1.02] transition-all cursor-pointer"
-                  style={{ backgroundImage: `linear-gradient(to right, ${activeScheme.primary}, ${activeScheme.secondary})` }}
+                  style={{ backgroundColor: activeScheme.primary }}
                 >
                   Upload CSV File
                 </button>
                 <button
                   onClick={loadDemo}
-                  className="px-5 py-2.5 bg-[#141527] border border-blue-900/40 font-bold rounded-lg text-sm hover:bg-[#1b1c35] transition-all cursor-pointer"
+                  className="px-5 py-2.5 bg-[#18181c] border border-white/[0.07] font-bold rounded-lg text-sm hover:bg-[#212124] transition-all cursor-pointer"
                   style={{ color: activeScheme.primary }}
                 >
                   Load Demo Sales Data

@@ -69,10 +69,10 @@ const initialData: DocumentData = {
   companyEmail: "hello@redevops.in",
   companyPhone: "+91 8734000403",
   companyAddress: "Ahmedabad, India · Remote",
-  clientName: "Acme Corporation",
-  clientEmail: "billing@acme.com",
-  clientPhone: "+1 (555) 019-2834",
-  clientAddress: "123 Business Rd, Suite 100\nSan Francisco, CA 94107",
+  clientName: "Hoppers Brewing Co.",
+  clientEmail: "accounts@hoppersbrewing.in",
+  clientPhone: "+91 98450 21764",
+  clientAddress: "14, 100 Feet Road, Indiranagar\nBengaluru, KA 560038",
   docNumber: "INV-2026-001",
   docDate: new Date().toISOString().split("T")[0],
   docDueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
@@ -127,7 +127,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
       if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
-        setBackUrl("https://redevops.in/#project-proposal-forge");
+        setBackUrl("https://redevops.in/#work");
       }
     }
   }, []);
@@ -462,7 +462,7 @@ export default function Home() {
         {/* Sidebar Header */}
         <div className="p-6 border-b border-[#221e12]/30 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#aa7c11] to-[#f3e5ab] flex items-center justify-center font-bold text-[#0a0a0a]" style={accentBackground}>
+            <span className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#aa7c11] to-[#f3e5ab] flex items-center justify-center font-bold text-[#0a0a0b]" style={accentBackground}>
               PF
             </span>
             <h1 className="text-xl font-bold bg-gradient-to-r from-[#f3e5ab] via-[#d4af37] to-[#aa7c11] bg-clip-text text-transparent">
@@ -518,14 +518,14 @@ export default function Home() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => createNewDoc("invoice")}
-                      className="text-[10px] bg-[#d4af37] text-[#0a0a0a] font-bold px-2.5 py-1 rounded hover:bg-white transition-all"
+                      className="text-[10px] bg-[#d4af37] text-[#0a0a0b] font-bold px-2.5 py-1 rounded hover:bg-white transition-all"
                       style={accentBackground}
                     >
                       + Invoice
                     </button>
                     <button
                       onClick={() => createNewDoc("proposal")}
-                      className="text-[10px] bg-[#d4af37] text-[#0a0a0a] font-bold px-2.5 py-1 rounded hover:bg-white transition-all"
+                      className="text-[10px] bg-[#d4af37] text-[#0a0a0b] font-bold px-2.5 py-1 rounded hover:bg-white transition-all"
                       style={accentBackground}
                     >
                       + Proposal
@@ -538,7 +538,7 @@ export default function Home() {
                   <select
                     value={data.id}
                     onChange={(e) => loadDocument(e.target.value)}
-                    className="w-full bg-[#0a0a0a] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                    className="w-full bg-[#0a0a0b] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
                   >
                     {docList.map((doc) => (
                       <option key={doc.id} value={doc.id}>
@@ -560,7 +560,7 @@ export default function Home() {
                       };
                       setData(dupDoc);
                     }}
-                    className="flex-1 py-1.5 bg-[#0a0a0a] border border-[#221e12]/30 text-xs font-semibold rounded text-[#a0a0a0] hover:text-[#f5f5f5] transition-all"
+                    className="flex-1 py-1.5 bg-[#0a0a0b] border border-[#221e12]/30 text-xs font-semibold rounded text-[#a0a0a0] hover:text-[#f5f5f5] transition-all"
                   >
                     Duplicate Draft
                   </button>
@@ -628,7 +628,7 @@ export default function Home() {
                         title={preset.name}
                       >
                         {data.accentColor === preset.value && (
-                          <span className="absolute inset-0 flex items-center justify-center text-[10px] text-[#0a0a0a] font-bold">✓</span>
+                          <span className="absolute inset-0 flex items-center justify-center text-[10px] text-[#0a0a0b] font-bold">✓</span>
                         )}
                       </button>
                     ))}
@@ -849,7 +849,7 @@ export default function Home() {
                       {/* Canvas Drawing option */}
                       <div className="space-y-2">
                         <label className="block text-[9px] font-semibold text-[#808080] uppercase">Option B: Draw Signature on Pad</label>
-                        <div ref={canvasContainerRef} className="bg-[#0a0a0a] border border-[#221e12]/30 rounded-lg p-2.5 flex flex-col items-center">
+                        <div ref={canvasContainerRef} className="bg-[#0a0a0b] border border-[#221e12]/30 rounded-lg p-2.5 flex flex-col items-center">
                           <canvas
                             ref={canvasRef}
                             width={canvasWidth}
@@ -872,7 +872,7 @@ export default function Home() {
                             </button>
                             <button
                               onClick={saveSignature}
-                              className="px-3 py-1 bg-[#d4af37] text-[#0a0a0a] font-bold rounded hover:bg-white transition-all"
+                              className="px-3 py-1 bg-[#d4af37] text-[#0a0a0b] font-bold rounded hover:bg-white transition-all"
                               style={accentBackground}
                             >
                               Save Signature
@@ -919,7 +919,7 @@ export default function Home() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center border-b border-[#221e12]/20 pb-2">
                     <h3 className="text-xs font-bold uppercase tracking-wider text-[#d4af37]" style={accentText}>Line Items</h3>
-                    <button onClick={addItem} className="text-xs bg-[#d4af37] text-[#0a0a0a] font-bold px-3 py-1.5 rounded-lg hover:bg-white transition-all flex items-center gap-1" style={accentBackground}>
+                    <button onClick={addItem} className="text-xs bg-[#d4af37] text-[#0a0a0b] font-bold px-3 py-1.5 rounded-lg hover:bg-white transition-all flex items-center gap-1" style={accentBackground}>
                       Add Line Item
                     </button>
                   </div>
@@ -935,7 +935,7 @@ export default function Home() {
                             type="text"
                             value={item.description}
                             onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                            className="w-full bg-[#0a0a0a] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
+                            className="w-full bg-[#0a0a0b] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
                             placeholder="Description"
                           />
                         </div>
@@ -946,7 +946,7 @@ export default function Home() {
                               type="number"
                               value={item.quantity}
                               onChange={(e) => updateItem(item.id, "quantity", Number(e.target.value))}
-                              className="w-full bg-[#0a0a0a] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
+                              className="w-full bg-[#0a0a0b] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
                             />
                           </div>
                           <div>
@@ -955,7 +955,7 @@ export default function Home() {
                               type="number"
                               value={item.price}
                               onChange={(e) => updateItem(item.id, "price", Number(e.target.value))}
-                              className="w-full bg-[#0a0a0a] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
+                              className="w-full bg-[#0a0a0b] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
                             />
                           </div>
                         </div>
@@ -1055,7 +1055,7 @@ export default function Home() {
                               const updated = data.taxes.map(t => t.id === tax.id ? { ...t, rate: Number(e.target.value) } : t);
                               setData(prev => ({ ...prev, taxes: updated }));
                             }}
-                            className="w-20 bg-[#0a0a0a] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1 focus:border-[#d4af37] outline-none"
+                            className="w-20 bg-[#0a0a0b] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1 focus:border-[#d4af37] outline-none"
                           />
                         </div>
                       )}
@@ -1089,10 +1089,10 @@ export default function Home() {
         </div>
 
         {/* Action Controls Footer */}
-        <div className="p-6 border-t border-[#221e12]/30 bg-[#0a0a0a] space-y-3">
+        <div className="p-6 border-t border-[#221e12]/30 bg-[#0a0a0b] space-y-3">
           <button
             onClick={handlePrint}
-            className="w-full py-3 bg-gradient-to-r from-[#aa7c11] via-[#d4af37] to-[#f3e5ab] text-[#0a0a0a] font-bold rounded-lg shadow-lg hover:shadow-[#d4af37]/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 bg-gradient-to-r from-[#aa7c11] via-[#d4af37] to-[#f3e5ab] text-[#0a0a0b] font-bold rounded-lg shadow-lg hover:shadow-[#d4af37]/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
             style={accentBackground}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>

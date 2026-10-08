@@ -159,7 +159,7 @@ function hexToRgba(hex: string, alpha: number) {
 
 function getTextColor(hex: string) {
   const { r, g, b } = hexToRgb(hex);
-  return (r * 0.299 + g * 0.587 + b * 0.114) > 140 ? "#0a0a0a" : "#ffffff";
+  return (r * 0.299 + g * 0.587 + b * 0.114) > 140 ? "#0a0a0b" : "#ffffff";
 }
 
 function luminance(hex: string) {
@@ -196,16 +196,16 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
       if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
-        setBackUrl("https://redevops.in/#project-brandkit-studio");
+        setBackUrl("https://redevops.in/#work");
       }
     }
   }, []);
 
   const [tab, setTab] = useState<Tab>("palette");
-  const [baseColor, setBaseColor] = useState("#6366f1");
+  const [baseColor, setBaseColor] = useState("#e2725b");
   const [harmony, setHarmony] = useState<Harmony>("monochromatic");
-  const [gradColor1, setGradColor1] = useState("#0ad3ff");
-  const [gradColor2, setGradColor2] = useState("#9b6dff");
+  const [gradColor1, setGradColor1] = useState("#d4f56b");
+  const [gradColor2, setGradColor2] = useState("#f0b37e");
   const [gradDir, setGradDir] = useState<GradientDir>("to right");
   const [fontIdx, setFontIdx] = useState(0);
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null);
@@ -236,15 +236,15 @@ export default function Home() {
     setTimeout(() => setCopiedPalette(false), 2000);
   }, [palette, harmony, baseColor]);
 
-  const bg = darkMode ? "#050508" : "#f5f7fa";
-  const fg = darkMode ? "#f5f7fa" : "#0a0a0a";
-  const cardBg = darkMode ? "rgba(14,15,29,0.65)" : "rgba(255,255,255,0.8)";
+  const bg = darkMode ? "#0a0a0b" : "#ededef";
+  const fg = darkMode ? "#ededef" : "#0a0a0b";
+  const cardBg = darkMode ? "rgba(19, 19, 22,0.65)" : "rgba(255,255,255,0.8)";
   const borderClr = darkMode ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)";
 
   return (
     <main className="min-h-screen" style={{ backgroundColor: bg, color: fg }}>
       <div className="fixed inset-0 pointer-events-none">
-        <div className={`absolute inset-0 bg-[radial-gradient(ellipse_at_top,_${darkMode ? 'rgba(10,211,255,0.05)' : 'rgba(99,102,241,0.04)'}_0%,_transparent_60%)]`} />
+        <div className={`absolute inset-0 bg-[radial-gradient(ellipse_at_top,_${darkMode ? 'rgba(212, 245, 107,0.05)' : 'rgba(77,107,15,0.04)'}_0%,_transparent_60%)]`} />
         <div className="absolute inset-0 opacity-[0.012]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
       </div>
 
@@ -252,19 +252,19 @@ export default function Home() {
         {/* Header */}
         <header className="flex items-center justify-between mb-8 no-print">
           <div className="flex items-center gap-3">
-            <a href={backUrl} className="p-2 rounded-lg" style={{ backgroundColor: darkMode ? "#141527" : "#f0f0f5", border: `1px solid ${borderClr}`, color: darkMode ? "#8087a3" : "#666" }} title="Back to Portfolio">
+            <a href={backUrl} className="p-2 rounded-lg" style={{ backgroundColor: darkMode ? "#18181c" : "#f0f0f5", border: `1px solid ${borderClr}`, color: darkMode ? "#8d8d96" : "#666" }} title="Back to Portfolio">
               <ArrowLeft size={16} />
             </a>
             <div>
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-400 via-purple-500 to-cyan-400 flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-9 h-9 rounded-xl bg-[#d4f56b] flex items-center justify-center text-[#0b0d04] font-bold text-sm">
                   BK
                 </div>
-                <h1 className="text-lg font-bold bg-gradient-to-r from-pink-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
+                <h1 className="text-lg font-semibold tracking-tight">
                   BrandKit Studio
                 </h1>
               </div>
-              <p className="text-[11px] mt-0.5 flex items-center gap-1.5" style={{ color: darkMode ? "#8087a3" : "#888" }}>
+              <p className="text-[11px] mt-0.5 flex items-center gap-1.5" style={{ color: darkMode ? "#8d8d96" : "#888" }}>
                 <Sparkles size={11} className="text-purple-400" />
                 Brand identity toolkit
               </p>
@@ -273,22 +273,22 @@ export default function Home() {
           <button
             onClick={() => setDarkMode(!darkMode)}
             className="p-2 rounded-lg transition-all"
-            style={{ backgroundColor: darkMode ? "#141527" : "#f0f0f5", border: `1px solid ${borderClr}`, color: darkMode ? "#8087a3" : "#666" }}
+            style={{ backgroundColor: darkMode ? "#18181c" : "#f0f0f5", border: `1px solid ${borderClr}`, color: darkMode ? "#8d8d96" : "#666" }}
           >
             {darkMode ? <Sun size={15} /> : <Moon size={15} />}
           </button>
         </header>
 
         {/* Tabs */}
-        <div className="flex gap-1 p-1 rounded-xl mb-8 overflow-x-auto no-print" style={{ backgroundColor: darkMode ? "rgba(14,15,29,0.5)" : "rgba(0,0,0,0.04)", border: `1px solid ${borderClr}` }}>
+        <div className="flex gap-1 p-1 rounded-xl mb-8 overflow-x-auto no-print" style={{ backgroundColor: darkMode ? "rgba(19, 19, 22,0.5)" : "rgba(0,0,0,0.04)", border: `1px solid ${borderClr}` }}>
           {TABS.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${tab === t.key ? "shadow-sm" : ""}`}
               style={{
-                backgroundColor: tab === t.key ? (darkMode ? "rgba(99,102,241,0.15)" : "white") : "transparent",
-                color: tab === t.key ? (darkMode ? "#0ad3ff" : "#6366f1") : (darkMode ? "#8087a3" : "#888"),
+                backgroundColor: tab === t.key ? (darkMode ? "rgba(212,245,107,0.12)" : "white") : "transparent",
+                color: tab === t.key ? (darkMode ? "#d4f56b" : "#4d6b0f") : (darkMode ? "#8d8d96" : "#888"),
               }}
             >
               {t.icon} {t.label}
@@ -301,7 +301,7 @@ export default function Home() {
           <div className="space-y-6 animate-fade-up">
             <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: cardBg, border: `1px solid ${borderClr}` }}>
               <h2 className="text-base font-bold mb-1">Color Palette</h2>
-              <p className="text-xs mb-6" style={{ color: darkMode ? "#8087a3" : "#888" }}>Pick a base color and harmony type to generate a balanced palette.</p>
+              <p className="text-xs mb-6" style={{ color: darkMode ? "#8d8d96" : "#888" }}>Pick a base color and harmony type to generate a balanced palette.</p>
 
               <div className="flex flex-col sm:flex-row gap-6 mb-8">
                 <div className="flex items-center gap-4">
@@ -317,7 +317,7 @@ export default function Home() {
                   </div>
                   <div>
                     <div className="text-sm font-mono font-bold">{baseColor}</div>
-                    <div className="text-xs mt-0.5" style={{ color: darkMode ? "#8087a3" : "#888" }}>
+                    <div className="text-xs mt-0.5" style={{ color: darkMode ? "#8d8d96" : "#888" }}>
                       {hexToRgb(baseColor).r}, {hexToRgb(baseColor).g}, {hexToRgb(baseColor).b}
                     </div>
                   </div>
@@ -330,9 +330,9 @@ export default function Home() {
                       onClick={() => setHarmony(h.key)}
                       className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                       style={{
-                        backgroundColor: harmony === h.key ? (darkMode ? "rgba(99,102,241,0.15)" : "rgba(99,102,241,0.1)") : "transparent",
-                        color: harmony === h.key ? (darkMode ? "#0ad3ff" : "#6366f1") : (darkMode ? "#8087a3" : "#888"),
-                        border: `1px solid ${harmony === h.key ? (darkMode ? "rgba(10,211,255,0.2)" : "rgba(99,102,241,0.2)") : "transparent"}`,
+                        backgroundColor: harmony === h.key ? (darkMode ? "rgba(212,245,107,0.12)" : "rgba(77,107,15,0.08)") : "transparent",
+                        color: harmony === h.key ? (darkMode ? "#d4f56b" : "#4d6b0f") : (darkMode ? "#8d8d96" : "#888"),
+                        border: `1px solid ${harmony === h.key ? (darkMode ? "rgba(212, 245, 107,0.2)" : "rgba(99,102,241,0.2)") : "transparent"}`,
                       }}
                     >
                       {h.label}
@@ -359,17 +359,17 @@ export default function Home() {
               </div>
 
               <div className="mt-6 p-4 rounded-xl overflow-x-auto" style={{ backgroundColor: darkMode ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.02)" }}>
-                <div className="text-xs font-medium mb-2 flex items-center gap-2" style={{ color: darkMode ? "#8087a3" : "#888" }}><Grid3X3 size={12} />Contrast Matrix</div>
+                <div className="text-xs font-medium mb-2 flex items-center gap-2" style={{ color: darkMode ? "#8d8d96" : "#888" }}><Grid3X3 size={12} />Contrast Matrix</div>
                 <div className="grid grid-cols-6 gap-1 text-[10px] font-mono min-w-[300px]">
                   <div />
-                  {palette.map((c, i) => <div key={i} className="text-center font-bold" style={{ color: darkMode ? "#8087a3" : "#888" }}>{i + 1}</div>)}
+                  {palette.map((c, i) => <div key={i} className="text-center font-bold" style={{ color: darkMode ? "#8d8d96" : "#888" }}>{i + 1}</div>)}
                   {palette.map((c, i) => (
                     <>
-                      <div className="font-bold" style={{ color: darkMode ? "#8087a3" : "#888" }}>{i + 1}</div>
+                      <div className="font-bold" style={{ color: darkMode ? "#8d8d96" : "#888" }}>{i + 1}</div>
                       {palette.map((d, j) => (
                         <div key={j} className="text-center px-1 py-0.5 rounded" style={{
                           backgroundColor: i === j ? (darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)") : "transparent",
-                          color: i === j ? (darkMode ? "#555" : "#bbb") : (darkMode ? "#8087a3" : "#666"),
+                          color: i === j ? (darkMode ? "#555" : "#bbb") : (darkMode ? "#8d8d96" : "#666"),
                         }}>
                           {i === j ? "-" : contrastRatio(c, d)}
                         </div>
@@ -387,7 +387,7 @@ export default function Home() {
           <div className="space-y-6 animate-fade-up">
             <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: cardBg, border: `1px solid ${borderClr}` }}>
               <h2 className="text-base font-bold mb-1">Gradient Generator</h2>
-              <p className="text-xs mb-6" style={{ color: darkMode ? "#8087a3" : "#888" }}>Create smooth gradients from two colors.</p>
+              <p className="text-xs mb-6" style={{ color: darkMode ? "#8d8d96" : "#888" }}>Create smooth gradients from two colors.</p>
 
               <div className="flex flex-col sm:flex-row gap-6 mb-6">
                 <div className="flex items-center gap-4">
@@ -408,7 +408,7 @@ export default function Home() {
                   ))}
                   <button
                     onClick={() => { const t = gradColor1; setGradColor1(gradColor2); setGradColor2(t); }}
-                    className="p-2 rounded-lg transition-all" style={{ backgroundColor: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", color: darkMode ? "#8087a3" : "#888" }}
+                    className="p-2 rounded-lg transition-all" style={{ backgroundColor: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", color: darkMode ? "#8d8d96" : "#888" }}
                   >
                     <RefreshCw size={14} />
                   </button>
@@ -420,9 +420,9 @@ export default function Home() {
                       onClick={() => setGradDir(d)}
                       className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                       style={{
-                        backgroundColor: gradDir === d ? (darkMode ? "rgba(99,102,241,0.15)" : "rgba(99,102,241,0.1)") : "transparent",
-                        color: gradDir === d ? (darkMode ? "#0ad3ff" : "#6366f1") : (darkMode ? "#8087a3" : "#888"),
-                        border: `1px solid ${gradDir === d ? (darkMode ? "rgba(10,211,255,0.2)" : "rgba(99,102,241,0.2)") : "transparent"}`,
+                        backgroundColor: gradDir === d ? (darkMode ? "rgba(212,245,107,0.12)" : "rgba(77,107,15,0.08)") : "transparent",
+                        color: gradDir === d ? (darkMode ? "#d4f56b" : "#4d6b0f") : (darkMode ? "#8d8d96" : "#888"),
+                        border: `1px solid ${gradDir === d ? (darkMode ? "rgba(212, 245, 107,0.2)" : "rgba(99,102,241,0.2)") : "transparent"}`,
                       }}
                     >
                       {d.replace("to ", "→ ")}
@@ -439,7 +439,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => { copyToClipboard(`background: linear-gradient(${gradDir}, ${gradColor1}, ${gradColor2});`); setCopiedCss(true); setTimeout(() => setCopiedCss(false), 1500); }}
-                  className="px-4 py-2 rounded-lg text-xs font-semibold transition-all" style={{ backgroundColor: darkMode ? "rgba(99,102,241,0.15)" : "rgba(99,102,241,0.1)", color: darkMode ? "#0ad3ff" : "#6366f1" }}
+                  className="px-4 py-2 rounded-lg text-xs font-semibold transition-all" style={{ backgroundColor: darkMode ? "rgba(212,245,107,0.12)" : "rgba(77,107,15,0.08)", color: darkMode ? "#d4f56b" : "#4d6b0f" }}
                 >
                   {copiedCss ? "Copied!" : "Copy CSS"}
                 </button>
@@ -453,7 +453,7 @@ export default function Home() {
           <div className="space-y-6 animate-fade-up">
             <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: cardBg, border: `1px solid ${borderClr}` }}>
               <h2 className="text-base font-bold mb-1">Font Pairings</h2>
-              <p className="text-xs mb-6" style={{ color: darkMode ? "#8087a3" : "#888" }}>Curated font combinations for your brand.</p>
+              <p className="text-xs mb-6" style={{ color: darkMode ? "#8d8d96" : "#888" }}>Curated font combinations for your brand.</p>
 
               <div className="flex flex-wrap gap-1.5 mb-8">
                 {FONT_PAIRS.map((_, i) => (
@@ -462,9 +462,9 @@ export default function Home() {
                     onClick={() => setFontIdx(i)}
                     className="px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
                     style={{
-                      backgroundColor: fontIdx === i ? (darkMode ? "rgba(99,102,241,0.15)" : "rgba(99,102,241,0.1)") : "transparent",
-                      color: fontIdx === i ? (darkMode ? "#0ad3ff" : "#6366f1") : (darkMode ? "#8087a3" : "#888"),
-                      border: `1px solid ${fontIdx === i ? (darkMode ? "rgba(10,211,255,0.2)" : "rgba(99,102,241,0.2)") : "transparent"}`,
+                      backgroundColor: fontIdx === i ? (darkMode ? "rgba(212,245,107,0.12)" : "rgba(77,107,15,0.08)") : "transparent",
+                      color: fontIdx === i ? (darkMode ? "#d4f56b" : "#4d6b0f") : (darkMode ? "#8d8d96" : "#888"),
+                      border: `1px solid ${fontIdx === i ? (darkMode ? "rgba(212, 245, 107,0.2)" : "rgba(99,102,241,0.2)") : "transparent"}`,
                     }}
                   >
                     {FONT_PAIRS[i].heading} + {FONT_PAIRS[i].body}
@@ -481,14 +481,14 @@ export default function Home() {
                     onChange={(e) => setPreviewText(e.target.value)}
                     className="w-full bg-transparent text-2xl font-bold outline-none border-b" style={{ borderColor: borderClr, fontFamily: FONT_PAIRS[fontIdx].hClass === "font-serif" ? "Georgia, serif" : "Inter, system-ui, sans-serif" }}
                   />
-                  <div className="text-xs mt-2" style={{ color: darkMode ? "#8087a3" : "#888" }}>{FONT_PAIRS[fontIdx].heading}</div>
+                  <div className="text-xs mt-2" style={{ color: darkMode ? "#8d8d96" : "#888" }}>{FONT_PAIRS[fontIdx].heading}</div>
                 </div>
                 <div className="p-6 rounded-xl" style={{ backgroundColor: darkMode ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.02)" }}>
                   <div className="text-[10px] uppercase tracking-wider mb-3" style={{ color: darkMode ? "#555" : "#aaa" }}>Body</div>
                   <p className="text-sm leading-relaxed" style={{ fontFamily: FONT_PAIRS[fontIdx].bClass === "font-serif" ? "Georgia, serif" : "Inter, system-ui, sans-serif" }}>
                     {previewText || "BrandKit Studio"} is a brand identity toolkit for designers and developers. Generate cohesive color palettes, gradients, and typography systems in seconds.
                   </p>
-                  <div className="text-xs mt-2" style={{ color: darkMode ? "#8087a3" : "#888" }}>{FONT_PAIRS[fontIdx].body}</div>
+                  <div className="text-xs mt-2" style={{ color: darkMode ? "#8d8d96" : "#888" }}>{FONT_PAIRS[fontIdx].body}</div>
                 </div>
               </div>
             </div>
@@ -500,7 +500,7 @@ export default function Home() {
           <div className="space-y-6 animate-fade-up">
             <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: cardBg, border: `1px solid ${borderClr}` }}>
               <h2 className="text-base font-bold mb-1">Brand Preview</h2>
-              <p className="text-xs mb-6" style={{ color: darkMode ? "#8087a3" : "#888" }}>See your brand identity applied to real-world materials.</p>
+              <p className="text-xs mb-6" style={{ color: darkMode ? "#8d8d96" : "#888" }}>See your brand identity applied to real-world materials.</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                 {/* Business Card */}
@@ -548,24 +548,24 @@ export default function Home() {
                       <div className="text-[10px] py-1 px-3 rounded-md text-center" style={{ backgroundColor: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", color: darkMode ? "#555" : "#aaa" }}>brand.preview</div>
                     </div>
                   </div>
-                  <div className="p-6 sm:p-8" style={{ backgroundColor: darkMode ? "#050508" : "white" }}>
+                  <div className="p-6 sm:p-8" style={{ backgroundColor: darkMode ? "#0a0a0b" : "white" }}>
                     <div className="flex items-center justify-between mb-8">
                       <div className="flex items-center gap-2">
                         <div className="w-7 h-7 rounded-lg" style={{ backgroundColor: palette[0] }} />
-                        <span className="text-sm font-bold" style={{ color: darkMode ? "#f5f7fa" : "#0a0a0a" }}>{previewText || "Brand"}</span>
+                        <span className="text-sm font-bold" style={{ color: darkMode ? "#ededef" : "#0a0a0b" }}>{previewText || "Brand"}</span>
                       </div>
-                      <div className="flex gap-4 text-xs" style={{ color: darkMode ? "#8087a3" : "#888" }}>
+                      <div className="flex gap-4 text-xs" style={{ color: darkMode ? "#8d8d96" : "#888" }}>
                         <span>Work</span>
                         <span>About</span>
                         <span>Contact</span>
                       </div>
                     </div>
                     <div className="max-w-lg">
-                      <div className="text-2xl sm:text-3xl font-bold mb-3" style={{ color: darkMode ? "#f5f7fa" : "#0a0a0a" }}>We build digital experiences.</div>
-                      <p className="text-sm leading-relaxed mb-4" style={{ color: darkMode ? "#8087a3" : "#666" }}>A brand identity toolkit for modern teams. Generate cohesive systems that scale.</p>
+                      <div className="text-2xl sm:text-3xl font-bold mb-3" style={{ color: darkMode ? "#ededef" : "#0a0a0b" }}>We build digital experiences.</div>
+                      <p className="text-sm leading-relaxed mb-4" style={{ color: darkMode ? "#8d8d96" : "#666" }}>A brand identity toolkit for modern teams. Generate cohesive systems that scale.</p>
                       <div className="flex gap-2">
                         <div className="px-4 py-2 rounded-lg text-xs font-semibold text-white" style={{ backgroundColor: palette[0] }}>Get Started</div>
-                        <div className="px-4 py-2 rounded-lg text-xs font-semibold" style={{ backgroundColor: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", color: darkMode ? "#8087a3" : "#666" }}>Learn More</div>
+                        <div className="px-4 py-2 rounded-lg text-xs font-semibold" style={{ backgroundColor: darkMode ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)", color: darkMode ? "#8d8d96" : "#666" }}>Learn More</div>
                       </div>
                     </div>
                     <div className="mt-8 grid grid-cols-3 gap-3">
@@ -585,7 +585,7 @@ export default function Home() {
           <div className="space-y-6 animate-fade-up">
             <div className="rounded-2xl p-6 sm:p-8" style={{ backgroundColor: cardBg, border: `1px solid ${borderClr}` }}>
               <h2 className="text-base font-bold mb-1">Export</h2>
-              <p className="text-xs mb-6" style={{ color: darkMode ? "#8087a3" : "#888" }}>Export your brand kit as CSS variables or JSON.</p>
+              <p className="text-xs mb-6" style={{ color: darkMode ? "#8d8d96" : "#888" }}>Export your brand kit as CSS variables or JSON.</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {/* CSS Variables */}
@@ -595,14 +595,14 @@ export default function Home() {
                     <button
                       onClick={handleCopyCss}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                      style={{ backgroundColor: darkMode ? "rgba(99,102,241,0.15)" : "rgba(99,102,241,0.1)", color: darkMode ? "#0ad3ff" : "#6366f1" }}
+                      style={{ backgroundColor: darkMode ? "rgba(212,245,107,0.12)" : "rgba(77,107,15,0.08)", color: darkMode ? "#d4f56b" : "#4d6b0f" }}
                     >
                       {copiedCss ? <Check size={12} /> : <Copy size={12} />}
                       {copiedCss ? "Copied" : "Copy"}
                     </button>
                   </div>
-                  <pre className="p-4 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto" style={{ backgroundColor: darkMode ? "#050508" : "#f5f5f5", color: darkMode ? "#8087a3" : "#666" }}>
-                    <span style={{ color: darkMode ? "#0ad3ff" : "#6366f1" }}>:root</span> {"{"}
+                  <pre className="p-4 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto" style={{ backgroundColor: darkMode ? "#0a0a0b" : "#f5f5f5", color: darkMode ? "#8d8d96" : "#666" }}>
+                    <span style={{ color: darkMode ? "#d4f56b" : "#4d6b0f" }}>:root</span> {"{"}
                     {"\n"}{toCssVariables(palette)}
                     {"\n}"}
                   </pre>
@@ -615,13 +615,13 @@ export default function Home() {
                     <button
                       onClick={handleExportPalette}
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all"
-                      style={{ backgroundColor: darkMode ? "rgba(99,102,241,0.15)" : "rgba(99,102,241,0.1)", color: darkMode ? "#0ad3ff" : "#6366f1" }}
+                      style={{ backgroundColor: darkMode ? "rgba(212,245,107,0.12)" : "rgba(77,107,15,0.08)", color: darkMode ? "#d4f56b" : "#4d6b0f" }}
                     >
                       {copiedPalette ? <Check size={12} /> : <Download size={12} />}
                       {copiedPalette ? "Copied" : "Copy JSON"}
                     </button>
                   </div>
-                  <pre className="p-4 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto" style={{ backgroundColor: darkMode ? "#050508" : "#f5f5f5", color: darkMode ? "#8087a3" : "#666" }}>
+                  <pre className="p-4 rounded-lg text-xs font-mono leading-relaxed overflow-x-auto" style={{ backgroundColor: darkMode ? "#0a0a0b" : "#f5f5f5", color: darkMode ? "#8d8d96" : "#666" }}>
 {"{"}
   {"\""}palette{"\""}: [{palette.map((c) => `"${c}"`).join(", ")}],
   {"\""}harmony{"\""}: {"\""}{harmony}{"\""},
@@ -634,7 +634,7 @@ export default function Home() {
               <div className="mt-6 p-4 rounded-xl flex items-center justify-between" style={{ backgroundColor: darkMode ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.02)" }}>
                 <div>
                   <div className="text-sm font-bold">Color Usage</div>
-                  <div className="text-xs mt-0.5" style={{ color: darkMode ? "#8087a3" : "#888" }}>{palette.length} colors ready for design systems.</div>
+                  <div className="text-xs mt-0.5" style={{ color: darkMode ? "#8d8d96" : "#888" }}>{palette.length} colors ready for design systems.</div>
                 </div>
                 <div className="flex gap-1">
                   {palette.map((c, i) => (

@@ -1,13 +1,30 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-cyan-300: #e3fa96;
+  --color-cyan-400: #d4f56b;
+  --color-cyan-500: #c8ea5c;
+  --color-cyan-600: #a9cc3f;
+  --color-blue-400: #c8ea5c;
+  --color-blue-500: #b9dd4e;
+  --color-blue-600: #a9cc3f;
+  --color-purple-400: #f0b37e;
+  --color-purple-500: #e9a466;
+  --color-purple-600: #d98f50;
+  --color-pink-400: #f0b37e;
+}
+
+
 :root {
-  --background: #050508;
-  --foreground: #e8edf5;
-  --card-bg: rgba(12, 14, 24, 0.65);
-  --border: rgba(59, 130, 246, 0.1);
-  --accent-cyan: #0ad3ff;
+  --background: #0a0a0b;
+  --foreground: #ededef;
+  --card-bg: rgba(19, 19, 22, 0.65);
+  --border: rgba(255, 255, 255, 0.1);
+  --accent-cyan: #d4f56b;
   --accent-blue: #3b82f6;
-  --accent-purple: #9b6dff;
+  --accent-purple: #f0b37e;
   --accent-green: #22d65e;
   --accent-yellow: #f5a623;
   --accent-red: #ff4d6a;
@@ -16,7 +33,7 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
 
@@ -29,7 +46,7 @@ body {
 }
 
 .glass-card {
-  background: rgba(16, 18, 30, 0.45);
+  background: rgba(24, 24, 28, 0.45);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.04);
@@ -37,10 +54,7 @@ body {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #d4f56b;
 }
 
 .text-gradient-green {
@@ -87,8 +101,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(10, 211, 255, 0.1); }
-  50% { box-shadow: 0 0 40px rgba(10, 211, 255, 0.25); }
+  0%, 100% { box-shadow: 0 0 20px rgba(212, 245, 107, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(212, 245, 107, 0.25); }
 }
 
 .animate-glow {
@@ -97,7 +111,7 @@ body {
 
 @media print {
   body {
-    background: #050508 !important;
+    background: #0a0a0b !important;
   }
 
   .no-print {
@@ -114,7 +128,7 @@ body {
     padding: 16px !important;
     box-shadow: none !important;
     border: none !important;
-    background: #050508 !important;
+    background: #0a0a0b !important;
   }
 
   * {
@@ -122,3 +136,10 @@ body {
     print-color-adjust: exact !important;
   }
 }
+
+body {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #d4f56b; color: #0b0d04; }

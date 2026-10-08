@@ -1,19 +1,36 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-cyan-300: #e3fa96;
+  --color-cyan-400: #d4f56b;
+  --color-cyan-500: #c8ea5c;
+  --color-cyan-600: #a9cc3f;
+  --color-blue-400: #c8ea5c;
+  --color-blue-500: #b9dd4e;
+  --color-blue-600: #a9cc3f;
+  --color-purple-400: #f0b37e;
+  --color-purple-500: #e9a466;
+  --color-purple-600: #d98f50;
+  --color-pink-400: #f0b37e;
+}
+
+
 :root {
-  --background: #050508;
-  --foreground: #f5f7fa;
-  --card-bg: rgba(13, 14, 24, 0.65);
-  --border: rgba(59, 130, 246, 0.12);
-  --accent-teal: #0ad3ff;
-  --accent-purple: #bd5eff;
-  --accent-pink: #ff5b94;
+  --background: #0a0a0b;
+  --foreground: #ededef;
+  --card-bg: rgba(19, 19, 22, 0.65);
+  --border: rgba(255, 255, 255, 0.12);
+  --accent-teal: #d4f56b;
+  --accent-purple: #f0b37e;
+  --accent-pink: #f0b37e;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
 
@@ -26,7 +43,7 @@ body {
 }
 
 .glass-card {
-  background: rgba(20, 21, 35, 0.45);
+  background: rgba(24, 24, 28, 0.45);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -67,3 +84,10 @@ body {
   .grid-cols-3 { grid-template-columns: repeat(2, 1fr); }
   aside { max-height: 40vh !important; }
 }
+
+body {
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.006em;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: #d4f56b; color: #0b0d04; }
