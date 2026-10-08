@@ -67,10 +67,10 @@ const CATEGORIES: {
   icon: React.ReactNode;
   color: string;
 }[] = [
-  { key: "seo", label: "SEO", icon: <Search size={16} />, color: "#d4f56b" },
+  { key: "seo", label: "SEO", icon: <Search size={16} />, color: "#00e5ff" },
   { key: "performance", label: "Performance", icon: <Zap size={16} />, color: "#22d65e" },
   { key: "accessibility", label: "Accessibility", icon: <Eye size={16} />, color: "#f5a623" },
-  { key: "mobile", label: "Mobile", icon: <Smartphone size={16} />, color: "#f0b37e" },
+  { key: "mobile", label: "Mobile", icon: <Smartphone size={16} />, color: "#9b6dff" },
   { key: "security", label: "Security", icon: <Shield size={16} />, color: "#ff4d6a" },
 ];
 
@@ -509,7 +509,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
       if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
-        setBackUrl("https://redevops.in/#work");
+        setBackUrl("https://redevops.in/#project-siteaudit-pro");
       }
     }
   }, []);
@@ -583,11 +583,11 @@ export default function Home() {
   const isValid = URL_REGEX.test(url.trim());
 
   return (
-    <main className="min-h-screen bg-[#0a0a0b] text-[#ededef] font-sans">
+    <main className="min-h-screen bg-[#0a0a0a] text-[#ffffff] font-sans">
       {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none no-print">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(212, 245, 107,0.05)_0%,_transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(240, 179, 126,0.03)_0%,_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(0, 229, 255,0.05)_0%,_transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(155,109,255,0.03)_0%,_transparent_50%)]" />
         <div className="absolute inset-0 opacity-[0.012]" style={{ backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)", backgroundSize: "32px 32px" }} />
       </div>
 
@@ -595,25 +595,25 @@ export default function Home() {
         {/* Header bar */}
         <header className="flex items-center justify-between mb-8 sm:mb-12 no-print">
           <div className="flex items-center gap-3">
-            <a href={backUrl} className="p-2 rounded-lg bg-[#18181c] border border-white/5 text-[#8d8d96] hover:text-[#ededef] transition-all" title="Back to Portfolio">
+            <a href={backUrl} className="p-2 rounded-lg bg-[#161616] border border-white/5 text-[#888888] hover:text-[#ffffff] transition-all" title="Back to Portfolio">
               <ArrowLeft size={16} />
             </a>
             <div>
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-[#d4f56b] flex items-center justify-center text-[#0b0d04] font-bold text-sm">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-black font-bold text-sm">
                   SA
                 </div>
-                <h1 className="text-lg font-semibold tracking-tight text-[#ededef]">
+                <h1 className="text-lg font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
                   SiteAudit Pro
                 </h1>
               </div>
-              <p className="text-[11px] text-[#8d8d96] mt-0.5 flex items-center gap-1.5">
+              <p className="text-[11px] text-[#888888] mt-0.5 flex items-center gap-1.5">
                 <BarChart3 size={11} className="text-cyan-400" />
                 Real-time website analysis engine
               </p>
             </div>
           </div>
-          <div className="hidden sm:flex items-center gap-2 text-[11px] text-[#8d8d96]">
+          <div className="hidden sm:flex items-center gap-2 text-[11px] text-[#888888]">
             <Clock size={12} />
             <span>Client-side · No backend</span>
           </div>
@@ -621,54 +621,54 @@ export default function Home() {
 
         {/* Hero */}
         <div className="text-center mb-10 sm:mb-14 no-print">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] text-[10px] uppercase tracking-[0.15em] text-[#8d8d96] mb-5">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.06] text-[10px] uppercase tracking-[0.15em] text-[#888888] mb-5">
             <Zap size={11} className="text-cyan-400" />
             Real HTML Analysis
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-3 leading-tight">
             Audit any website<br />
-            <span className="text-[#d4f56b]">in seconds</span>
+            <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">in seconds</span>
           </h2>
-          <p className="text-sm text-[#8d8d96] max-w-md mx-auto">
+          <p className="text-sm text-[#888888] max-w-md mx-auto">
             Enter a URL to analyze real HTML structure, security headers, SEO factors, and more — all in your browser.
           </p>
         </div>
 
         {/* URL Input */}
         <div className="max-w-2xl mx-auto mb-10 sm:mb-16 no-print">
-          <div className="bg-[#131316] border border-white/[0.06] rounded-2xl p-1.5 flex items-center gap-2 shadow-lg shadow-black/20">
+          <div className="bg-[#111111] border border-white/[0.06] rounded-2xl p-1.5 flex items-center gap-2 shadow-lg shadow-black/20">
             <div className="flex-1 flex items-center gap-2.5 pl-4">
-              <Globe size={15} className="text-[#8d8d96] shrink-0" />
+              <Globe size={15} className="text-[#888888] shrink-0" />
               <input
                 type="text"
                 value={url}
                 onChange={(e) => { setUrl(e.target.value); setError(""); }}
                 onKeyDown={(e) => e.key === "Enter" && handleAudit()}
                 placeholder="Enter website URL (e.g., example.com)"
-                className="w-full bg-transparent text-sm text-[#ededef] placeholder-[#8d8d96]/50 outline-none py-2.5"
+                className="w-full bg-transparent text-sm text-[#ffffff] placeholder-[#888888]/50 outline-none py-2.5"
               />
             </div>
             <button
               onClick={handleAudit}
               disabled={!isValid || loading}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#d4f56b] text-[#0b0d04] text-sm font-semibold hover:bg-[#e0fb85] hover:scale-[1.02] active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shrink-0 shadow-lg shadow-cyan-500/10"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold hover:from-cyan-400 hover:to-blue-500 hover:scale-[1.02] active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 shrink-0 shadow-lg shadow-cyan-500/10"
             >
               {loading ? <RefreshCw size={15} className="animate-spin" /> : <Search size={15} />}
               {loading ? "Scanning" : "Run Audit"}
             </button>
           </div>
           {error && <p className="text-xs text-red-400/80 mt-2 pl-4">{error}</p>}
-          {!isValid && url.length > 0 && !error && <p className="text-xs text-[#8d8d96] mt-2 pl-4">Enter a valid domain (e.g., example.com)</p>}
+          {!isValid && url.length > 0 && !error && <p className="text-xs text-[#888888] mt-2 pl-4">Enter a valid domain (e.g., example.com)</p>}
 
           {/* History */}
           {history.length > 0 && !loading && !showResults && (
             <div className="mt-3 flex items-center gap-2 flex-wrap no-print">
-              <span className="text-[10px] text-[#8d8d96] uppercase tracking-wider">Recent:</span>
+              <span className="text-[10px] text-[#888888] uppercase tracking-wider">Recent:</span>
               {history.map((h, i) => (
                 <button
                   key={i}
                   onClick={() => setUrl(h)}
-                  className="text-[11px] px-2.5 py-1 rounded-md bg-[#18181c] border border-white/5 text-[#8d8d96] hover:text-[#ededef] hover:border-white/10 transition-all"
+                  className="text-[11px] px-2.5 py-1 rounded-md bg-[#161616] border border-white/5 text-[#888888] hover:text-[#ffffff] hover:border-white/10 transition-all"
                 >
                   {h}
                 </button>
@@ -680,20 +680,20 @@ export default function Home() {
         {/* Loading */}
         {loading && (
           <div className="max-w-lg mx-auto mb-16 animate-fade-up no-print">
-            <div className="bg-[#131316] border border-white/[0.06] rounded-2xl p-8 text-center">
+            <div className="bg-[#111111] border border-white/[0.06] rounded-2xl p-8 text-center">
               <div className="flex items-center justify-center gap-2 mb-6">
                 {[0, 150, 300].map((d) => (
                   <div
                     key={d}
-                    className="w-2.5 h-2.5 rounded-full bg-[#d4f56b] animate-bounce"
+                    className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 animate-bounce"
                     style={{ animationDelay: `${d}ms`, opacity: 0.8 }}
                   />
                 ))}
               </div>
-              <p className="text-sm text-[#8d8d96] mb-4 font-medium">{phase}</p>
+              <p className="text-sm text-[#888888] mb-4 font-medium">{phase}</p>
               <div className="h-1.5 bg-white/5 rounded-full overflow-hidden max-w-xs mx-auto">
                 <div
-                  className="h-full bg-[#d4f56b] rounded-full transition-all duration-300 ease-out"
+                  className="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -705,7 +705,7 @@ export default function Home() {
         {result && showResults && (
           <div ref={reportRef} className="space-y-5 animate-fade-up print-container">
             {/* Overall + Quick Stats */}
-            <div className="bg-[#131316] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+            <div className="bg-[#111111] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
               <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-10">
                 <div className="relative shrink-0">
                   <svg width="120" height="120" className="transform -rotate-90 w-20 sm:w-[120px] h-20 sm:h-[120px]">
@@ -720,7 +720,7 @@ export default function Home() {
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-3xl font-bold tracking-tight" style={{ color: getScoreColor(result.overall) }}>{result.overall}</span>
-                    <span className="text-[9px] uppercase tracking-[0.15em] text-[#8d8d96] mt-0.5">Score</span>
+                    <span className="text-[9px] uppercase tracking-[0.15em] text-[#888888] mt-0.5">Score</span>
                   </div>
                 </div>
                 <div className="flex-1 text-center sm:text-left">
@@ -728,17 +728,17 @@ export default function Home() {
                     <Award size={16} style={{ color: getScoreColor(result.overall) }} />
                     <span className="text-lg font-semibold" style={{ color: getScoreColor(result.overall) }}>{getScoreLabel(result.overall)}</span>
                   </div>
-                  <p className="text-sm text-[#8d8d96]">
-                    Report for <span className="text-[#ededef] font-medium">{result.url}</span>
+                  <p className="text-sm text-[#888888]">
+                    Report for <span className="text-[#ffffff] font-medium">{result.url}</span>
                   </p>
                   <div className="flex flex-wrap gap-3 mt-3 justify-center sm:justify-start">
                     {result.pagesize && (
-                      <div className="flex items-center gap-1.5 text-[11px] text-[#8d8d96] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
+                      <div className="flex items-center gap-1.5 text-[11px] text-[#888888] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
                         <FileText size={11} /> {result.pagesize}
                       </div>
                     )}
                     {result.resources !== undefined && (
-                      <div className="flex items-center gap-1.5 text-[11px] text-[#8d8d96] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
+                      <div className="flex items-center gap-1.5 text-[11px] text-[#888888] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
                         <Layers size={11} /> {result.resources} resources
                       </div>
                     )}
@@ -747,7 +747,7 @@ export default function Home() {
                         <Info size={11} /> URL-based analysis only
                       </div>
                     )}
-                    <div className="flex items-center gap-1.5 text-[11px] text-[#8d8d96] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
+                    <div className="flex items-center gap-1.5 text-[11px] text-[#888888] bg-white/[0.03] px-2.5 py-1 rounded-md border border-white/[0.04]">
                       <FileText size={11} /> {result.suggestions.length} issues
                     </div>
                   </div>
@@ -766,7 +766,7 @@ export default function Home() {
                 return (
                   <div
                     key={cat.key}
-                    className="bg-[#131316] border border-white/[0.06] rounded-xl p-5 transition-all duration-200 hover:border-white/[0.10]"
+                    className="bg-[#111111] border border-white/[0.06] rounded-xl p-5 transition-all duration-200 hover:border-white/[0.10]"
                     style={{ animation: `fade-up 0.4s ease-out ${idx * 0.08}s forwards`, opacity: 0 }}
                   >
                     <div className="flex items-center justify-between mb-4">
@@ -786,7 +786,7 @@ export default function Home() {
                     </div>
                     <div className="flex items-center justify-between mt-2.5">
                       <span className="text-[10px] uppercase tracking-wider font-medium" style={{ color: `${color}cc` }}>{getScoreLabel(score)}</span>
-                      {total > 0 && <span className="text-[11px] text-[#8d8d96]">{passed}/{total} checks passed</span>}
+                      {total > 0 && <span className="text-[11px] text-[#888888]">{passed}/{total} checks passed</span>}
                     </div>
                   </div>
                 );
@@ -795,11 +795,11 @@ export default function Home() {
 
             {/* Suggestions */}
             {result.suggestions.length > 0 && (
-              <div className="bg-[#131316] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
+              <div className="bg-[#111111] border border-white/[0.06] rounded-2xl p-6 sm:p-8">
                 <div className="flex items-center gap-2.5 mb-6">
                   <Lightbulb size={17} className="text-amber-400" />
                   <h2 className="text-base font-bold">Recommendations</h2>
-                  <span className="text-xs text-[#8d8d96] ml-auto">{result.suggestions.length} items</span>
+                  <span className="text-xs text-[#888888] ml-auto">{result.suggestions.length} items</span>
                 </div>
                 <div className="space-y-2.5">
                   {result.suggestions.map((s, i) => {
@@ -823,7 +823,7 @@ export default function Home() {
                               )}
                               <span className={`text-[9px] uppercase tracking-wider ${sev.color}`}>{sev.label}</span>
                             </div>
-                            <p className="text-xs text-[#8d8d96] leading-relaxed">{s.description}</p>
+                            <p className="text-xs text-[#888888] leading-relaxed">{s.description}</p>
                           </div>
                         </div>
                       </div>
@@ -842,7 +842,7 @@ export default function Home() {
                   return (
                     <div
                       key={cat.key}
-                      className="bg-[#131316] border border-white/[0.06] rounded-xl p-5"
+                      className="bg-[#111111] border border-white/[0.06] rounded-xl p-5"
                       style={{ animation: `fade-up 0.4s ease-out ${(idx + 5) * 0.08}s forwards`, opacity: 0 }}
                     >
                       <div className="flex items-center gap-2.5 mb-4">
@@ -855,8 +855,8 @@ export default function Home() {
                         {findings.map((f, i) => (
                           <div key={i} className="flex items-center gap-2.5 py-1">
                             {f.passed ? <CheckCircle size={11} className="text-green-400/70 shrink-0" /> : <X size={11} className="text-red-400/50 shrink-0" />}
-                            <span className={`text-xs ${f.passed ? "text-[#8d8d96]" : "text-[#8d8d96]/60"}`}>{f.label}</span>
-                            {f.detail && <span className="text-[10px] text-[#8d8d96]/40 ml-auto shrink-0">{f.detail}</span>}
+                            <span className={`text-xs ${f.passed ? "text-[#888888]" : "text-[#888888]/60"}`}>{f.label}</span>
+                            {f.detail && <span className="text-[10px] text-[#888888]/40 ml-auto shrink-0">{f.detail}</span>}
                           </div>
                         ))}
                       </div>
@@ -867,17 +867,17 @@ export default function Home() {
             )}
 
             {/* Actions */}
-            <div className="flex items-center justify-between bg-[#131316] border border-white/[0.06] rounded-2xl p-4 sm:p-5 no-print">
+            <div className="flex items-center justify-between bg-[#111111] border border-white/[0.06] rounded-2xl p-4 sm:p-5 no-print">
               <button
                 onClick={() => { setResult(null); setShowResults(false); setUrl(""); setError(""); }}
-                className="flex items-center gap-2 text-sm text-[#8d8d96] hover:text-[#ededef] transition-colors"
+                className="flex items-center gap-2 text-sm text-[#888888] hover:text-[#ffffff] transition-colors"
               >
                 <RefreshCw size={14} />
                 <span className="hidden sm:inline">New Audit</span>
               </button>
               <button
                 onClick={exportPDF}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#d4f56b] text-[#0b0d04] text-sm font-semibold hover:bg-[#e0fb85] hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-lg shadow-cyan-500/10"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white text-sm font-semibold hover:from-cyan-400 hover:to-blue-500 hover:scale-[1.02] active:scale-95 transition-all duration-200 shadow-lg shadow-cyan-500/10"
               >
                 <Download size={14} />
                 Export Report (PDF)
@@ -895,12 +895,12 @@ export default function Home() {
                 { icon: <Shield size={20} />, title: "5 Categories", desc: "SEO, Performance, Accessibility, Mobile, and Security — scored with weighted checks." },
                 { icon: <Download size={20} />, title: "PDF Export", desc: "Export professional audit reports as print-ready PDF documents." },
               ].map((item, i) => (
-                <div key={i} className="bg-[#131316] border border-white/[0.06] rounded-xl p-6 text-center">
-                  <div className="w-10 h-10 rounded-xl bg-[#d4f56b]/10 border border-[#d4f56b]/20 flex items-center justify-center mx-auto mb-4 text-cyan-400">
+                <div key={i} className="bg-[#111111] border border-white/[0.06] rounded-xl p-6 text-center">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400/20 to-purple-600/20 border border-cyan-400/10 flex items-center justify-center mx-auto mb-4 text-cyan-400">
                     {item.icon}
                   </div>
                   <h3 className="text-sm font-bold mb-1.5">{item.title}</h3>
-                  <p className="text-xs text-[#8d8d96] leading-relaxed">{item.desc}</p>
+                  <p className="text-xs text-[#888888] leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -909,7 +909,7 @@ export default function Home() {
 
         {/* Footer */}
         <div className="text-center mt-16 pb-8 no-print">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-[#8d8d96]/30">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-[#888888]/30">
             SiteAudit Pro — All analysis runs client-side via CORS proxy. No data stored on servers.
           </p>
         </div>

@@ -63,16 +63,16 @@ const initialData: DocumentData = {
   template: "gold",
   currency: "INR",
   logo: "",
-  accentColor: "#d4af37", // Default Gold
+  accentColor: "#00e5ff", // Default: studio cyan
   signature: "",
   companyName: "RE Dev Ops",
   companyEmail: "hello@redevops.in",
   companyPhone: "+91 8734000403",
   companyAddress: "Ahmedabad, India · Remote",
-  clientName: "Hoppers Brewing Co.",
-  clientEmail: "accounts@hoppersbrewing.in",
-  clientPhone: "+91 98450 21764",
-  clientAddress: "14, 100 Feet Road, Indiranagar\nBengaluru, KA 560038",
+  clientName: "Acme Corporation",
+  clientEmail: "billing@acme.com",
+  clientPhone: "+1 (555) 019-2834",
+  clientAddress: "123 Business Rd, Suite 100\nSan Francisco, CA 94107",
   docNumber: "INV-2026-001",
   docDate: new Date().toISOString().split("T")[0],
   docDueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
@@ -99,6 +99,7 @@ const currencySymbols = {
 };
 
 const accentPresets = [
+  { name: "RE Cyan", value: "#00e5ff" },
   { name: "Premium Gold", value: "#d4af37" },
   { name: "Emerald Green", value: "#10b981" },
   { name: "Sapphire Blue", value: "#3b82f6" },
@@ -127,7 +128,7 @@ export default function Home() {
     if (typeof window !== "undefined") {
       const isOnlineSubdomain = window.location.hostname.endsWith("redevops.in") && window.location.hostname !== "redevops.in";
       if (isOnlineSubdomain || (!window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1") && window.location.protocol !== "file:")) {
-        setBackUrl("https://redevops.in/#work");
+        setBackUrl("https://redevops.in/#project-proposal-forge");
       }
     }
   }, []);
@@ -390,7 +391,7 @@ export default function Home() {
 
     const { x, y } = getCanvasCoords(e);
     ctx.lineTo(x, y);
-    ctx.strokeStyle = data.accentColor || "#d4af37";
+    ctx.strokeStyle = data.accentColor || "#00e5ff";
     ctx.lineWidth = 2.5;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
@@ -457,15 +458,15 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col md:flex-row bg-[#080808]">
       {/* Editor Panel - Left */}
-      <section className="w-full md:w-[480px] shrink-0 border-r border-[#221e12]/30 bg-[#0d0d0d] flex flex-col h-screen overflow-y-auto no-print">
+      <section className="w-full md:w-[480px] shrink-0 border-r border-[#1c1c1c]/30 bg-[#0d0d0d] flex flex-col h-screen overflow-y-auto no-print">
         
         {/* Sidebar Header */}
-        <div className="p-6 border-b border-[#221e12]/30 flex items-center justify-between">
+        <div className="p-6 border-b border-[#1c1c1c]/30 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#aa7c11] to-[#f3e5ab] flex items-center justify-center font-bold text-[#0a0a0b]" style={accentBackground}>
+            <span className="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#0099b0] to-[#8ff4ff] flex items-center justify-center font-bold text-[#0a0a0a]" style={accentBackground}>
               PF
             </span>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-[#f3e5ab] via-[#d4af37] to-[#aa7c11] bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-[#8ff4ff] via-[#00e5ff] to-[#0099b0] bg-clip-text text-transparent">
               ProposalForge
             </h1>
           </div>
@@ -487,14 +488,14 @@ export default function Home() {
         </div>
 
         {/* Tab Selector */}
-        <div className="no-print flex border-b border-[#221e12]/20 text-xs px-2 pt-2 gap-1 bg-[#0b0b0b]">
+        <div className="no-print flex border-b border-[#1c1c1c]/20 text-xs px-2 pt-2 gap-1 bg-[#0b0b0b]">
           {(["general", "parties", "content", "taxes"] as const).map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`flex-1 py-2.5 px-1 rounded-t-lg font-semibold capitalize tracking-wide transition-all ${
                 activeTab === tab
-                  ? "bg-[#141414] border-t border-x border-[#221e12]/30"
+                  ? "bg-[#141414] border-t border-x border-[#1c1c1c]/30"
                   : "text-[#808080] hover:text-[#f5f5f5]"
               }`}
               style={activeTab === tab ? { color: data.accentColor, borderTopColor: `${data.accentColor}aa` } : {}}
@@ -512,20 +513,20 @@ export default function Home() {
             <div className="space-y-6">
               
               {/* Saved Documents Manager Panel */}
-              <div className="p-4 bg-[#141414] border border-[#221e12]/20 rounded-lg space-y-4">
-                <div className="flex items-center justify-between border-b border-[#221e12]/20 pb-2">
-                  <label className="text-xs font-bold uppercase tracking-wider text-[#d4af37]" style={accentText}>My Documents</label>
+              <div className="p-4 bg-[#141414] border border-[#1c1c1c]/20 rounded-lg space-y-4">
+                <div className="flex items-center justify-between border-b border-[#1c1c1c]/20 pb-2">
+                  <label className="text-xs font-bold uppercase tracking-wider text-[#00e5ff]" style={accentText}>My Documents</label>
                   <div className="flex gap-2">
                     <button
                       onClick={() => createNewDoc("invoice")}
-                      className="text-[10px] bg-[#d4af37] text-[#0a0a0b] font-bold px-2.5 py-1 rounded hover:bg-white transition-all"
+                      className="text-[10px] bg-[#00e5ff] text-[#0a0a0a] font-bold px-2.5 py-1 rounded hover:bg-white transition-all"
                       style={accentBackground}
                     >
                       + Invoice
                     </button>
                     <button
                       onClick={() => createNewDoc("proposal")}
-                      className="text-[10px] bg-[#d4af37] text-[#0a0a0b] font-bold px-2.5 py-1 rounded hover:bg-white transition-all"
+                      className="text-[10px] bg-[#00e5ff] text-[#0a0a0a] font-bold px-2.5 py-1 rounded hover:bg-white transition-all"
                       style={accentBackground}
                     >
                       + Proposal
@@ -538,7 +539,7 @@ export default function Home() {
                   <select
                     value={data.id}
                     onChange={(e) => loadDocument(e.target.value)}
-                    className="w-full bg-[#0a0a0b] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                    className="w-full bg-[#0a0a0a] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                   >
                     {docList.map((doc) => (
                       <option key={doc.id} value={doc.id}>
@@ -560,13 +561,13 @@ export default function Home() {
                       };
                       setData(dupDoc);
                     }}
-                    className="flex-1 py-1.5 bg-[#0a0a0b] border border-[#221e12]/30 text-xs font-semibold rounded text-[#a0a0a0] hover:text-[#f5f5f5] transition-all"
+                    className="flex-1 py-1.5 bg-[#0a0a0a] border border-[#1c1c1c]/30 text-xs font-semibold rounded text-[#a0a0a0] hover:text-[#f5f5f5] transition-all"
                   >
                     Duplicate Draft
                   </button>
                   <button
                     onClick={(e) => deleteDoc(data.id, e)}
-                    className="py-1.5 px-4 bg-[#1c1414] border border-red-900/30 text-xs font-semibold rounded text-red-400 hover:bg-red-950/20 transition-all"
+                    className="py-1.5 px-4 bg-[#1a1a1a] border border-red-900/30 text-xs font-semibold rounded text-red-400 hover:bg-red-950/20 transition-all"
                   >
                     Delete
                   </button>
@@ -581,7 +582,7 @@ export default function Home() {
                     type="text"
                     value={data.title}
                     onChange={(e) => setData((prev) => ({ ...prev, title: e.target.value }))}
-                    className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                    className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     placeholder="Rename this document..."
                   />
                 </div>
@@ -592,7 +593,7 @@ export default function Home() {
                     <select
                       value={data.type}
                       onChange={(e) => setData((prev) => ({ ...prev, type: e.target.value as any }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     >
                       <option value="invoice">Invoice</option>
                       <option value="proposal">Proposal</option>
@@ -603,9 +604,9 @@ export default function Home() {
                     <select
                       value={data.template}
                       onChange={(e) => setData((prev) => ({ ...prev, template: e.target.value as any }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     >
-                      <option value="gold">Premium Gold</option>
+                      <option value="gold">Premium Accent</option>
                       <option value="dark">Minimal Dark</option>
                       <option value="light">Executive Light</option>
                     </select>
@@ -628,16 +629,16 @@ export default function Home() {
                         title={preset.name}
                       >
                         {data.accentColor === preset.value && (
-                          <span className="absolute inset-0 flex items-center justify-center text-[10px] text-[#0a0a0b] font-bold">✓</span>
+                          <span className="absolute inset-0 flex items-center justify-center text-[10px] text-[#0a0a0a] font-bold">✓</span>
                         )}
                       </button>
                     ))}
                     
                     {/* Custom Color Input */}
-                    <div className="relative w-7 h-7 rounded-full overflow-hidden border border-[#221e12]/30 flex items-center justify-center bg-[#141414]" title="Custom color picker">
+                    <div className="relative w-7 h-7 rounded-full overflow-hidden border border-[#1c1c1c]/30 flex items-center justify-center bg-[#141414]" title="Custom color picker">
                       <input
                         type="color"
-                        value={data.accentColor || "#d4af37"}
+                        value={data.accentColor || "#00e5ff"}
                         onChange={(e) => setData((prev) => ({ ...prev, accentColor: e.target.value }))}
                         className="absolute inset-[-4px] w-[calc(100%+8px)] h-[calc(100%+8px)] cursor-pointer"
                       />
@@ -652,7 +653,7 @@ export default function Home() {
                       type="text"
                       value={data.docNumber}
                       onChange={(e) => setData((prev) => ({ ...prev, docNumber: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                   <div>
@@ -660,7 +661,7 @@ export default function Home() {
                     <select
                       value={data.currency}
                       onChange={(e) => setData((prev) => ({ ...prev, currency: e.target.value as any }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     >
                       <option value="INR">INR (₹)</option>
                       <option value="USD">USD ($)</option>
@@ -677,7 +678,7 @@ export default function Home() {
                       type="date"
                       value={data.docDate}
                       onChange={(e) => setData((prev) => ({ ...prev, docDate: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                   <div>
@@ -686,24 +687,24 @@ export default function Home() {
                       type="date"
                       value={data.docDueDate}
                       onChange={(e) => setData((prev) => ({ ...prev, docDueDate: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                 </div>
 
-                <div className="border-t border-[#221e12]/20 pt-4">
+                <div className="border-t border-[#1c1c1c]/20 pt-4">
                   <label className="block text-xs font-semibold text-[#808080] uppercase tracking-wider mb-2">Company Logo</label>
                   {data.logo ? (
-                    <div className="flex items-center gap-4 bg-[#141414] p-3 rounded-lg border border-[#221e12]/25">
+                    <div className="flex items-center gap-4 bg-[#141414] p-3 rounded-lg border border-[#1c1c1c]/25">
                       <img src={data.logo} alt="Logo preview" className="h-10 max-w-[120px] object-contain rounded" />
                       <button onClick={removeLogo} className="text-xs text-red-400 hover:text-red-300 font-semibold">Remove logo</button>
                     </div>
                   ) : (
                     <div className="flex items-center justify-center w-full">
-                      <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-[#221e12]/30 rounded-lg cursor-pointer bg-[#141414] hover:bg-[#1a1a1a] transition-all">
+                      <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-[#1c1c1c]/30 rounded-lg cursor-pointer bg-[#141414] hover:bg-[#1a1a1a] transition-all">
                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                           <svg className="w-6 h-6 mb-2 text-[#808080]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
-                          <p className="text-xs text-[#808080]"><span className="font-semibold text-[#d4af37]">Upload Logo Image</span></p>
+                          <p className="text-xs text-[#808080]"><span className="font-semibold text-[#00e5ff]">Upload Logo Image</span></p>
                         </div>
                         <input type="file" accept="image/*" className="hidden" onChange={handleLogoUpload} />
                       </label>
@@ -720,14 +721,14 @@ export default function Home() {
               
               {/* Company Details */}
               <div className="space-y-4">
-                <h3 className="text-xs font-bold uppercase tracking-wider border-b border-[#221e12]/20 pb-1 text-[#d4af37]" style={accentText}>Sender (Your Details)</h3>
+                <h3 className="text-xs font-bold uppercase tracking-wider border-b border-[#1c1c1c]/20 pb-1 text-[#00e5ff]" style={accentText}>Sender (Your Details)</h3>
                 <div>
                   <label className="block text-[10px] font-semibold text-[#808080] uppercase mb-1">Company Name</label>
                   <input
                     type="text"
                     value={data.companyName}
                     onChange={(e) => setData((prev) => ({ ...prev, companyName: e.target.value }))}
-                    className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#d4af37] outline-none"
+                    className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#00e5ff] outline-none"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
@@ -737,7 +738,7 @@ export default function Home() {
                       type="email"
                       value={data.companyEmail}
                       onChange={(e) => setData((prev) => ({ ...prev, companyEmail: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                   <div>
@@ -746,7 +747,7 @@ export default function Home() {
                       type="text"
                       value={data.companyPhone}
                       onChange={(e) => setData((prev) => ({ ...prev, companyPhone: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                 </div>
@@ -756,21 +757,21 @@ export default function Home() {
                     rows={2}
                     value={data.companyAddress}
                     onChange={(e) => setData((prev) => ({ ...prev, companyAddress: e.target.value }))}
-                    className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#d4af37] outline-none resize-none"
+                    className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#00e5ff] outline-none resize-none"
                   />
                 </div>
               </div>
 
               {/* Client Details */}
-              <div className="space-y-4 pt-4 border-t border-[#221e12]/20">
-                <h3 className="text-xs font-bold uppercase tracking-wider border-b border-[#221e12]/20 pb-1 text-[#d4af37]" style={accentText}>Recipient (Client Details)</h3>
+              <div className="space-y-4 pt-4 border-t border-[#1c1c1c]/20">
+                <h3 className="text-xs font-bold uppercase tracking-wider border-b border-[#1c1c1c]/20 pb-1 text-[#00e5ff]" style={accentText}>Recipient (Client Details)</h3>
                 <div>
                   <label className="block text-[10px] font-semibold text-[#808080] uppercase mb-1">Client / Company Name</label>
                   <input
                     type="text"
                     value={data.clientName}
                     onChange={(e) => setData((prev) => ({ ...prev, clientName: e.target.value }))}
-                    className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#d4af37] outline-none"
+                    className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#00e5ff] outline-none"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
@@ -780,7 +781,7 @@ export default function Home() {
                       type="email"
                       value={data.clientEmail}
                       onChange={(e) => setData((prev) => ({ ...prev, clientEmail: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                   <div>
@@ -789,7 +790,7 @@ export default function Home() {
                       type="text"
                       value={data.clientPhone}
                       onChange={(e) => setData((prev) => ({ ...prev, clientPhone: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                 </div>
@@ -799,15 +800,15 @@ export default function Home() {
                     rows={2}
                     value={data.clientAddress}
                     onChange={(e) => setData((prev) => ({ ...prev, clientAddress: e.target.value }))}
-                    className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#d4af37] outline-none resize-none"
+                    className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2 focus:border-[#00e5ff] outline-none resize-none"
                   />
                 </div>
               </div>
 
               {/* Signature Management Pad */}
-              <div className="border-t border-[#221e12]/20 pt-4 space-y-4">
-                <div className="flex justify-between items-center border-b border-[#221e12]/20 pb-1">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#d4af37]" style={accentText}>Authorized Signature</h3>
+              <div className="border-t border-[#1c1c1c]/20 pt-4 space-y-4">
+                <div className="flex justify-between items-center border-b border-[#1c1c1c]/20 pb-1">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#00e5ff]" style={accentText}>Authorized Signature</h3>
                   {data.signature && (
                     <button
                       onClick={() => setData((prev) => ({ ...prev, signature: "" }))}
@@ -820,7 +821,7 @@ export default function Home() {
 
                 <div className="space-y-3">
                   {data.signature ? (
-                    <div className="bg-[#141414] p-3 rounded-lg border border-[#221e12]/20 flex items-center justify-between">
+                    <div className="bg-[#141414] p-3 rounded-lg border border-[#1c1c1c]/20 flex items-center justify-between">
                       <img src={data.signature} alt="Saved Signature" className="h-10 max-h-12 object-contain bg-white rounded p-1" />
                       <span className="text-xs text-green-400 font-semibold">Active Signature Linked</span>
                     </div>
@@ -842,14 +843,14 @@ export default function Home() {
                               reader.readAsDataURL(file);
                             }
                           }}
-                          className="w-full text-xs text-[#808080] file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#141414] file:text-[#d4af37] file:hover:bg-[#1f1f1f] cursor-pointer"
+                          className="w-full text-xs text-[#808080] file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#141414] file:text-[#00e5ff] file:hover:bg-[#1f1f1f] cursor-pointer"
                         />
                       </div>
 
                       {/* Canvas Drawing option */}
                       <div className="space-y-2">
                         <label className="block text-[9px] font-semibold text-[#808080] uppercase">Option B: Draw Signature on Pad</label>
-                        <div ref={canvasContainerRef} className="bg-[#0a0a0b] border border-[#221e12]/30 rounded-lg p-2.5 flex flex-col items-center">
+                        <div ref={canvasContainerRef} className="bg-[#0a0a0a] border border-[#1c1c1c]/30 rounded-lg p-2.5 flex flex-col items-center">
                           <canvas
                             ref={canvasRef}
                             width={canvasWidth}
@@ -861,18 +862,18 @@ export default function Home() {
                             onTouchStart={startDrawing}
                             onTouchMove={draw}
                             onTouchEnd={stopDrawing}
-                            className="bg-white cursor-crosshair max-w-full h-[100px] border border-[#221e12]/20 rounded"
+                            className="bg-white cursor-crosshair max-w-full h-[100px] border border-[#1c1c1c]/20 rounded"
                           />
                           <div className="flex gap-4 w-full mt-2.5 justify-end text-xs">
                             <button
                               onClick={clearSignature}
-                              className="px-2.5 py-1 bg-[#141414] border border-[#221e12]/30 font-semibold rounded text-[#808080] hover:text-[#f5f5f5] transition-all"
+                              className="px-2.5 py-1 bg-[#141414] border border-[#1c1c1c]/30 font-semibold rounded text-[#808080] hover:text-[#f5f5f5] transition-all"
                             >
                               Clear Pad
                             </button>
                             <button
                               onClick={saveSignature}
-                              className="px-3 py-1 bg-[#d4af37] text-[#0a0a0b] font-bold rounded hover:bg-white transition-all"
+                              className="px-3 py-1 bg-[#00e5ff] text-[#0a0a0a] font-bold rounded hover:bg-white transition-all"
                               style={accentBackground}
                             >
                               Save Signature
@@ -899,7 +900,7 @@ export default function Home() {
                       type="text"
                       value={data.proposalTitle}
                       onChange={(e) => setData((prev) => ({ ...prev, proposalTitle: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                       placeholder="e.g. Website Development Project"
                     />
                   </div>
@@ -909,7 +910,7 @@ export default function Home() {
                       rows={8}
                       value={data.proposalScope}
                       onChange={(e) => setData((prev) => ({ ...prev, proposalScope: e.target.value }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                       placeholder="Detail project phases, deliverables..."
                     />
                   </div>
@@ -917,15 +918,15 @@ export default function Home() {
               ) : (
                 // Invoice item lists
                 <div className="space-y-4">
-                  <div className="flex justify-between items-center border-b border-[#221e12]/20 pb-2">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#d4af37]" style={accentText}>Line Items</h3>
-                    <button onClick={addItem} className="text-xs bg-[#d4af37] text-[#0a0a0b] font-bold px-3 py-1.5 rounded-lg hover:bg-white transition-all flex items-center gap-1" style={accentBackground}>
+                  <div className="flex justify-between items-center border-b border-[#1c1c1c]/20 pb-2">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#00e5ff]" style={accentText}>Line Items</h3>
+                    <button onClick={addItem} className="text-xs bg-[#00e5ff] text-[#0a0a0a] font-bold px-3 py-1.5 rounded-lg hover:bg-white transition-all flex items-center gap-1" style={accentBackground}>
                       Add Line Item
                     </button>
                   </div>
                   <div className="space-y-4 max-h-[380px] overflow-y-auto pr-1">
                     {data.items.map((item, idx) => (
-                      <div key={item.id} className="p-3 bg-[#141414] border border-[#221e12]/20 rounded-lg space-y-3 relative">
+                      <div key={item.id} className="p-3 bg-[#141414] border border-[#1c1c1c]/20 rounded-lg space-y-3 relative">
                         <div className="flex justify-between items-center">
                           <span className="text-[10px] text-[#808080] font-bold">Item #{idx + 1}</span>
                           <button onClick={() => deleteItem(item.id)} className="text-[10px] text-red-400 hover:text-red-300 font-bold">Remove</button>
@@ -935,7 +936,7 @@ export default function Home() {
                             type="text"
                             value={item.description}
                             onChange={(e) => updateItem(item.id, "description", e.target.value)}
-                            className="w-full bg-[#0a0a0b] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
+                            className="w-full bg-[#0a0a0a] border border-[#1c1c1c]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#00e5ff] outline-none"
                             placeholder="Description"
                           />
                         </div>
@@ -946,7 +947,7 @@ export default function Home() {
                               type="number"
                               value={item.quantity}
                               onChange={(e) => updateItem(item.id, "quantity", Number(e.target.value))}
-                              className="w-full bg-[#0a0a0b] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
+                              className="w-full bg-[#0a0a0a] border border-[#1c1c1c]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#00e5ff] outline-none"
                             />
                           </div>
                           <div>
@@ -955,7 +956,7 @@ export default function Home() {
                               type="number"
                               value={item.price}
                               onChange={(e) => updateItem(item.id, "price", Number(e.target.value))}
-                              className="w-full bg-[#0a0a0b] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#d4af37] outline-none"
+                              className="w-full bg-[#0a0a0a] border border-[#1c1c1c]/15 text-[#f5f5f5] text-xs rounded p-1.5 focus:border-[#00e5ff] outline-none"
                             />
                           </div>
                         </div>
@@ -969,13 +970,13 @@ export default function Home() {
               )}
 
               {/* Shared Terms & Conditions */}
-              <div className="pt-4 border-t border-[#221e12]/20">
+              <div className="pt-4 border-t border-[#1c1c1c]/20">
                 <label className="block text-xs font-semibold text-[#808080] uppercase tracking-wider mb-2">Terms & Conditions</label>
                 <textarea
                   rows={3}
                   value={data.proposalTerms}
                   onChange={(e) => setData((prev) => ({ ...prev, proposalTerms: e.target.value }))}
-                  className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                  className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                   placeholder="Terms of payment, document validity..."
                 />
               </div>
@@ -986,8 +987,8 @@ export default function Home() {
           {activeTab === "taxes" && (
             <div className="space-y-6">
               <div className="space-y-4">
-                <div className="flex justify-between items-center border-b border-[#221e12]/20 pb-2">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#d4af37]" style={accentText}>Taxation & Additional Rates</h3>
+                <div className="flex justify-between items-center border-b border-[#1c1c1c]/20 pb-2">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#00e5ff]" style={accentText}>Taxation & Additional Rates</h3>
                   <button
                     onClick={() => {
                       const newTax: TaxItem = {
@@ -1001,7 +1002,7 @@ export default function Home() {
                         taxes: [...(prev.taxes || []), newTax]
                       }));
                     }}
-                    className="text-[10px] bg-[#141414] text-[#d4af37] border border-[#221e12]/30 font-bold px-2 py-1 rounded hover:bg-[#1f1f1f] transition-all"
+                    className="text-[10px] bg-[#141414] text-[#00e5ff] border border-[#1c1c1c]/30 font-bold px-2 py-1 rounded hover:bg-[#1f1f1f] transition-all"
                   >
                     + Add Custom Tax
                   </button>
@@ -1010,7 +1011,7 @@ export default function Home() {
                 {/* Taxes List */}
                 <div className="space-y-3">
                   {(data.taxes || []).map((tax) => (
-                    <div key={tax.id} className="p-3 bg-[#141414] border border-[#221e12]/20 rounded-lg space-y-3">
+                    <div key={tax.id} className="p-3 bg-[#141414] border border-[#1c1c1c]/20 rounded-lg space-y-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <input
@@ -1020,7 +1021,7 @@ export default function Home() {
                               const updated = data.taxes.map(t => t.id === tax.id ? { ...t, enabled: e.target.checked } : t);
                               setData(prev => ({ ...prev, taxes: updated }));
                             }}
-                            className="w-4 h-4 rounded border-gray-300 text-[#d4af37] focus:ring-[#d4af37] accent-[#d4af37]"
+                            className="w-4 h-4 rounded border-gray-300 text-[#00e5ff] focus:ring-[#00e5ff] accent-[#00e5ff]"
                           />
                           <input
                             type="text"
@@ -1029,7 +1030,7 @@ export default function Home() {
                               const updated = data.taxes.map(t => t.id === tax.id ? { ...t, label: e.target.value } : t);
                               setData(prev => ({ ...prev, taxes: updated }));
                             }}
-                            className="bg-transparent text-sm font-semibold text-[#f5f5f5] focus:border-b focus:border-[#d4af37] outline-none max-w-[120px]"
+                            className="bg-transparent text-sm font-semibold text-[#f5f5f5] focus:border-b focus:border-[#00e5ff] outline-none max-w-[120px]"
                             placeholder="Tax Label"
                           />
                         </div>
@@ -1055,7 +1056,7 @@ export default function Home() {
                               const updated = data.taxes.map(t => t.id === tax.id ? { ...t, rate: Number(e.target.value) } : t);
                               setData(prev => ({ ...prev, taxes: updated }));
                             }}
-                            className="w-20 bg-[#0a0a0b] border border-[#221e12]/15 text-[#f5f5f5] text-xs rounded p-1 focus:border-[#d4af37] outline-none"
+                            className="w-20 bg-[#0a0a0a] border border-[#1c1c1c]/15 text-[#f5f5f5] text-xs rounded p-1 focus:border-[#00e5ff] outline-none"
                           />
                         </div>
                       )}
@@ -1063,14 +1064,14 @@ export default function Home() {
                   ))}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#221e12]/20">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#1c1c1c]/20">
                   <div>
                     <label className="block text-xs font-semibold text-[#808080] uppercase tracking-wider mb-2">Discount (%)</label>
                     <input
                       type="number"
                       value={data.discount}
                       onChange={(e) => setData((prev) => ({ ...prev, discount: Number(e.target.value) }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                   <div>
@@ -1079,7 +1080,7 @@ export default function Home() {
                       type="number"
                       value={data.shipping}
                       onChange={(e) => setData((prev) => ({ ...prev, shipping: Number(e.target.value) }))}
-                      className="w-full bg-[#141414] border border-[#221e12]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#d4af37] outline-none"
+                      className="w-full bg-[#141414] border border-[#1c1c1c]/25 text-[#f5f5f5] text-sm rounded-lg p-2.5 focus:border-[#00e5ff] outline-none"
                     />
                   </div>
                 </div>
@@ -1089,10 +1090,10 @@ export default function Home() {
         </div>
 
         {/* Action Controls Footer */}
-        <div className="p-6 border-t border-[#221e12]/30 bg-[#0a0a0b] space-y-3">
+        <div className="p-6 border-t border-[#1c1c1c]/30 bg-[#0a0a0a] space-y-3">
           <button
             onClick={handlePrint}
-            className="w-full py-3 bg-gradient-to-r from-[#aa7c11] via-[#d4af37] to-[#f3e5ab] text-[#0a0a0b] font-bold rounded-lg shadow-lg hover:shadow-[#d4af37]/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 bg-gradient-to-r from-[#0099b0] via-[#00e5ff] to-[#8ff4ff] text-[#0a0a0a] font-bold rounded-lg shadow-lg hover:shadow-[#00e5ff]/20 hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
             style={accentBackground}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
@@ -1104,13 +1105,13 @@ export default function Home() {
                 localStorage.setItem(`proposalforge_doc_${data.id}`, JSON.stringify(data));
                 alert("Force saved current project successfully to local storage!");
               }}
-              className="py-2.5 bg-[#141414] text-[#f5f5f5] font-semibold rounded-lg border border-[#221e12]/30 hover:bg-[#1f1f1f] transition-all"
+              className="py-2.5 bg-[#141414] text-[#f5f5f5] font-semibold rounded-lg border border-[#1c1c1c]/30 hover:bg-[#1f1f1f] transition-all"
             >
               Manual Sync
             </button>
             <button
               onClick={handleReset}
-              className="py-2.5 bg-[#141414] text-[#808080] hover:text-red-400 font-semibold rounded-lg border border-[#221e12]/30 hover:bg-[#1c1414] transition-all"
+              className="py-2.5 bg-[#141414] text-[#808080] hover:text-red-400 font-semibold rounded-lg border border-[#1c1c1c]/30 hover:bg-[#1a1a1a] transition-all"
             >
               Reset Inputs
             </button>
@@ -1119,9 +1120,9 @@ export default function Home() {
       </section>
 
       {/* Preview Screen - Right */}
-      <section className="flex-1 bg-[#050505] overflow-y-auto flex justify-center p-8 md:p-12 relative min-h-screen">
+      <section className="flex-1 bg-[#0a0a0a] overflow-y-auto flex justify-center p-8 md:p-12 relative min-h-screen">
         {/* Floating Portfolio Back Button */}
-        <a href={backUrl} className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#221e12]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#d4af37] hover:border-[#d4af37]/40 transition-all flex items-center gap-1.5 no-print">
+        <a href={backUrl} className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#1c1c1c]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#00e5ff] hover:border-[#00e5ff]/40 transition-all flex items-center gap-1.5 no-print">
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
           Back to Portfolio
         </a>

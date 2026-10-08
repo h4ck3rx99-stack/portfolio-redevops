@@ -1,24 +1,18 @@
 @import "tailwindcss";
 
-@theme {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-}
-
-
 :root {
-  --background: #0a0a0b;
+  --background: #0a0a0a;
   --foreground: #f5f5f5;
-  --accent: #d4af37;
-  --accent-glow: rgba(212, 175, 55, 0.15);
+  --accent: #00e5ff;
+  --accent-glow: rgba(0, 229, 255, 0.15);
   --card-bg: rgba(18, 18, 18, 0.7);
-  --border: rgba(212, 175, 55, 0.15);
+  --border: rgba(0, 229, 255, 0.15);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
   overflow-x: hidden;
 }
 
@@ -46,7 +40,7 @@ body {
 }
 
 .gold-gradient {
-  background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 50%, #aa7c11 100%);
+  background: linear-gradient(135deg, #8ff4ff 0%, #00e5ff 50%, #bd5eff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
