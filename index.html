@@ -1061,6 +1061,7 @@
                 document.getElementById('contact')
             ];
             const progressBar = document.getElementById('scrollProgress');
+            const navbarEl = document.querySelector('.navbar');
 
             // Shared scroll state updater for progress bar and active navbar items
             const updateScrollStates = () => {
@@ -1069,7 +1070,8 @@
                 const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
                 progressBar.style.width = progress + '%';
 
-                const triggerLine = 160;
+                navbarEl.classList.toggle('scrolled', scrollTop > 20);
+                const triggerLine = 120;
                 let current = '';
                 for (let i = 0; i < trackSections.length; i++) {
                     const section = trackSections[i];
@@ -1126,11 +1128,11 @@
                     if (targetElement) {
                         if (window.lenis) {
                             window.lenis.scrollTo(targetElement, {
-                                offset: -80,
+                                offset: -64,
                                 duration: 1.2
                             });
                         } else {
-                            const offset = 80;
+                            const offset = 64;
                             const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
                             const offsetPosition = elementPosition - offset;
                             window.scrollTo({
