@@ -3691,3 +3691,12 @@ pre, code, .window-body, .browser-screen, .folder-browser { max-width: 100%; ove
 @media (max-width: 1360px) {
     .folders-grid { grid-template-columns: 1fr; }
 }
+
+/* Contact form: honeypot + inline error */
+.form-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-error { margin-top: 0.75rem; font-size: 0.85rem; color: #ff6b81; }
+.form-submit-btn:disabled { opacity: 0.6; cursor: wait; }
+
+/* Keep footer links clear of the floating WhatsApp button */
+.footer-bottom { padding-right: 84px; }
+@media (max-width: 520px) { .footer-bottom { padding-right: 0; padding-bottom: 72px; } }

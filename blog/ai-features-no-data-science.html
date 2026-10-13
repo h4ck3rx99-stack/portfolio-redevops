@@ -102,7 +102,7 @@
             <span>AI, Product Development</span>
         </div>
 
-        <p>In 2026, you don't need a team of PhDs to ship AI features. The API ecosystem has matured to the point where a single full-stack developer can integrate production-ready AI capabilities in days — not months. Here's exactly how we do it.</p>
+        <p>In 2026, you don't need a team of PhDs to ship AI features. The API ecosystem has matured to the point where a single full-stack developer can integrate production-ready AI capabilities in days — not months. Here's how to approach it.</p>
 
         <h2>The Stack: APIs + Open-Source + Orchestration</h2>
         <p>We use a three-layer approach that minimizes complexity while maximizing capability:</p>
@@ -112,32 +112,32 @@
             <li><strong>Layer 3: Orchestration</strong> — LangChain or Vercel AI SDK to chain multiple AI calls, add context, manage token limits, and handle fallbacks.</li>
         </ul>
 
-        <h2>Production Patterns We Ship</h2>
+        <h2>Four Practical Patterns</h2>
 
         <div class="pattern-card">
             <h3>Pattern 1: Conversational Search</h3>
             <p>Instead of a keyword search, embed your content as vectors (using <code>text-embedding-3-small</code>), store in Postgres pgvector or Pinecone, and let users ask natural-language questions. Implementation time: <strong>2 days</strong>.</p>
-            <p>One client replaced their FAQ page with semantic search — support tickets dropped 42% in the first month.</p>
+            <p>It works especially well as a replacement for a long FAQ page: people ask in their own words and still find the right answer.</p>
         </div>
 
         <div class="pattern-card">
             <h3>Pattern 2: Automated Content Briefs</h3>
-            <p>For content teams, we built a tool that takes a keyword and produces an SEO-optimized content brief: suggested headings, competitor gap analysis, keyword clusters, and an outline. Built in 3 days using GPT-4o + SerpAPI. Saves the content team 8 hours per article.</p>
+            <p>For content teams, a small tool can take a keyword and produce an SEO-optimized content brief: suggested headings, competitor gap analysis, keyword clusters, and an outline. A first version is a few days of work with an LLM API plus a search-results API, and it removes most of the manual research per article.</p>
         </div>
 
         <div class="pattern-card">
             <h3>Pattern 3: Smart Form Autocomplete</h3>
-            <p>Using a small on-device model (distilbert or a simple n-gram model), autocomplete complex form fields — product descriptions, job requirements, support ticket details. This works offline and costs nothing in API fees. Built in 1 day.</p>
+            <p>Using a small on-device model (distilbert or a simple n-gram model), autocomplete complex form fields — product descriptions, job requirements, support ticket details. This works offline and costs nothing in API fees. Usually a day or two of work.</p>
         </div>
 
         <div class="pattern-card">
             <h3>Pattern 4: Personalized Recommendations</h3>
-            <p>Not the "customers who bought this" kind. We built a system that analyzes user behavior patterns via a lightweight ML pipeline (scikit-learn) running on a scheduled job. It clusters users by behavior and serves tailored homepages. Implementation: 1 week.</p>
+            <p>Not the "customers who bought this" kind. A lightweight approach analyzes user behavior patterns via a lightweight ML pipeline (scikit-learn) running on a scheduled job. It clusters users by behavior and serves tailored homepages. Expect around a week for a first version.</p>
         </div>
 
         <h2>Cost & Performance Reality</h2>
         <div class="highlight-box">
-            <strong>Real costs from production deployments:</strong><br />
+            <strong>Ballpark running costs (at current API prices):</strong><br />
             Conversational search: ~$0.003 per query (embedding + vector search)<br />
             Content brief generation: ~$0.35 per brief (GPT-4o, ~2000 tokens)<br />
             Smart autocomplete: $0 (on-device model, no API calls)<br />
@@ -148,13 +148,13 @@
         <ul>
             <li><strong>Don't start with fine-tuning.</strong> 90% of use cases are solved with prompt engineering + RAG. Fine-tuning is expensive and brittle. Only do it when you need consistent output formatting for thousands of requests.</li>
             <li><strong>Always have a fallback.</strong> AI APIs go down, rate-limit, or return nonsense. Your feature should degrade gracefully — show cached results, fall back to keyword search, or prompt the user to rephrase.</li>
-            <li><strong>Monitor for drift.</strong> Model outputs change over time. Log every AI response and review a random sample weekly. We've caught API behavior changes that broke client integrations three times in the past year.</li>
+            <li><strong>Monitor for drift.</strong> Model outputs change over time. Log every AI response and review a random sample weekly. Provider-side model updates can quietly change outputs, so catch it early.</li>
             <li><strong>Privacy first.</strong> Never send sensitive data to third-party APIs without anonymization. For regulated industries, self-host open-source models behind your VPC.</li>
         </ul>
 
         <h2>Start Small, Ship Fast</h2>
         <p>The playbook is simple: pick one feature that would materially improve your product, build it with an API in 2–3 days, measure the impact, then iterate. You don't need a data science team — you need good engineering judgment and the right tools.</p>
-        <p>We help SaaS teams ship AI features without hiring ML specialists. <a href="../index.html#contact" style="color: var(--accent-color);">Get in touch</a> if you want to move faster.</p>
+        <p>We help teams add AI features without hiring ML specialists. <a href="../index.html#contact" style="color: var(--accent-color);">Get in touch</a> if you want to move faster.</p>
     </article>
 
     <script>
