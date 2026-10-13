@@ -3665,3 +3665,29 @@ pre, code, .window-body, .browser-screen, .folder-browser { max-width: 100%; ove
 @media (min-width: 969px) {
     .team-card .member-meta { min-height: 2.6em; display: flex; align-items: flex-end; }
 }
+
+/* --- Project folders: preview gets its own column so it never covers the text --- */
+@media (min-width: 769px) {
+    .folder-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) clamp(200px, 36%, 300px);
+        column-gap: 2rem;
+        align-items: end;
+        padding-bottom: 0;
+    }
+    .folder-front { padding-bottom: 2.2rem; align-self: start; }
+    .folder-desc { max-width: 100%; }
+    .folder-browser {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        width: 100%;
+        height: 170px;
+        margin-bottom: -30px;
+        align-self: end;
+    }
+}
+/* Two narrow columns squeeze the text; stack folders until there's room */
+@media (max-width: 1360px) {
+    .folders-grid { grid-template-columns: 1fr; }
+}
