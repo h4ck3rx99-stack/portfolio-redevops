@@ -3656,3 +3656,12 @@ pre, code, .window-body, .browser-screen, .folder-browser { max-width: 100%; ove
     .promise { border-left: none; }
     .promise:nth-child(n+2) { border-top: 1px solid rgba(255, 255, 255, 0.06); }
 }
+
+/* Team names on a single line */
+.member-name {
+    font-size: clamp(1.6rem, 2.2vw, 2rem);
+    white-space: nowrap;
+}
+@media (min-width: 969px) {
+    .team-card .member-meta { min-height: 2.6em; display: flex; align-items: flex-end; }
+}
