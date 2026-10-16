@@ -447,6 +447,19 @@ export default function Home() {
   const symbol = currencySymbols[data.currency] || "₹";
 
   const handlePrint = () => {
+    // Print exactly what the preview shows: paint the page in the template's paper colour
+    // and use a clean file name instead of the site title.
+    const paper = data.template === "light" ? "#ffffff" : data.template === "dark" ? "#090909" : "#0c0c0c";
+    const root = document.documentElement;
+    const previousTitle = document.title;
+    const label = data.type === "proposal" ? (data.proposalTitle || "Proposal") : `Invoice ${data.docNumber || ""}`.trim();
+    root.style.setProperty("--print-paper", paper);
+    document.title = [label, data.clientName].filter(Boolean).join(" - ").replace(/[\\/:*?"<>|]+/g, "");
+    const restore = () => {
+      document.title = previousTitle;
+      window.removeEventListener("afterprint", restore);
+    };
+    window.addEventListener("afterprint", restore);
     window.print();
   };
 
@@ -456,7 +469,7 @@ export default function Home() {
   const accentBackground = { backgroundColor: data.accentColor };
 
   return (
-    <main className="min-h-screen flex flex-col md:flex-row bg-[#080808]">
+    <main className="print-root min-h-screen flex flex-col md:flex-row bg-[#080808]">
       {/* Editor Panel - Left */}
       <section className="w-full md:w-[480px] shrink-0 border-r border-[#1c1c1c]/30 bg-[#0d0d0d] flex flex-col h-screen overflow-y-auto no-print">
         
@@ -1120,7 +1133,7 @@ export default function Home() {
       </section>
 
       {/* Preview Screen - Right */}
-      <section className="flex-1 bg-[#0a0a0a] overflow-y-auto flex justify-center p-8 md:p-12 relative min-h-screen">
+      <section className="print-area flex-1 bg-[#0a0a0a] overflow-y-auto flex justify-center p-8 md:p-12 relative min-h-screen">
         {/* Floating Portfolio Back Button */}
         <a href={backUrl} className="absolute top-6 left-6 px-4 py-2 rounded-lg bg-[#0d0d0d] border border-[#1c1c1c]/20 text-xs font-semibold text-[#a0a0a0] hover:text-[#00e5ff] hover:border-[#00e5ff]/40 transition-all flex items-center gap-1.5 no-print">
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>

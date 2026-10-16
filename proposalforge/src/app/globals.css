@@ -50,38 +50,58 @@ body {
 }
 
 /* Print Media Styles - Critical for premium PDF export */
+/* Print / PDF export: a clean A4 copy of exactly what the preview shows */
+@page {
+  size: A4;
+  margin: 0; /* also removes the browser's date / title / URL header and footer */
+}
+
 @media print {
-  body {
-    background: #ffffff !important;
-    color: #000000 !important;
+  html, body {
+    background: var(--print-paper, #ffffff) !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .no-print {
     display: none !important;
   }
 
-  .print-container {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
+  /* Undo the app's full-height scrolling layout so long documents flow onto more pages */
+  .print-root,
+  .print-area {
+    display: block !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
     padding: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
-    background: #ffffff !important;
-    color: #000000 !important;
+    margin: 0 !important;
+    background: transparent !important;
   }
 
-  /* Force background colors & borders to print correctly */
+  .print-container {
+    position: static !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important; /* one full page; grows onto more pages when needed */
+    margin: 0 !important;
+    padding: 14mm 14mm !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone; /* repeat the page padding on every printed page */
+  }
+
+  /* Keep backgrounds and template colours in the PDF */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  /* Prevent split page breaks within critical elements */
+  tr,
   .print-avoid-break {
+    break-inside: avoid !important;
     page-break-inside: avoid !important;
   }
 }
