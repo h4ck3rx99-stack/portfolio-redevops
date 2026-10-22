@@ -3841,3 +3841,14 @@ pre, code, .window-body, .browser-screen, .folder-browser { max-width: 100%; ove
     .nfc-card, .nfc-ripple, .nfc-phone-cta { animation: none; }
     .nfc-phone-cta { opacity: 1; transform: none; }
 }
+
+
+/* --- Mobile polish: comfortable tap targets, dock that gets out of the way --- */
+@media (max-width: 768px) {
+    .nav-logo { display: inline-flex; align-items: center; min-height: 44px; }
+    .blog-link { display: inline-flex; align-items: center; min-height: 44px; }
+    .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
+    .testimonials-single .author-role a { display: inline-block; padding: 0.35rem 0; }
+    .floating-socials { transition: transform 0.35s var(--ease-out-expo), opacity 0.25s ease; }
+    .floating-socials.dock-hidden { transform: translate(-50%, 140%); opacity: 0; pointer-events: none; }
+}
