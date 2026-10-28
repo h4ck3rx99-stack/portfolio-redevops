@@ -1,0 +1,153 @@
+/* RE Dev Ops — design tokens ("Ledger").
+   Palettes: ledger (default, live site), night + moss (design lab only). */
+
+@font-face {
+    font-family: "Bricolage Grotesque";
+    src: url("../assets/fonts/bricolage-grotesque-latin.woff2") format("woff2");
+    font-weight: 600 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Geist";
+    src: url("../assets/fonts/geist-latin.woff2") format("woff2");
+    font-weight: 400 600;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Geist Mono";
+    src: url("../assets/fonts/geist-mono-latin.woff2") format("woff2");
+    font-weight: 400 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Metric-matched fallbacks (values from the font files' hhea/OS2 tables) keep layout shift near zero */
+@font-face {
+    font-family: "Bricolage Fallback";
+    src: local("Arial");
+    size-adjust: 104%;
+    ascent-override: 89%;
+    descent-override: 26%;
+    line-gap-override: 0%;
+}
+@font-face {
+    font-family: "Geist Fallback";
+    src: local("Arial");
+    size-adjust: 106%;
+    ascent-override: 95%;
+    descent-override: 28%;
+    line-gap-override: 0%;
+}
+@font-face {
+    font-family: "Geist Mono Fallback";
+    src: local("Courier New");
+    size-adjust: 100%;
+    ascent-override: 100%;
+    descent-override: 30%;
+    line-gap-override: 0%;
+}
+
+:root,
+:root[data-palette="ledger"] {
+    --paper: #F3F0E8;
+    --paper-2: #E8E4D9;
+    --ink: #15171A;
+    --graphite: #545A61;
+    --line: #CFCABD;
+    --line-strong: #15171A;
+    --signal: #C73A17;
+    --signal-ink: #A8300F;
+    --on-signal: #FFFFFF;
+    --focus: #1F4FD6;
+
+    --night: #15171A;
+    --night-text: #EFECE4;
+    --night-muted: #A3A7AD;
+    --night-line: #2E3136;
+    --night-signal: #FF8A63;
+    --night-focus: #8FB0FF;
+
+    --whatsapp: #25D366;
+}
+
+:root[data-palette="night"] {
+    --paper: #111214;
+    --paper-2: #1A1C1F;
+    --ink: #EEEBE4;
+    --graphite: #A4A8AE;
+    --line: #2C2F33;
+    --line-strong: #EEEBE4;
+    --signal: #FF7A4D;
+    --signal-ink: #FF9670;
+    --on-signal: #111214;
+    --focus: #8FB0FF;
+    --night: #0A0B0C;
+    --night-line: #26292D;
+}
+
+:root[data-palette="moss"] {
+    --paper: #EAE8E1;
+    --paper-2: #D9E1D3;
+    --ink: #1E2420;
+    --graphite: #4E5A52;
+    --line: #C5CCBF;
+    --line-strong: #1E2420;
+    --signal: #3E5C44;
+    --signal-ink: #324A37;
+    --on-signal: #FFFFFF;
+    --focus: #1F4FD6;
+    --night: #1E2420;
+    --night-signal: #B9D3A8;
+}
+
+:root {
+    --font-display: "Bricolage Grotesque", "Bricolage Fallback", "Arial", sans-serif;
+    --font-body: "Geist", "Geist Fallback", "Arial", sans-serif;
+    --font-mono: "Geist Mono", "Geist Mono Fallback", "Courier New", monospace;
+
+    --fs-display: clamp(2.25rem, 1.5rem + 4.4vw, 5.75rem);
+    --fs-h2: clamp(1.875rem, 1.3rem + 2.6vw, 3.5rem);
+    --fs-h3: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
+    --fs-index: clamp(1.5rem, 1.1rem + 1.6vw, 2.5rem);
+    --fs-lead: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+    --fs-body: 1rem;
+    --fs-small: 0.9375rem;
+    --fs-meta: 0.8125rem;
+    --fs-quote: clamp(1.5rem, 1.1rem + 1.8vw, 2.5rem);
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
+    --space-7: 48px;
+    --space-8: 64px;
+    --space-9: 96px;
+    --space-10: 128px;
+
+    --container: 1320px;
+    --gutter: clamp(1.25rem, 4vw, 3rem);
+    --col-gap: clamp(1rem, 2vw, 1.5rem);
+    --section-space: clamp(4.5rem, 3rem + 6vw, 9rem);
+
+    --radius-s: 2px;
+    --radius-m: 4px;
+
+    --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+    --dur-fast: 160ms;
+    --dur-mid: 240ms;
+    --dur-slow: 480ms;
+
+    --header-h: 64px;
+}
+
+@media (min-width: 768px) {
+    :root { --fs-body: 1.0625rem; }
+}
+
+@media (min-width: 1024px) {
+    :root { --header-h: 72px; }
+}

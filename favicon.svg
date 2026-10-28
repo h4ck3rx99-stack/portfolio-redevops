@@ -1,10 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0ad3ff"/>
-      <stop offset="100%" stop-color="#6366f1"/>
-    </linearGradient>
-  </defs>
-  <circle cx="50" cy="50" r="48" fill="url(#g)"/>
-  <text x="50" y="58" text-anchor="middle" font-family="system-ui,-apple-system,sans-serif" font-size="36" font-weight="800" fill="#0a0a0a" letter-spacing="-1">RE</text>
+  <circle cx="50" cy="50" r="48" fill="#15171A"/>
+  <text x="44" y="62" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#F3F0E8" letter-spacing="-1">RE</text>
+  <circle cx="77" cy="60" r="5" fill="#C73A17"/>
 </svg>

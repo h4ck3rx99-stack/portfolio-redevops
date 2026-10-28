@@ -1,0 +1,20 @@
+{
+  "name": "redevops-qa",
+  "private": true,
+  "description": "Dev-only QA tooling for redevops.in (never deployed).",
+  "type": "module",
+  "scripts": {
+    "images": "node images.mjs",
+    "test": "node run-checks.mjs",
+    "validate": "html-validate \"../../*.html\" \"../../work/*.html\" \"../../blog/*.html\" \"../../design-lab/*.html\"",
+    "links": "linkinator http://localhost:5510/ --recurse --skip \"^(?!http://localhost:5510)\"",
+    "lighthouse": "node lighthouse.mjs"
+  },
+  "devDependencies": {
+    "html-validate": "^9.0.0",
+    "lighthouse": "^12.0.0",
+    "linkinator": "^6.1.0",
+    "playwright-core": "^1.48.0",
+    "sharp": "^0.33.5"
+  }
+}
