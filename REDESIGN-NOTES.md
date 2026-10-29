@@ -20,7 +20,7 @@ Branch: `redesign/creative-studio-v2`. Nothing on this branch is pushed or deplo
 ### Where the brief and the repository differ
 - §2.6 says "all 1440×900": true for the JPGs only; the PNG variants are different sizes (and two are not real app screenshots). The redesign uses only the JPGs.
 - §2.4 says Calendly should be lazy-loaded: today it is loaded eagerly in `<head>`. Redesign makes it lazy, as briefed.
-- FAQ "What technologies…" lists Kubernetes, GraphQL, Redis, React Native etc. Not verifiable from the repo; trimmed to what the projects show (see Owner to confirm).
+- FAQ "What technologies…" lists Kubernetes, GraphQL, Redis, React Native etc., which the projects themselves don't show. These are the owner's own stated skills, so the answer is kept verbatim (owner may trim).
 - `site.webmanifest` icon `favicon-32x32.png` missing (fixed in the redesign).
 - Reply-time copy is "6–12 hours" everywhere (matches the brief).
 
