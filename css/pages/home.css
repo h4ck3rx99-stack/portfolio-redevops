@@ -1,0 +1,59 @@
+/* Homepage composition */
+
+/* ---------- Hero ---------- */
+.hero {
+    padding-block: clamp(1.5rem, 1rem + 2vw, 3.5rem) var(--section-space);
+}
+.hero__grid { row-gap: var(--space-6); align-items: start; }
+.hero__copy { grid-column: 1 / -1; display: grid; gap: var(--space-5); align-content: start; }
+.hero__eyebrow { margin-bottom: calc(var(--space-2) * -1); }
+.hero__title { max-width: 14ch; }
+.hero__lead { max-width: 56ch; }
+.hero__ctas { display: grid; gap: var(--space-3); }
+.hero__wa { margin-top: calc(var(--space-2) * -1); }
+.hero__visual { grid-column: 1 / -1; display: grid; gap: var(--space-6); }
+
+@media (min-width: 480px) {
+    .hero__ctas { display: flex; flex-wrap: wrap; }
+}
+@media (min-width: 768px) {
+    .hero__title { max-width: 18ch; }
+}
+@media (min-width: 1024px) {
+    .hero { padding-top: var(--space-7); }
+    .hero__copy { grid-column: 1 / 7; padding-top: 0.35rem; position: sticky; top: calc(var(--header-h) + var(--space-6)); }
+    .hero__title { max-width: 15ch; }
+    .hero__visual { grid-column: 7 / 13; gap: var(--space-5); }
+}
+
+/* ---------- NFC band ---------- */
+.nfc-band__intro { row-gap: var(--space-6); }
+.nfc-band__intro .lead { grid-column: 1 / -1; color: var(--night-text); }
+.nfc-band__intro .facts { grid-column: 1 / -1; }
+@media (min-width: 1024px) {
+    .nfc-band__intro .lead { grid-column: 1 / 7; }
+    .nfc-band__intro .facts { grid-column: 8 / 13; }
+}
+.nfc-band__ctas { margin-top: clamp(2.5rem, 2rem + 2vw, 4rem); align-items: center; }
+.nfc-band .nfc-product p { color: var(--night-muted); }
+
+/* ---------- Testimonial section spacing ---------- */
+#testimonials .section-head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+#testimonials .section-head__row { margin-bottom: var(--space-6); }
+
+/* WhatsApp FAB must not hide the last content on phones */
+@media (max-width: 767px) {
+    .site-footer { padding-bottom: 88px; }
+}
+
+/* Compact rows on phones: monogram / icon beside the text instead of above it */
+@media (max-width: 767px) {
+    .person { grid-template-columns: 72px 1fr; column-gap: var(--space-4); row-gap: var(--space-2); }
+    .person .monogram { grid-row: span 2; max-width: 72px; font-size: 1.5rem; margin: 0; }
+    .person > p:not(.meta), .person .person__links { grid-column: 1 / -1; }
+    .people { row-gap: var(--space-6); }
+    .nfc-product { grid-template-columns: 40px 1fr; column-gap: var(--space-4); padding-top: var(--space-4); }
+    .nfc-product svg { width: 40px; height: 40px; grid-row: span 3; }
+    .nfc-products { row-gap: var(--space-4); }
+    .feature__body .built-list li:nth-child(n+4) { display: none; }
+}
