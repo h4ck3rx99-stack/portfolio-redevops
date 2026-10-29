@@ -2,8 +2,8 @@
 .work-hero { padding-block: var(--space-6) var(--space-7); }
 .work-hero .crumbs { margin-bottom: var(--space-5); gap: var(--space-2); align-items: center; }
 .work-hero__meta { margin-bottom: var(--space-4); }
-.work-hero h1 { max-width: 16ch; }
-.work-hero__summary { margin: var(--space-5) 0 var(--space-6); max-width: 56ch; }
+.work-hero h1 { max-width: 8.8em; }
+.work-hero__summary { margin: var(--space-5) 0 var(--space-6); max-width: 30.8em; }
 
 .work-shot .shot { aspect-ratio: 16 / 10; }
 

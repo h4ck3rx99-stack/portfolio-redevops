@@ -23,7 +23,7 @@
 .tabs button[aria-selected="true"] { border-color: var(--ink); background: var(--paper-2); }
 .concept { border: 1px solid var(--line); padding: var(--space-6); }
 
-.concept-h1 { font-size: clamp(2rem, 1.4rem + 2.8vw, 4rem); max-width: 15ch; }
+.concept-h1 { font-size: clamp(2rem, 1.4rem + 2.8vw, 4rem); max-width: 8.2em; }
 .concept-ledger { row-gap: var(--space-6); }
 .concept-ledger__copy, .concept-ledger__visual { grid-column: 1 / -1; display: grid; gap: var(--space-5); align-content: start; }
 @media (min-width: 1024px) {

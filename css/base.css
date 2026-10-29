@@ -40,7 +40,7 @@ h3 { font-size: var(--fs-h3); line-height: 1.1; letter-spacing: -0.02em; font-we
 h4 { font-size: 1.125rem; line-height: 1.25; letter-spacing: -0.01em; font-weight: 600; }
 
 p, li, dd { text-wrap: pretty; }
-p { max-width: 62ch; }
+p { max-width: 34.1em; }
 
 a { color: inherit; }
 

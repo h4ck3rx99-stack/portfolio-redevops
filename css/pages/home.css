@@ -7,8 +7,8 @@
 .hero__grid { row-gap: var(--space-6); align-items: start; }
 .hero__copy { grid-column: 1 / -1; display: grid; gap: var(--space-5); align-content: start; }
 .hero__eyebrow { margin-bottom: calc(var(--space-2) * -1); }
-.hero__title { max-width: 14ch; }
-.hero__lead { max-width: 56ch; }
+.hero__title { max-width: 7.7em; }
+.hero__lead { max-width: 30.8em; }
 .hero__ctas { display: grid; gap: var(--space-3); }
 .hero__wa { margin-top: calc(var(--space-2) * -1); }
 .hero__visual { grid-column: 1 / -1; display: grid; gap: var(--space-6); }
@@ -17,12 +17,12 @@
     .hero__ctas { display: flex; flex-wrap: wrap; }
 }
 @media (min-width: 768px) {
-    .hero__title { max-width: 18ch; }
+    .hero__title { max-width: 9.9em; }
 }
 @media (min-width: 1024px) {
     .hero { padding-top: var(--space-7); }
     .hero__copy { grid-column: 1 / 7; padding-top: 0.35rem; position: sticky; top: calc(var(--header-h) + var(--space-6)); }
-    .hero__title { max-width: 15ch; }
+    .hero__title { max-width: 8.2em; }
     .hero__visual { grid-column: 7 / 13; gap: var(--space-5); }
 }
 

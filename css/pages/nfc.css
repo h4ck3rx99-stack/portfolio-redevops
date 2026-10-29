@@ -1,8 +1,8 @@
 /* NFC landing page */
 .nfc-hero { padding-block: clamp(3rem, 2rem + 4vw, 6rem); }
 .nfc-hero .container { display: grid; gap: var(--space-5); }
-.nfc-hero h1 { max-width: 16ch; }
-.nfc-hero .lead { color: var(--night-text); max-width: 60ch; }
+.nfc-hero h1 { max-width: 8.8em; }
+.nfc-hero .lead { color: var(--night-text); max-width: 33em; }
 .nfc-hero .facts { max-width: 720px; }
 
 .steps--three { display: grid; }

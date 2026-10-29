@@ -39,7 +39,7 @@
 }
 .section-head__note {
     display: none;
-    max-width: 46ch;
+    max-width: 25.3em;
     font-size: var(--fs-small);
     color: var(--graphite);
     text-align: right;

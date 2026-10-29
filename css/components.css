@@ -449,7 +449,7 @@ a:hover .shot img, .product:hover .shot img, .feature:hover .shot img { transfor
 }
 .promise { padding: var(--space-5) 0; border-bottom: 1px solid var(--line); }
 .promise dt { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.015em; margin-bottom: var(--space-2); }
-.promise dd { color: var(--graphite); max-width: 52ch; }
+.promise dd { color: var(--graphite); max-width: 28.6em; }
 @media (min-width: 768px) {
     .promises { grid-template-columns: 1fr 1fr; }
     .promise:nth-child(odd) { padding-right: var(--space-6); border-right: 1px solid var(--line); }
@@ -474,7 +474,7 @@ a:hover .shot img, .product:hover .shot img, .feature:hover .shot img { transfor
     font-size: var(--fs-quote);
     line-height: 1.22;
     letter-spacing: -0.02em;
-    max-width: 34ch;
+    max-width: 18.7em;
     text-wrap: pretty;
 }
 .quote__by { margin-top: var(--space-6); }
@@ -489,7 +489,7 @@ a:hover .shot img, .product:hover .shot img, .feature:hover .shot img { transfor
 }
 
 /* ---------- Team ---------- */
-.studio-intro { margin-bottom: clamp(2.5rem, 2rem + 3vw, 4rem); max-width: 62ch; }
+.studio-intro { margin-bottom: clamp(2.5rem, 2rem + 3vw, 4rem); max-width: 34.1em; }
 .people { row-gap: var(--space-7); }
 .person { grid-column: 1 / -1; display: grid; gap: var(--space-3); align-content: start; }
 .monogram {
@@ -680,7 +680,7 @@ a:hover .shot img, .product:hover .shot img, .feature:hover .shot img { transfor
 .footer__top { row-gap: var(--space-7); }
 .footer__brand { grid-column: 1 / -1; display: grid; gap: var(--space-3); align-content: start; }
 .footer__brand .wordmark { color: var(--night-text); }
-.footer__brand p { color: var(--night-muted); max-width: 36ch; }
+.footer__brand p { color: var(--night-muted); max-width: 19.8em; }
 .footer__col { grid-column: span 2; }
 .footer__col h2 { font-family: var(--font-mono); font-size: var(--fs-meta); font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; color: var(--night-muted); margin-bottom: var(--space-3); }
 .footer__col a, .footer__col button {
@@ -730,7 +730,7 @@ a:hover .shot img, .product:hover .shot img, .feature:hover .shot img { transfor
     padding: var(--space-4) 0;
     border-bottom: 1px solid var(--line);
 }
-.facts-table__row dd { max-width: 62ch; }
+.facts-table__row dd { max-width: 34.1em; }
 @media (min-width: 768px) {
     .facts-table__row { grid-template-columns: 220px 1fr; gap: var(--space-6); }
 }
@@ -891,3 +891,6 @@ a:hover .shot img, .product:hover .shot img, .feature:hover .shot img { transfor
     .js .reveal.is-pending { opacity: 1; transform: none; }
     .js .reveal { transition: none; }
 }
+
+/* Short labels ("Work", "NFC") still get a 44×44 target */
+.site-nav__link, .crumbs a { min-width: 44px; justify-content: center; }

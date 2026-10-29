@@ -1,13 +1,13 @@
 /* Blog articles, privacy policy, 404 */
 .article {
-    max-width: calc(68ch + var(--gutter) * 2);
+    max-width: calc(37.4em + var(--gutter) * 2);
     padding-block: var(--space-6) var(--section-space);
 }
 .article .crumbs { gap: var(--space-2); align-items: center; margin-bottom: var(--space-5); }
 .article h1 { font-size: var(--fs-h2); line-height: 1.05; margin-bottom: var(--space-4); }
 .article h2 { font-size: var(--fs-h3); margin: var(--space-7) 0 var(--space-4); }
 .article h3 { font-size: 1.25rem; margin: var(--space-6) 0 var(--space-3); }
-.article p, .article li { max-width: 68ch; }
+.article p, .article li { max-width: 37.4em; }
 .article p { margin-bottom: var(--space-4); }
 .article ul, .article ol { margin: 0 0 var(--space-5); padding-left: 1.25rem; list-style: revert; }
 .article li { margin-bottom: var(--space-2); }
