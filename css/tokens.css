@@ -72,7 +72,8 @@
     --whatsapp: #25D366;
 }
 
-:root[data-palette="night"] {
+:root[data-palette="night"],
+[data-palette="night"] {
     --paper: #111214;
     --paper-2: #1A1C1F;
     --ink: #EEEBE4;
@@ -87,7 +88,8 @@
     --night-line: #26292D;
 }
 
-:root[data-palette="moss"] {
+:root[data-palette="moss"],
+[data-palette="moss"] {
     --paper: #EAE8E1;
     --paper-2: #D9E1D3;
     --ink: #1E2420;
