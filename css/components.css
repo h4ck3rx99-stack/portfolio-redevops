@@ -883,7 +883,8 @@ a:hover .shot img, .product:hover .shot img, .feature:hover .shot img { transfor
     opacity: 0.0001;
     transform: translateY(16px);
 }
-.js .reveal {
+/* Only the reveal animates; hiding (adding .is-pending) is instant */
+.js .reveal:not(.is-pending) {
     transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
     transition-delay: var(--reveal-delay, 0ms);
 }
@@ -894,3 +895,9 @@ a:hover .shot img, .product:hover .shot img, .feature:hover .shot img { transfor
 
 /* Short labels ("Work", "NFC") still get a 44×44 target */
 .site-nav__link, .crumbs a { min-width: 44px; justify-content: center; }
+
+/* Let grid columns shrink below their content (long <select> options at 320px) */
+.contact > *, .split > *, .feature > *, .hero__grid > * { min-width: 0; }
+.brief select { width: auto; max-width: 100%; }
+.product h3 a { display: inline-flex; align-items: center; min-height: 44px; }
+.contact__intro, .brief { grid-template-columns: minmax(0, 1fr); }

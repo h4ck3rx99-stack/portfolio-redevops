@@ -38,7 +38,6 @@
 .nfc-band .nfc-product p { color: var(--night-muted); }
 
 /* ---------- Testimonial section spacing ---------- */
-#testimonials .section-head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 #testimonials .section-head__row { margin-bottom: var(--space-6); }
 
 /* WhatsApp FAB must not hide the last content on phones */
@@ -56,4 +55,192 @@
     .nfc-product svg { width: 40px; height: 40px; grid-row: span 3; }
     .nfc-products { row-gap: var(--space-4); }
     .feature__body .built-list li:nth-child(n+4) { display: none; }
+}
+
+/* ================= Fun & bold layer ================= */
+
+/* Signal marker behind a key phrase (static, no load animation) */
+.hl {
+    background: linear-gradient(transparent 58%, var(--signal) 58%, var(--signal) 92%, transparent 92%);
+    color: inherit;
+    padding: 0 0.04em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+/* Wobbly letters (fun.js); transforms only, layout never moves */
+.wb-word { display: inline-block; white-space: nowrap; }
+.wb {
+    display: inline-block;
+    transition: transform 220ms var(--ease), color 160ms var(--ease);
+    will-change: transform;
+}
+.wb.is-hot { color: var(--signal); }
+
+/* Spinning sticker on the hero preview (spins on hover only) */
+.preview { position: relative; }
+.sticker {
+    position: absolute;
+    z-index: 2;
+    top: -34px;
+    right: -18px;
+    width: 104px;
+    height: 104px;
+    transform: rotate(-12deg);
+    transition: transform 900ms var(--ease);
+}
+.sticker circle:first-of-type { fill: var(--ink); }
+.sticker text { fill: var(--paper); font-family: var(--font-mono); font-size: 10.2px; letter-spacing: 0.12em; }
+.sticker__dot { fill: var(--signal); }
+.hero__visual:hover .sticker { transform: rotate(348deg); }
+@media (max-width: 767px) {
+    .sticker { top: -28px; right: 4px; width: 84px; height: 84px; }
+}
+
+/* Project index: big outlined numerals, rows slide on hover */
+.pindex__num {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    font-stretch: 75%;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--ink);
+    line-height: 1;
+    transition: color var(--dur-fast) var(--ease), -webkit-text-stroke-color var(--dur-fast) var(--ease);
+}
+.pindex__link { grid-template-columns: 2.75rem 1fr; }
+.pindex__name { display: inline-block; transition: transform var(--dur-mid) var(--ease); }
+.pindex__link:hover .pindex__num,
+.pindex__link:focus-visible .pindex__num,
+.pindex__row.is-active .pindex__num { color: var(--signal); -webkit-text-stroke-color: var(--signal); }
+.pindex__link:hover .pindex__name,
+.pindex__link:focus-visible .pindex__name { transform: translateX(6px); }
+@media (min-width: 1024px) {
+    .pindex__link { grid-template-columns: 2.75rem minmax(0, 1fr) auto; }
+}
+
+/* Studio products: screenshots sit slightly tilted, straighten on hover */
+@media (min-width: 768px) {
+    .product .shot { transform: rotate(var(--tilt, -1.2deg)); transition: transform var(--dur-slow) var(--ease); }
+    .product--b .shot, .product--c .shot { --tilt: 1.2deg; }
+    .product:hover .shot, .product:focus-within .shot { transform: rotate(0deg) translateY(-4px); }
+    .feature .shot { transition: transform var(--dur-slow) var(--ease); }
+    .feature:hover .shot { transform: translateY(-4px); }
+}
+
+/* Services: oversized outlined numbers */
+.service__head .meta {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 2rem + 4vw, 5.5rem);
+    font-weight: 800;
+    font-stretch: 75%;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--ink);
+    transition: color var(--dur-mid) var(--ease);
+}
+.service:hover .service__head .meta { color: var(--signal); -webkit-text-stroke-color: var(--signal); }
+
+/* Bigger, louder section titles */
+.section-head h2 { font-size: clamp(2.25rem, 1.4rem + 3.6vw, 4.5rem); }
+
+/* ---------- NFC demo ---------- */
+.nfc-band__copy { grid-column: 1 / -1; display: grid; gap: var(--space-6); align-content: start; }
+.nfc-demo { grid-column: 1 / -1; display: grid; gap: var(--space-4); align-content: start; }
+@media (min-width: 1024px) {
+    .nfc-band__copy { grid-column: 1 / 7; }
+    .nfc-demo { grid-column: 8 / 13; }
+}
+.nfc-demo__stage {
+    position: relative;
+    height: 260px;
+    border: 1px solid var(--night-line);
+    overflow: hidden;
+}
+.nfc-demo__phone {
+    position: absolute;
+    right: 14%;
+    top: 22px;
+    width: 128px;
+    height: 236px;
+    border: 1.5px solid var(--night-text);
+    border-radius: 18px;
+    padding: 26px 12px 12px;
+}
+.nfc-demo__screen {
+    display: grid;
+    gap: 6px;
+    align-content: start;
+    height: 100%;
+    animation: nfc-in 360ms var(--ease);
+}
+.nfc-demo__screen[hidden] { display: none; }
+.nfc-demo__screen strong { font-family: var(--font-display); font-weight: 750; font-stretch: 85%; font-size: 1.25rem; line-height: 1.05; color: var(--night-signal); }
+.nfc-demo__screen > span:last-child { font-size: 0.8125rem; color: var(--night-muted); }
+.nfc-demo__ripple {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: 30px;
+    height: 30px;
+    margin: -15px 0 0 -15px;
+    border-radius: 50%;
+    border: 2px solid var(--night-signal);
+    opacity: 0;
+}
+.nfc-demo__card {
+    position: absolute;
+    left: 10%;
+    top: 78px;
+    width: 150px;
+    height: 94px;
+    padding: 12px;
+    border: 1.5px solid var(--night-text);
+    border-radius: 8px;
+    background: var(--night);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform: rotate(-8deg);
+    z-index: 1;
+}
+.nfc-demo__brand { font-family: var(--font-display); font-weight: 750; font-stretch: 85%; font-size: 1rem; color: var(--night-text); }
+.nfc-demo__waves { width: 34px; height: 34px; align-self: flex-end; color: var(--night-signal); }
+.nfc-demo__opts { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.nfc-demo__opt {
+    min-height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--night-text);
+    border-radius: var(--radius-s);
+    background: transparent;
+    color: var(--night-text);
+    font-weight: 500;
+}
+.nfc-demo__opt[aria-pressed="true"] { background: var(--night-signal); border-color: var(--night-signal); color: var(--night); }
+.nfc-demo__stage.is-tapping .nfc-demo__card { animation: nfc-tap 760ms var(--ease); }
+.nfc-demo__stage.is-tapping .nfc-demo__ripple { animation: nfc-ripple 760ms ease-out; }
+@keyframes nfc-tap {
+    0% { transform: rotate(-8deg); }
+    45% { transform: translateX(var(--reach, 110px)) translateY(-6px) rotate(-2deg); }
+    60% { transform: translateX(var(--reach, 110px)) translateY(-6px) rotate(-2deg); }
+    100% { transform: rotate(-8deg); }
+}
+@keyframes nfc-ripple {
+    0%, 40% { opacity: 0; transform: scale(0.4); }
+    48% { opacity: 1; }
+    100% { opacity: 0; transform: scale(5); }
+}
+@keyframes nfc-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (max-width: 479px) {
+    .nfc-demo__card { left: 6%; width: 128px; height: 82px; }
+    .nfc-demo__phone { right: 8%; }
+    .nfc-demo__stage { --reach: 70px; }
+}
+
+.nfc-band__copy > .lead, .nfc-band__copy > .facts { grid-column: auto; }
+
+/* Reduced motion: no transforms at all, including static decorative tilts */
+@media (prefers-reduced-motion: reduce) {
+    .product .shot, .feature .shot, .sticker, .hero__visual:hover .sticker, .nfc-demo__card, .pindex__name, .wb, .shot img { transform: none; }
 }

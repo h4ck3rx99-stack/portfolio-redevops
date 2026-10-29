@@ -5,6 +5,7 @@ import { initContact } from './contact.js';
 import { initWhatsApp } from './whatsapp.js';
 import { initCalendly } from './calendly.js';
 import { initReveal } from './reveal.js';
+import { initFun } from './fun.js';
 
 // Design lab previews: palette/font via query string, local hosts only.
 if (['localhost', '127.0.0.1'].includes(location.hostname)) {
@@ -32,3 +33,4 @@ initContact();
 initWhatsApp();
 initCalendly();
 initReveal();
+initFun();

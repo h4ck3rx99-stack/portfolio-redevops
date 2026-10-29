@@ -235,6 +235,31 @@ const check = (name, ok, detail = '') => behaviour.push({ name, ok, detail });
     check('reduced motion: nothing hidden for reveal', pending === 0, `${pending} pending`);
     await rctx.close();
 
+    // Motion: nothing animates on load above the fold
+    const mctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const m = await mctx.newPage();
+    await m.route(/clarity\.ms|calendly\.com/, (r) => r.abort());
+    await m.goto(BASE + '/');
+    await m.waitForTimeout(300);
+    const running = await m.evaluate(() => document.getAnimations().filter((a) => a.playState === 'running').map((a) => String(a.effect?.target?.className || '?')));
+    check('no animations running on load', running.length === 0, running.join(', '));
+
+    // Jumping to a section never lands on blank (pending) content
+    await m.click('.site-nav__link[href="#team"]');
+    await m.waitForTimeout(150);
+    const blank = await m.evaluate(() => document.querySelectorAll('#team .reveal.is-pending').length);
+    check('nav jump reveals target immediately', blank === 0, `${blank} pending in #team`);
+    await mctx.close();
+
+    // Reduced motion: no transforms on decorative or revealed elements
+    const rm = await browser.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
+    const rp = await rm.newPage();
+    await rp.goto(BASE + '/');
+    const transformed = await rp.evaluate(() => [...document.querySelectorAll('.product .shot, .sticker, .nfc-demo__card, .reveal')]
+        .filter((el) => getComputedStyle(el).transform !== 'none').map((el) => String(el.className)));
+    check('reduced motion: no transforms', transformed.length === 0, transformed.join(', '));
+    await rm.close();
+
     // No-JS: hero content visible
     const nctx = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
     const n = await nctx.newPage();
