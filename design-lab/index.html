@@ -39,9 +39,9 @@
     <section class="lab-sec">
         <div class="section-head"><div class="section-head__row"><span class="meta">01 · Hero concepts</span></div><h2>Three directions, same real content</h2></div>
         <div class="tabs" role="tablist" aria-label="Hero concepts">
-            <button role="tab" aria-selected="true" aria-controls="c1" id="t1">1 · Ledger (chosen)</button>
-            <button role="tab" aria-selected="false" aria-controls="c2" id="t2" tabindex="-1">2 · Night Studio</button>
-            <button role="tab" aria-selected="false" aria-controls="c3" id="t3" tabindex="-1">3 · Workshop</button>
+            <button type="button" role="tab" aria-selected="true" aria-controls="c1" id="t1">1 · Ledger (chosen)</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="c2" id="t2" tabindex="-1">2 · Night Studio</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="c3" id="t3" tabindex="-1">3 · Workshop</button>
         </div>
 
         <div class="concept" id="c1" role="tabpanel" aria-labelledby="t1">
@@ -135,9 +135,9 @@
 
         <h3 class="meta lab-h">Form fields</h3>
         <div class="form lab-form">
-            <div class="field"><label for="l1">Default</label><input id="l1" placeholder="Your name"></div>
-            <div class="field"><label for="l2">Focus</label><input id="l2" class="lab-focus" value="you@company.com"></div>
-            <div class="field"><label for="l3">Error</label><input id="l3" aria-invalid="true" value="not-an-email"><p class="form__error">Please add your name, a valid email and a short message.</p></div>
+            <div class="field"><label for="l1">Default</label><input type="text" id="l1" placeholder="Your name"></div>
+            <div class="field"><label for="l2">Focus</label><input type="email" id="l2" class="lab-focus" value="you@company.com"></div>
+            <div class="field"><label for="l3">Error</label><input type="email" id="l3" aria-invalid="true" value="not-an-email"><p class="form__error">Please add your name, a valid email and a short message.</p></div>
         </div>
 
         <h3 class="meta lab-h">Service row</h3>
