@@ -260,6 +260,24 @@ const check = (name, ok, detail = '') => behaviour.push({ name, ok, detail });
     check('reduced motion: no transforms', transformed.length === 0, transformed.join(', '));
     await rm.close();
 
+    // Website checker: renders the score from /api/check (stubbed, no network)
+    const cctx = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const cp = await cctx.newPage();
+    await cp.route(/clarity\.ms|calendly\.com/, (r) => r.abort());
+    await cp.route('**/api/check?*', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ url: 'https://shop.example/', checks: {
+        SEO: [{ label: 'Page has a title', pass: true, weight: 3 }, { label: 'Meta description for Google', pass: false, weight: 2 }],
+        Mobile: [{ label: 'Set up for phone screens (viewport tag)', pass: true, weight: 4 }],
+        Security: [{ label: 'Served over HTTPS', pass: true, weight: 4 }, { label: 'No insecure (http://) files on a secure page', pass: false, weight: 2 }],
+    } }) }));
+    await cp.goto(BASE + '/');
+    await cp.fill('#checkUrl', 'shop.example');
+    await cp.click('.check__form button');
+    await cp.waitForSelector('.check__ring', { timeout: 5000 }).catch(() => {});
+    await cp.waitForTimeout(1200);
+    const res = await cp.evaluate(() => ({ num: document.querySelector('.check__num')?.textContent, fails: [...document.querySelectorAll('.check__fails li')].map((l) => l.textContent), fix: document.querySelector('.check__ctas .btn')?.href }));
+    check('website checker shows score + fixes', res.num === '73' && res.fails.length === 2 && res.fix?.includes('scored%2073%2F100'), JSON.stringify(res));
+    await cctx.close();
+
     // No-JS: hero content visible
     const nctx = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
     const n = await nctx.newPage();

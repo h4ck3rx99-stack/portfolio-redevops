@@ -68,34 +68,7 @@
     box-decoration-break: clone;
 }
 
-/* Wobbly letters (fun.js); transforms only, layout never moves */
-.wb-word { display: inline-block; white-space: nowrap; }
-.wb {
-    display: inline-block;
-    transition: transform 220ms var(--ease), color 160ms var(--ease);
-    will-change: transform;
-}
-.wb.is-hot { color: var(--signal); }
 
-/* Spinning sticker on the hero preview (spins on hover only) */
-.preview { position: relative; }
-.sticker {
-    position: absolute;
-    z-index: 2;
-    top: -34px;
-    right: -18px;
-    width: 104px;
-    height: 104px;
-    transform: rotate(-12deg);
-    transition: transform 900ms var(--ease);
-}
-.sticker circle:first-of-type { fill: var(--ink); }
-.sticker text { fill: var(--paper); font-family: var(--font-mono); font-size: 10.2px; letter-spacing: 0.12em; }
-.sticker__dot { fill: var(--signal); }
-.hero__visual:hover .sticker { transform: rotate(348deg); }
-@media (max-width: 767px) {
-    .sticker { top: -28px; right: 4px; width: 84px; height: 84px; }
-}
 
 /* Project index: big outlined numerals, rows slide on hover */
 .pindex__num {
@@ -242,43 +215,12 @@
 
 /* Reduced motion: no transforms at all, including static decorative tilts */
 @media (prefers-reduced-motion: reduce) {
-    .product .shot, .feature .shot, .sticker, .hero__visual:hover .sticker, .nfc-demo__card, .pindex__name, .wb, .shot img { transform: none; }
+    .product .shot, .feature .shot, .nfc-demo__card, .pindex__name, .shot img { transform: none; }
 }
 
-/* ================= Art layer: doodles, squiggles, service art, stickers ================= */
+/* ================= Art layer: service illustrations, monograms ================= */
 
-/* Hand-drawn arrow from the hero copy to the project index (desktop only) */
-.doodle--hero { display: none; }
-@media (min-width: 1024px) {
-    .hero__copy { position: sticky; }
-    .doodle--hero {
-        display: block;
-        position: relative;
-        width: 220px;
-        margin: var(--space-2) 0 0 auto;
-        color: var(--signal);
-        transform: rotate(-4deg);
-    }
-    .doodle--hero svg { width: 220px; height: 120px; }
-    .doodle__note {
-        position: absolute;
-        left: -6px;
-        bottom: 6px;
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-stretch: 80%;
-        font-size: 1.25rem;
-        color: var(--ink);
-        transform: rotate(-6deg);
-        white-space: nowrap;
-    }
-}
 
-/* Squiggly section dividers */
-.squiggle { color: var(--signal); padding-top: var(--space-6); }
-.squiggle svg { width: 100%; height: 18px; display: block; }
-.squiggle + .section { padding-top: var(--space-6); }
-.night + .squiggle { padding-top: var(--section-space); }
 
 /* Chunky geometric service art */
 .service-art { width: 132px; height: 99px; margin-top: var(--space-3); overflow: visible; }
@@ -301,82 +243,6 @@
     .service-art { grid-column: 2; grid-row: 1 / span 2; width: 96px; height: 72px; }
 }
 
-/* Sticker board (drag with fun.js) */
-.stickers {
-    position: relative;
-    height: 260px;
-    border: 1.5px dashed var(--line);
-    border-radius: var(--radius-m);
-    overflow: hidden;
-    touch-action: none;
-    user-select: none;
-}
-.stickers__hint { position: absolute; left: 12px; bottom: 8px; margin: 0; }
-.sticker-x {
-    position: absolute;
-    display: grid;
-    place-items: center;
-    text-align: center;
-    font-family: var(--font-display);
-    font-weight: 750;
-    font-stretch: 82%;
-    line-height: 1.05;
-    cursor: grab;
-    transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r, 0deg));
-    transition: box-shadow var(--dur-fast) var(--ease);
-    touch-action: none;
-}
-.sticker-x.is-dragging { cursor: grabbing; z-index: 5; box-shadow: 0 10px 24px rgba(21, 23, 26, 0.22); }
-.sticker-x--burst {
-    left: 6%; top: 8%; --r: -8deg;
-    width: 112px; height: 112px;
-    background: var(--signal); color: var(--on-signal);
-    font-size: 0.95rem;
-    clip-path: polygon(50% 0%, 61% 13%, 78% 7%, 81% 24%, 98% 28%, 90% 44%, 100% 58%, 85% 67%, 87% 85%, 69% 85%, 59% 100%, 47% 88%, 32% 98%, 25% 82%, 8% 81%, 12% 64%, 0% 52%, 12% 40%, 5% 23%, 22% 20%, 28% 3%, 42% 12%);
-}
-.sticker-x--burst.is-dragging { box-shadow: none; }
-.sticker-x--circle {
-    left: 54%; top: 6%; --r: 10deg;
-    width: 104px; height: 104px; border-radius: 50%;
-    background: var(--ink); color: var(--paper);
-    font-size: 0.9rem;
-    outline: 2px dashed var(--paper); outline-offset: -8px;
-}
-.sticker-x--tag {
-    left: 10%; top: 58%; --r: -4deg;
-    padding: 10px 16px 10px 26px;
-    background: var(--paper-2); color: var(--ink);
-    border: 2px solid var(--ink);
-    border-radius: 3px 999px 999px 3px;
-    font-size: 1rem;
-}
-.sticker-x--tag::before {
-    content: ""; position: absolute; left: 9px; top: 50%;
-    width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--ink);
-}
-.sticker-x--blob {
-    left: 56%; top: 56%; --r: 7deg;
-    width: 138px; height: 92px;
-    background: #F2C14E; color: var(--ink);
-    border-radius: 58% 42% 55% 45% / 52% 60% 40% 48%;
-    font-size: 0.95rem;
-}
-.sticker-x--mark {
-    left: 37%; top: 34%; --r: -14deg;
-    width: 70px; height: 70px;
-    background: var(--paper); color: var(--ink);
-    border: 3px solid var(--ink);
-    border-radius: 16px;
-    font-size: 1.6rem;
-}
-.sticker-x--mark span::after { content: ""; }
-@media (max-width: 479px) {
-    .stickers { height: 240px; }
-    .sticker-x--burst { width: 96px; height: 96px; font-size: 0.85rem; }
-    .sticker-x--circle { width: 92px; height: 92px; font-size: 0.8rem; }
-    .sticker-x--blob { width: 118px; height: 80px; font-size: 0.85rem; left: 50%; }
-}
-
 /* Funky monograms: a different shape per person */
 .monogram { position: relative; background: transparent; overflow: visible; }
 .monogram span { position: relative; z-index: 1; }
@@ -392,5 +258,64 @@
 .person:hover .monogram::before { transform: rotate(24deg) scale(1.06); }
 
 @media (prefers-reduced-motion: reduce) {
-    .doodle--hero, .doodle__note, .sticker-x, .sa-spin, .sa-float, .sa-pop, .monogram::before { transform: none; }
+    .sa-spin, .sa-float, .sa-pop, .monogram::before { transform: none; }
+}
+
+/* ---------- Hero website checker ---------- */
+.check {
+    margin-top: var(--space-2);
+    padding: var(--space-5);
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-m);
+    background: var(--paper);
+    box-shadow: 6px 6px 0 var(--ink);
+}
+.check__form { display: grid; gap: var(--space-3); }
+.check__row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-2); }
+.check__row input {
+    min-height: 48px;
+    min-width: 0;
+    padding: 0 14px;
+    border: 1px solid var(--line);
+    border-bottom: 2px solid var(--ink);
+    border-radius: var(--radius-s);
+    background: var(--paper-2);
+    font-size: 1rem;
+    color: var(--ink);
+}
+.check__row input::placeholder { color: var(--graphite); }
+.check.is-busy .check__row input { background-image: linear-gradient(90deg, transparent, rgba(199, 58, 23, 0.14), transparent); background-size: 50% 100%; background-repeat: no-repeat; animation: check-scan 1s linear infinite; }
+@keyframes check-scan { from { background-position: -50% 0; } to { background-position: 150% 0; } }
+.check__result { margin-top: var(--space-5); display: grid; gap: var(--space-4); outline: none; }
+.check__result[hidden] { display: none; }
+.check__msg { color: var(--graphite); }
+.check__head { display: flex; align-items: center; gap: var(--space-4); }
+.check__ring {
+    --p: 0;
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 84px;
+    flex: none;
+    border-radius: 50%;
+    background: conic-gradient(var(--signal) calc(var(--p) * 1%), var(--paper-2) 0);
+}
+.check__ring::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--paper); }
+.check__num { position: relative; font-family: var(--font-display); font-weight: 800; font-stretch: 80%; font-size: 2rem; font-variant-numeric: tabular-nums; }
+.check__verdict { font-family: var(--font-display); font-weight: 750; font-stretch: 85%; font-size: 1.5rem; line-height: 1.05; }
+.check__bars { display: grid; gap: var(--space-2); }
+.check__bars li { display: grid; grid-template-columns: 7.5rem 1fr 2rem; align-items: center; gap: var(--space-3); }
+.check__bar { --v: 0; height: 8px; background: var(--paper-2); position: relative; overflow: hidden; }
+.check__bar::after { content: ""; position: absolute; inset: 0; width: calc(var(--v) * 1%); background: var(--ink); transition: width 900ms var(--ease); }
+.check__v { font-family: var(--font-mono); font-size: var(--fs-meta); text-align: right; }
+.check__fails-title:empty { display: none; }
+.check__fails { display: grid; gap: var(--space-2); }
+.check__fails li { position: relative; padding-left: 1.5rem; font-size: var(--fs-small); }
+.check__fails li::before { content: "✕"; position: absolute; left: 0; color: var(--signal-ink); font-weight: 700; }
+.check__fails li.is-ok::before { content: "✓"; color: var(--ink); }
+.check__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-5); }
+.check__note { font-size: 0.8125rem; color: var(--graphite); }
+@media (prefers-reduced-motion: reduce) {
+    .check.is-busy .check__row input { animation: none; }
 }

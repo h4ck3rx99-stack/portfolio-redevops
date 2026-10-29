@@ -33,7 +33,8 @@ Added on the owner's request ("make it fun, interactive, bolder, non-laggy") on 
 - Hero headline letters lean toward the cursor (transforms only, mouse devices only, off under reduced motion).
 - Signal marker on "your business", outlined index/service numerals, studio-product screenshots tilted ±1.2° that straighten on hover, a "Bengaluru · Software studio · Since 2025" sticker that spins on hover.
 - A playable NFC demo (Menu / Reviews / Instagram) — a diagram, not a fake app screen.
-- Art layer: hand-drawn hero arrow, squiggly section dividers, geometric service illustrations (animate on hover), shaped team monograms, and a draggable sticker board in Contact (mouse + touch, transform-only).
+- **Hook: live website checker** in the hero. Visitors type any URL and get a real score (SEO, Mobile, Accessibility, Speed, Security), the top things to fix, and "Fix these with us" (WhatsApp, pre-filled with site + score). Runs on `api/check.js`, a Vercel serverless function that fetches the page server-side and returns only the results (not the page), with SSRF guards (public IPs only, re-checked on redirects; http(s) on 80/443; 8 s timeout; 1.5 MB cap). Falls back to public CORS proxies + in-browser analysis if the API is unavailable; if nothing can fetch the page it says so — it never invents a score. Self-test: `node tools/qa/api-check.test.mjs`.
+- Removed after owner feedback ("feels vibe-coded"): draggable stickers, hero doodle, squiggle dividers, letter wobble, spinning badge. Kept: NFC tap demo, project-index hovers, service illustrations, shaped monograms, bold condensed type, red highlight.
 - Owner confirmed palette **Ledger** and type **Bricolage + Geist** (first options in the design lab).
 These deliberately relax §6.3/§5.3 "no tilt" and add hover motion; nothing animates while idle, and all of it is removed under `prefers-reduced-motion`.
 
@@ -62,7 +63,7 @@ New copy written for the redesign (not on the old site):
 - Mahima's bio: removed "that save our clients hours every week".
 - Project "problem it solves" lines on each `/work/` page, and **"Our role: Design, development and deployment"** for all five.
 - NFC "How it works" three steps on `/nfc.html`, and the NFC demo labels ("Your café", "Today's menu", "@yourcafe").
-- Sticker text "Bengaluru · Software studio · Since 2025", hero doodle "all real & live →", and the draggable contact stickers ("Reply in 6–12h", "Made in Bengaluru", "You own the code", "Talk to the builders", "RE.").
+- Website checker wording and which checks it runs (`api/check.js`, mirrored in `js/site-check.js`).
 - Footer description.
 Pending from the owner: real NFC product photos (`assets/nfc/README.md`), optional team portraits.
 
@@ -87,8 +88,12 @@ Pending from the owner: real NFC product photos (`assets/nfc/README.md`), option
 ## 5. Preview and deploy
 ```
 git checkout redesign/creative-studio-v2
-python -m http.server 5510
+node tools/qa/dev-server.mjs
 ```
+(`python -m http.server 5510` also works, but the website checker then can't reach `/api/check`.)
 Open http://localhost:5510/ and http://localhost:5510/design-lab/.
 QA: `cd tools/qa && npm install && npm test` (server running), `npx html-validate --config .htmlvalidate.json "../../*.html"`.
 Deploy when ready: merge the branch into `main` and push; Vercel deploys. `.vercelignore` keeps `design-lab/`, `tools/` and this file out of production.
+
+## 6. Found during the checker work (not fixed here)
+- **SiteAudit Pro (`siteaudit.redevops.in`) likely fails for visitors.** It fetches pages only through three free public CORS proxies (allorigins.win, corsproxy.io, codetabs.com); all three failed from the dev machine on 2026-10-29. When they fail it falls back to scores *guessed from the URL text*, and its "security headers" are the proxy's, not the site's. Suggested fix: point it at `/api/check` (or a similar function in its own Vercel project) and remove the guessed fallback.
