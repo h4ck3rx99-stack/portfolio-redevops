@@ -244,3 +244,153 @@
 @media (prefers-reduced-motion: reduce) {
     .product .shot, .feature .shot, .sticker, .hero__visual:hover .sticker, .nfc-demo__card, .pindex__name, .wb, .shot img { transform: none; }
 }
+
+/* ================= Art layer: doodles, squiggles, service art, stickers ================= */
+
+/* Hand-drawn arrow from the hero copy to the project index (desktop only) */
+.doodle--hero { display: none; }
+@media (min-width: 1024px) {
+    .hero__copy { position: sticky; }
+    .doodle--hero {
+        display: block;
+        position: relative;
+        width: 220px;
+        margin: var(--space-2) 0 0 auto;
+        color: var(--signal);
+        transform: rotate(-4deg);
+    }
+    .doodle--hero svg { width: 220px; height: 120px; }
+    .doodle__note {
+        position: absolute;
+        left: -6px;
+        bottom: 6px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-stretch: 80%;
+        font-size: 1.25rem;
+        color: var(--ink);
+        transform: rotate(-6deg);
+        white-space: nowrap;
+    }
+}
+
+/* Squiggly section dividers */
+.squiggle { color: var(--signal); padding-top: var(--space-6); }
+.squiggle svg { width: 100%; height: 18px; display: block; }
+.squiggle + .section { padding-top: var(--space-6); }
+.night + .squiggle { padding-top: var(--section-space); }
+
+/* Chunky geometric service art */
+.service-art { width: 132px; height: 99px; margin-top: var(--space-3); overflow: visible; }
+.sa-ink { fill: var(--ink); }
+.sa-paper { fill: var(--paper); }
+.sa-signal { fill: var(--signal); }
+.sa-dot { fill: var(--paper); }
+.sa-line { fill: var(--graphite); }
+.sa-star { fill: var(--signal); }
+.sa-gear { stroke: var(--paper); stroke-width: 4; stroke-linecap: round; }
+.sa-wire { fill: none; stroke: var(--ink); stroke-width: 2.5; }
+.sa-spin, .sa-float, .sa-pop { transform-box: fill-box; transform-origin: center; transition: transform 700ms var(--ease); }
+.service:hover .sa-spin { transform: rotate(120deg); }
+.service:hover .sa-float { transform: translate(-4px, -10px) rotate(-6deg); }
+.service:hover .sa-pop { transform: scale(1.5) rotate(40deg); }
+@media (max-width: 767px) {
+    .service__head { grid-template-columns: 1fr auto; align-items: end; }
+    .service__head .meta { grid-column: 1; }
+    .service__head h3 { grid-column: 1; }
+    .service-art { grid-column: 2; grid-row: 1 / span 2; width: 96px; height: 72px; }
+}
+
+/* Sticker board (drag with fun.js) */
+.stickers {
+    position: relative;
+    height: 260px;
+    border: 1.5px dashed var(--line);
+    border-radius: var(--radius-m);
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+}
+.stickers__hint { position: absolute; left: 12px; bottom: 8px; margin: 0; }
+.sticker-x {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 750;
+    font-stretch: 82%;
+    line-height: 1.05;
+    cursor: grab;
+    transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--r, 0deg));
+    transition: box-shadow var(--dur-fast) var(--ease);
+    touch-action: none;
+}
+.sticker-x.is-dragging { cursor: grabbing; z-index: 5; box-shadow: 0 10px 24px rgba(21, 23, 26, 0.22); }
+.sticker-x--burst {
+    left: 6%; top: 8%; --r: -8deg;
+    width: 112px; height: 112px;
+    background: var(--signal); color: var(--on-signal);
+    font-size: 0.95rem;
+    clip-path: polygon(50% 0%, 61% 13%, 78% 7%, 81% 24%, 98% 28%, 90% 44%, 100% 58%, 85% 67%, 87% 85%, 69% 85%, 59% 100%, 47% 88%, 32% 98%, 25% 82%, 8% 81%, 12% 64%, 0% 52%, 12% 40%, 5% 23%, 22% 20%, 28% 3%, 42% 12%);
+}
+.sticker-x--burst.is-dragging { box-shadow: none; }
+.sticker-x--circle {
+    left: 54%; top: 6%; --r: 10deg;
+    width: 104px; height: 104px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    font-size: 0.9rem;
+    outline: 2px dashed var(--paper); outline-offset: -8px;
+}
+.sticker-x--tag {
+    left: 10%; top: 58%; --r: -4deg;
+    padding: 10px 16px 10px 26px;
+    background: var(--paper-2); color: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: 3px 999px 999px 3px;
+    font-size: 1rem;
+}
+.sticker-x--tag::before {
+    content: ""; position: absolute; left: 9px; top: 50%;
+    width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--ink);
+}
+.sticker-x--blob {
+    left: 56%; top: 56%; --r: 7deg;
+    width: 138px; height: 92px;
+    background: #F2C14E; color: var(--ink);
+    border-radius: 58% 42% 55% 45% / 52% 60% 40% 48%;
+    font-size: 0.95rem;
+}
+.sticker-x--mark {
+    left: 37%; top: 34%; --r: -14deg;
+    width: 70px; height: 70px;
+    background: var(--paper); color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 16px;
+    font-size: 1.6rem;
+}
+.sticker-x--mark span::after { content: ""; }
+@media (max-width: 479px) {
+    .stickers { height: 240px; }
+    .sticker-x--burst { width: 96px; height: 96px; font-size: 0.85rem; }
+    .sticker-x--circle { width: 92px; height: 92px; font-size: 0.8rem; }
+    .sticker-x--blob { width: 118px; height: 80px; font-size: 0.85rem; left: 50%; }
+}
+
+/* Funky monograms: a different shape per person */
+.monogram { position: relative; background: transparent; overflow: visible; }
+.monogram span { position: relative; z-index: 1; }
+.monogram::before { content: ""; position: absolute; inset: 0; transition: transform 600ms var(--ease); }
+.monogram--ak::before { background: var(--signal); border-radius: 50%; }
+.monogram--ak { color: var(--on-signal); }
+.monogram--mh::before {
+    background: #F2C14E;
+    clip-path: polygon(50% 0%, 63% 18%, 85% 15%, 82% 37%, 100% 50%, 82% 63%, 85% 85%, 63% 82%, 50% 100%, 37% 82%, 15% 85%, 18% 63%, 0% 50%, 18% 37%, 15% 15%, 37% 18%);
+}
+.monogram--th::before { background: var(--ink); border-radius: 28% 72% 30% 70% / 64% 30% 70% 36%; }
+.monogram--th { color: var(--paper); }
+.person:hover .monogram::before { transform: rotate(24deg) scale(1.06); }
+
+@media (prefers-reduced-motion: reduce) {
+    .doodle--hero, .doodle__note, .sticker-x, .sa-spin, .sa-float, .sa-pop, .monogram::before { transform: none; }
+}

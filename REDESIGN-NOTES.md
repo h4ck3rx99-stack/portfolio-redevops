@@ -33,6 +33,8 @@ Added on the owner's request ("make it fun, interactive, bolder, non-laggy") on 
 - Hero headline letters lean toward the cursor (transforms only, mouse devices only, off under reduced motion).
 - Signal marker on "your business", outlined index/service numerals, studio-product screenshots tilted ±1.2° that straighten on hover, a "Bengaluru · Software studio · Since 2025" sticker that spins on hover.
 - A playable NFC demo (Menu / Reviews / Instagram) — a diagram, not a fake app screen.
+- Art layer: hand-drawn hero arrow, squiggly section dividers, geometric service illustrations (animate on hover), shaped team monograms, and a draggable sticker board in Contact (mouse + touch, transform-only).
+- Owner confirmed palette **Ledger** and type **Bricolage + Geist** (first options in the design lab).
 These deliberately relax §6.3/§5.3 "no tilt" and add hover motion; nothing animates while idle, and all of it is removed under `prefers-reduced-motion`.
 
 Palettes: `ledger` (live), `night` and `moss` (design lab only, `css/tokens.css`).
@@ -60,7 +62,7 @@ New copy written for the redesign (not on the old site):
 - Mahima's bio: removed "that save our clients hours every week".
 - Project "problem it solves" lines on each `/work/` page, and **"Our role: Design, development and deployment"** for all five.
 - NFC "How it works" three steps on `/nfc.html`, and the NFC demo labels ("Your café", "Today's menu", "@yourcafe").
-- Sticker text "Bengaluru · Software studio · Since 2025".
+- Sticker text "Bengaluru · Software studio · Since 2025", hero doodle "all real & live →", and the draggable contact stickers ("Reply in 6–12h", "Made in Bengaluru", "You own the code", "Talk to the builders", "RE.").
 - Footer description.
 Pending from the owner: real NFC product photos (`assets/nfc/README.md`), optional team portraits.
 

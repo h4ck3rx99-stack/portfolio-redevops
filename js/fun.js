@@ -4,6 +4,37 @@ export function initFun() {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!reduce) document.querySelectorAll('[data-wobble]').forEach(wobble);
     document.querySelectorAll('[data-nfc-demo]').forEach((el) => nfcDemo(el, reduce));
+    document.querySelectorAll('[data-stickers]').forEach(stickers);
+}
+
+// Draggable stickers (mouse + touch). Position lives in CSS vars, so it's transform-only.
+function stickers(board) {
+    let top = 1;
+    board.querySelectorAll('.sticker-x').forEach((s) => {
+        let sx = 0, sy = 0, dx = 0, dy = 0;
+        s.addEventListener('pointerdown', (e) => {
+            s.setPointerCapture(e.pointerId);
+            s.classList.add('is-dragging');
+            sx = e.clientX - dx;
+            sy = e.clientY - dy;
+            s.style.zIndex = String(++top); // bring to front (re-inserting would drop pointer capture)
+        });
+        s.addEventListener('pointermove', (e) => {
+            if (!s.hasPointerCapture(e.pointerId)) return;
+            const b = board.getBoundingClientRect(), r = s.getBoundingClientRect();
+            const nx = e.clientX - sx, ny = e.clientY - sy;
+            // keep at least half the sticker inside the board
+            const minX = dx + (b.left - r.left) - r.width / 2, maxX = dx + (b.right - r.right) + r.width / 2;
+            const minY = dy + (b.top - r.top) - r.height / 2, maxY = dy + (b.bottom - r.bottom) + r.height / 2;
+            dx = Math.min(maxX, Math.max(minX, nx));
+            dy = Math.min(maxY, Math.max(minY, ny));
+            s.style.setProperty('--dx', `${dx}px`);
+            s.style.setProperty('--dy', `${dy}px`);
+        });
+        const drop = () => s.classList.remove('is-dragging');
+        s.addEventListener('pointerup', drop);
+        s.addEventListener('pointercancel', drop);
+    });
 }
 
 // Letters lean and lift toward the cursor. Transforms only, so layout never shifts.
