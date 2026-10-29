@@ -1,100 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-palette="ledger">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Next.js vs Traditional Websites: SEO Performance Comparison 2026 | RE Dev Ops</title>
-    <meta name="description" content="How Next.js SSG, ISR and SSR compare with PHP and WordPress on Core Web Vitals and SEO — and when a traditional site is still the right choice." />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://www.redevops.in/blog/nextjs-seo-2026.html" />
-    <meta property="og:title" content="Next.js vs Traditional Websites: SEO Performance in 2026" />
-    <meta property="og:description" content="Which approach wins on Google? How Next.js SSR, ISR and SSG compare with PHP and WordPress. Includes Core Web Vitals data and business impact analysis." />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://www.redevops.in/blog/nextjs-seo-2026.html" />
-    <meta property="og:image" content="https://www.redevops.in/og-image.png" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Next.js vs Traditional Websites: SEO in 2026" />
-    <meta name="twitter:description" content="A comparison of Next.js and PHP/WordPress for Core Web Vitals and Google rankings." />
-    <meta name="twitter:image:width" content="1200" />
-    <meta name="twitter:image:height" content="630" />
-    <meta property="og:locale" content="en_IN" />
-    <meta property="og:site_name" content="RE Dev Ops" />
-    <meta property="article:published_time" content="2026-06-15" />
-    <meta property="article:author" content="Aayush Kumar" />
-    <meta property="article:section" content="Web Development" />
+    <meta name="description" content="How Next.js SSG, ISR and SSR compare with PHP and WordPress on Core Web Vitals and SEO — and when a traditional site is still the right choice.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.redevops.in/blog/nextjs-seo-2026.html">
 
-    <!-- Article Schema -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="RE Dev Ops">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:title" content="Next.js vs Traditional Websites: SEO Performance in 2026">
+    <meta property="og:description" content="Which approach wins on Google? How Next.js SSR, ISR and SSG compare with PHP and WordPress. Includes Core Web Vitals data and business impact analysis.">
+    <meta property="og:url" content="https://www.redevops.in/blog/nextjs-seo-2026.html">
+    <meta property="og:image" content="https://www.redevops.in/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="RE Dev Ops — software studio in India">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@redevops3">
+    <meta name="twitter:title" content="Next.js vs Traditional Websites: SEO Performance in 2026">
+    <meta name="twitter:description" content="Which approach wins on Google? How Next.js SSR, ISR and SSG compare with PHP and WordPress. Includes Core Web Vitals data and business impact analysis.">
+    <meta name="twitter:image" content="https://www.redevops.in/og-image.png">
+
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="../favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+    <link rel="manifest" href="../site.webmanifest">
+    <meta name="theme-color" content="#F3F0E8">
+
+    <link rel="preload" href="../assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/pages/article.css">
+    <script>document.documentElement.classList.add('js');</script>
     <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "Next.js vs Traditional Websites: What Actually Matters for SEO in 2026",
-        "description": "Data-driven comparison of Next.js SSR, ISR, SSG vs traditional PHP and WordPress for Core Web Vitals, Google rankings, and business outcomes.",
-        "image": "https://www.redevops.in/og-image.png",
-        "author": { "@type": "Person", "name": "Aayush Kumar", "url": "https://www.linkedin.com/in/aayushkumar-redevops/" },
-        "publisher": { "@type": "Organization", "name": "RE Dev Ops", "logo": { "@type": "ImageObject", "url": "https://www.redevops.in/logo.png" } },
-        "datePublished": "2026-06-15",
-        "dateModified": "2026-10-14",
-        "mainEntityOfPage": { "@type": "WebPage", "@id": "https://www.redevops.in/blog/nextjs-seo-2026.html" }
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Next.js vs Traditional Websites: What Actually Matters for SEO in 2026",
+    "description": "Data-driven comparison of Next.js SSR, ISR, SSG vs traditional PHP and WordPress for Core Web Vitals, Google rankings, and business outcomes.",
+    "image": "https://www.redevops.in/og-image.png",
+    "author": {
+        "@type": "Person",
+        "name": "Aayush Kumar",
+        "url": "https://www.linkedin.com/in/aayushkumar-redevops/"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "RE Dev Ops",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.redevops.in/logo.png"
+        }
+    },
+    "datePublished": "2026-06-15",
+    "dateModified": "2026-10-14",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.redevops.in/blog/nextjs-seo-2026.html"
     }
+}
+    </script>
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.redevops.in/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Blog",
+            "item": "https://www.redevops.in/#blog"
+        },
+        {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Next.js SEO Comparison",
+            "item": "https://www.redevops.in/blog/nextjs-seo-2026.html"
+        }
+    ]
+}
     </script>
 
-    <!-- Breadcrumb Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.redevops.in/" },
-            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.redevops.in/#blog" },
-            { "@type": "ListItem", "position": 3, "name": "Next.js SEO Comparison", "item": "https://www.redevops.in/blog/nextjs-seo-2026.html" }
-        ]
-    }
-    </script>
-
-    <link rel="stylesheet" href="../style.css" />
-    <style>
-        .blog-article { max-width: 800px; margin: 0 auto; padding: 8rem 2rem 4rem; }
-        .blog-article h1 { font-size: 2.8rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
-        .blog-article .meta { display: flex; gap: 1.5rem; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
-        .blog-article h2 { font-size: 1.6rem; font-weight: 700; margin-top: 3rem; margin-bottom: 1rem; letter-spacing: -0.02em; }
-        .blog-article h3 { font-size: 1.2rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
-        .blog-article p { font-size: 1.05rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.25rem; }
-        .blog-article ul, .blog-article ol { font-size: 1.05rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 1.25rem; padding-left: 1.5rem; }
-        .blog-article li { margin-bottom: 0.5rem; }
-        .blog-article strong { color: var(--text-color); }
-        .blog-article .highlight-box { background: linear-gradient(135deg, rgba(0,229,255,0.06), rgba(99,102,241,0.04)); border: 1px solid rgba(0,229,255,0.1); border-radius: 12px; padding: 2rem; margin: 2rem 0; }
-        .blog-article .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.95rem; }
-        .blog-article .comparison-table th { text-align: left; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
-        .blog-article .comparison-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-muted); }
-        .blog-article .comparison-table td:first-child { font-weight: 600; color: var(--text-color); }
-        .blog-article .back-link { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--accent-color); font-size: 0.9rem; margin-bottom: 2rem; text-decoration: none; }
-        .blog-article .back-link:hover { gap: 0.75rem; opacity: 0.8; }
-        .blog-article code { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; background: rgba(255,255,255,0.04); padding: 0.15rem 0.4rem; border-radius: 4px; }
-        @media (max-width: 668px) { .blog-article { padding: 6rem 1.5rem 3rem; } .blog-article h1 { font-size: 1.8rem; } .blog-article .comparison-table { font-size: 0.8rem; } }
-        @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; } }
-    </style>
 </head>
-<body>
-    <nav class="navbar">
-        <a href="../index.html" class="logo">RE Dev Ops</a>
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
-        <nav id="navbarNav">
-            <a href="../index.html#work" class="nav-link">Work</a>
-            <a href="../index.html#blog" class="nav-link">Blog</a>
-            <a href="../index.html#contact" class="nav-link">Contact</a>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+    <div class="container site-header__inner">
+        <a class="wordmark" href="../index.html" aria-label="RE Dev Ops — home">RE Dev Ops</a>
+        <nav class="site-nav" aria-label="Main">
+            <ul class="site-nav__list"><li><a class="site-nav__link" href="../index.html#work">Work</a></li><li><a class="site-nav__link" href="../index.html#services">Services</a></li><li><a class="site-nav__link" href="../index.html#nfc">NFC</a></li><li><a class="site-nav__link" href="../index.html#team">Studio</a></li><li><a class="site-nav__link" href="../index.html#contact">Contact</a></li></ul>
+            <a class="btn btn--ink" href="../index.html#contact">Start a project</a>
         </nav>
-    </nav>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu">Menu</button>
+    </div>
+</header>
+<div class="menu-sheet" id="site-menu" hidden>
+    <div class="container">
+        <div class="menu-sheet__top">
+            <a class="wordmark" href="../index.html" aria-label="RE Dev Ops — home">RE Dev Ops</a>
+            <button class="menu-toggle menu-sheet__close" type="button">Close</button>
+        </div>
+        <nav aria-label="Mobile">
+            <ul class="menu-sheet__links"><li><a href="../index.html#work">Work</a></li><li><a href="../index.html#services">Services</a></li><li><a href="../index.html#nfc">NFC</a></li><li><a href="../index.html#team">Studio</a></li><li><a href="../index.html#contact">Contact</a></li></ul>
+        </nav>
+        <div class="menu-sheet__actions">
+            <a class="btn btn--primary btn--lg btn--block" href="../index.html#contact">Start a project <span class="btn__arrow" aria-hidden="true">→</span></a>
+            <div class="menu-sheet__channels">
+                <a class="text-link text-link--tap" href="https://wa.me/918734000403?text=Hi%21%20I%27d%20like%20to%20talk%20about%20a%20project." target="_blank" rel="noopener">WhatsApp ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+                <a class="text-link text-link--tap" href="mailto:hello@redevops.in">hello@redevops.in</a>
+            </div>
+            <div class="menu-sheet__channels">
+                <a class="text-link text-link--tap" href="https://github.com/RE-Dev-Ops" target="_blank" rel="noopener">GitHub ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+                <a class="text-link text-link--tap" href="https://www.linkedin.com/in/redevops/" target="_blank" rel="noopener">LinkedIn ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+                <a class="text-link text-link--tap" href="https://x.com/redevops3" target="_blank" rel="noopener">X ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+                <a class="text-link text-link--tap" href="https://www.instagram.com/redevops3/" target="_blank" rel="noopener">Instagram ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+<main id="main">
+    <article class="container article">
+        <nav class="crumbs meta" aria-label="Breadcrumb"><a href="../index.html#writing">Writing</a><span aria-hidden="true">/</span><span aria-current="page">Article</span></nav>
 
-    <nav class="breadcrumb" aria-label="Breadcrumb" style="max-width:800px;margin:6rem auto 0;padding:0 2rem;font-size:0.8rem;color:var(--text-muted);">
-        <a href="../index.html" style="color:var(--accent-color);text-decoration:none;">Home</a>
-        <span style="margin:0 0.5rem;">/</span>
-        <a href="../index.html#blog" style="color:var(--accent-color);text-decoration:none;">Blog</a>
-        <span style="margin:0 0.5rem;">/</span>
-        <span>Next.js SEO Comparison</span>
-    </nav>
-    <article class="blog-article">
-        <a href="../index.html#blog" class="back-link">&larr; Back to Blog</a>
         <h1>Next.js vs Traditional Websites: What Actually Matters for SEO in 2026</h1>
         <div class="meta">
             <span>June 15, 2026</span>
@@ -107,7 +146,7 @@
         <p>There's a long-running debate: do you need a modern JavaScript framework like Next.js to rank well on Google, or does a well-optimized traditional website perform just as well? Here's how the four common rendering approaches typically compare.</p>
 
         <h2>The Contenders</h2>
-        <table class="comparison-table">
+        <div class="table-scroll"><table class="comparison-table">
             <thead>
                 <tr><th>Approach</th><th>Framework</th><th>Rendering</th><th>TTFB (p50)</th><th>LCP</th><th>Google Score</th></tr>
             </thead>
@@ -117,8 +156,8 @@
                 <tr><td>Server Rendered</td><td>Next.js SSR</td><td>Per-request</td><td>210ms</td><td>1.6s</td><td>92</td></tr>
                 <tr><td>Traditional</td><td>PHP / WordPress</td><td>Per-request + DB</td><td>480ms</td><td>2.8s</td><td>72</td></tr>
             </tbody>
-        </table>
-        <p style="font-size: 0.85rem; margin-top: -1rem;">Indicative figures for a typical content page on decent hosting; your numbers will vary with hosting, images and third-party scripts.</p>
+        </table></div>
+        <p>Indicative figures for a typical content page on decent hosting; your numbers will vary with hosting, images and third-party scripts.</p>
 
         <h2>Why Core Web Vitals Matter More Than Ever</h2>
         <p>Since the Google Page Experience update, Core Web Vitals are a direct ranking signal. The three metrics that matter:</p>
@@ -145,16 +184,40 @@
 
         <h2>Our Verdict</h2>
         <p>For <strong>new projects where SEO matters</strong>, Next.js (SSG or ISR) is the clear winner. The performance advantage translates directly to higher rankings, better conversion rates, and lower bounce rates. For existing sites, a headless migration is often the highest-ROI path.</p>
-        <p>We build client sites on modern frameworks like Next.js and Astro by default. <a href="../index.html#contact" style="color: var(--accent-color);">Let's talk</a> if you want your next project to rank from day one.</p>
+        <p>We build client sites on modern frameworks like Next.js and Astro by default. <a href="../index.html#contact">Let's talk</a> if you want your next project to rank from day one.</p>
+    
     </article>
-
-    <script>
-        const navToggle = document.getElementById('navToggle');
-        const navbarNav = document.getElementById('navbarNav');
-        if (navToggle && navbarNav) {
-            navToggle.addEventListener('click', () => { navToggle.classList.toggle('active'); navbarNav.classList.toggle('active'); });
-            navbarNav.querySelectorAll('a').forEach(l => l.addEventListener('click', () => { navToggle.classList.remove('active'); navbarNav.classList.remove('active'); }));
-        }
-    </script>
+</main>
+<footer class="site-footer night">
+    <div class="container">
+        <div class="grid footer__top">
+            <div class="footer__brand">
+                <a class="wordmark" href="../index.html" aria-label="RE Dev Ops — home">RE Dev Ops</a>
+                <p>An independent software studio in India. Websites, apps, automation and cloud — plus NFC products in Bengaluru.</p>
+            </div>
+            <div class="footer__col">
+                <h2>Studio</h2>
+                <ul><li><a href="../index.html#work">Work</a></li><li><a href="../index.html#services">Services</a></li><li><a href="../nfc.html">NFC</a></li><li><a href="../index.html#team">Studio</a></li><li><a href="../index.html#writing">Writing</a></li></ul>
+            </div>
+            <div class="footer__col">
+                <h2>Contact</h2>
+                <ul><li><a href="mailto:hello@redevops.in">hello@redevops.in</a></li><li><a href="tel:+918734000403">+91 8734000403</a></li><li><a href="https://wa.me/918734000403?text=Hi%21%20I%27d%20like%20to%20talk%20about%20a%20project." target="_blank" rel="noopener">WhatsApp ↗<span class="visually-hidden"> (opens in new tab)</span></a></li><li><a href="https://calendly.com/redevops3/30min" data-calendly>Book a call</a></li></ul>
+            </div>
+            <div class="footer__col">
+                <h2>Social</h2>
+                <ul><li><a href="https://github.com/RE-Dev-Ops" target="_blank" rel="noopener">GitHub ↗<span class="visually-hidden"> (opens in new tab)</span></a></li><li><a href="https://www.linkedin.com/in/redevops/" target="_blank" rel="noopener">LinkedIn ↗<span class="visually-hidden"> (opens in new tab)</span></a></li><li><a href="https://x.com/redevops3" target="_blank" rel="noopener">X ↗<span class="visually-hidden"> (opens in new tab)</span></a></li><li><a href="https://www.instagram.com/redevops3/" target="_blank" rel="noopener">Instagram ↗<span class="visually-hidden"> (opens in new tab)</span></a></li></ul>
+            </div>
+            <div class="footer__col">
+                <h2>Legal</h2>
+                <ul><li><a href="../privacy.html">Privacy Policy</a></li></ul>
+            </div>
+        </div>
+        <div class="footer__bottom">
+            <span class="meta">© 2026 RE Dev Ops · India</span>
+            <a href="#top" class="meta">Back to top ↑</a>
+        </div>
+    </div>
+</footer>
+<script type="module" src="../js/main.js"></script>
 </body>
 </html>

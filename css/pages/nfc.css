@@ -1,0 +1,18 @@
+/* NFC landing page */
+.nfc-hero { padding-block: clamp(3rem, 2rem + 4vw, 6rem); }
+.nfc-hero .container { display: grid; gap: var(--space-5); }
+.nfc-hero h1 { max-width: 16ch; }
+.nfc-hero .lead { color: var(--night-text); max-width: 60ch; }
+.nfc-hero .facts { max-width: 720px; }
+
+.steps--three { display: grid; }
+@media (min-width: 1024px) {
+    .steps--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+.nfc-faq { max-width: 860px; }
+
+/* Room for the sticky WhatsApp bar on phones */
+@media (max-width: 767px) {
+    .site-footer { padding-bottom: 104px; }
+}
