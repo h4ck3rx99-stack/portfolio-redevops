@@ -1,11 +1,11 @@
 {
-  "name": "RE Dev Ops — Websites, Apps & Automation Studio",
+  "name": "RE Dev Ops \u2014 Websites, Apps & Connected Systems",
   "short_name": "RE Dev Ops",
-  "description": "Independent software studio in India: websites, apps, automation and cloud — plus NFC products in Bengaluru.",
+  "description": "Independent software studio in India: websites, apps, automation and cloud \u00e2\u20ac\u201d plus NFC products in Bengaluru.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F3F0E8",
-  "theme_color": "#F3F0E8",
+  "background_color": "#F7F5EF",
+  "theme_color": "#F7F5EF",
   "icons": [
     {
       "src": "/favicon-32x32.png",

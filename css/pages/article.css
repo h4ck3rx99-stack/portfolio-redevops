@@ -1,6 +1,6 @@
 /* Blog articles, privacy policy, 404 */
 .article {
-    max-width: calc(37.4em + var(--gutter) * 2);
+    max-width: calc(720px + var(--gutter) * 2);
     padding-block: var(--space-6) var(--section-space);
 }
 .article .crumbs { gap: var(--space-2); align-items: center; margin-bottom: var(--space-5); }
@@ -81,3 +81,6 @@
 
 /* 404 */
 .not-found { display: grid; gap: var(--space-5); padding-block: var(--section-space); max-width: 900px; }
+
+.article pre { overflow:auto; max-width:100%; padding:20px; background:var(--paper-2); }
+.article code { overflow-wrap:anywhere; }

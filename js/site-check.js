@@ -122,7 +122,6 @@ export function initSiteCheck() {
         button.textContent = 'Checking…';
         root.classList.add('is-busy');
         out.append(el('p', 'check__msg meta', `Reading ${new URL(url).hostname}…`));
-        window.sendLead?.({ source: 'site-check', message: url });
 
         let checks = null;
         try {

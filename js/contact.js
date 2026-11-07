@@ -1,138 +1,86 @@
-// Contact: lead webhook hook, mail fallback, the form, and the quick brief.
-
-// Paste your n8n webhook URL (Production URL of a "Webhook" node, method POST)
-// between the quotes. Leave empty to keep the email-app fallback only.
+// Existing delivery hook. No destination is configured in this checkout.
 const LEAD_WEBHOOK_URL = '';
-
 export const WHATSAPP_NUMBER = '918734000403';
 const MAIL_TO = 'hello@redevops.in';
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
 export function buildMailto({ name, email, message }) {
-    const subject = encodeURIComponent(`Project Inquiry from ${name}`);
-    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
-    return `mailto:${MAIL_TO}?subject=${subject}&body=${body}`;
+    return `mailto:${MAIL_TO}?subject=${encodeURIComponent(`Project Inquiry from ${name}`)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
 }
-
-export function buildWhatsAppUrl(text) {
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-}
-
-export function briefSentence(need, who) {
-    return `Hi! I need ${need} for ${who}.`;
-}
-
-const pageLoadedAt = Date.now();
-
-// Global: the WhatsApp widget calls this too.
-window.sendLead = async (lead) => {
-    if (!LEAD_WEBHOOK_URL) return false;
+export function buildWhatsAppUrl(text) { return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`; }
+window.sendLead = async lead => {
+    if (!LEAD_WEBHOOK_URL) return { ok: false, error: 'Direct sending is not configured. Please use the email link below.' };
     try {
-        const res = await fetch(LEAD_WEBHOOK_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            keepalive: true,
-            body: JSON.stringify({
-                ...lead,
-                page: location.href,
-                referrer: document.referrer || null,
-                submittedAt: new Date().toISOString(),
-            }),
+        const response = await fetch(LEAD_WEBHOOK_URL, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            signal: AbortSignal.timeout(15000),
+            body: JSON.stringify({ ...lead, page: location.href, referrer: document.referrer || null, submittedAt: new Date().toISOString() }),
         });
-        return res.ok;
-    } catch {
-        return false;
-    }
+        return response.ok ? { ok: true } : { ok: false, error: `Sending failed (HTTP ${response.status}). Please try again or email us.` };
+    } catch { return { ok: false, error: 'The connection failed or timed out. Your message is still here. Please try again or email us.' }; }
 };
-
 export function initContact() {
-    initForm();
-    initBrief();
-}
-
-function initForm() {
     const form = document.getElementById('contactForm');
     if (!form) return;
     const error = document.getElementById('formError');
     const submit = form.querySelector('[type="submit"]');
-    const fields = ['formName', 'formEmail', 'formMessage'].map((id) => document.getElementById(id));
-
-    // Built with textContent so visitor input is never parsed as HTML.
-    const showSuccess = (title, text) => {
-        const box = document.createElement('div');
-        box.className = 'form-success';
-        box.setAttribute('role', 'status');
-        box.tabIndex = -1;
-        const h = document.createElement('h3');
-        h.textContent = title;
-        const p = document.createElement('p');
-        p.textContent = text;
-        box.append(h, p);
-        form.replaceWith(box);
-        box.focus();
-    };
-
-    const openMailFallback = (name, email, message) => {
-        window.location.href = buildMailto({ name, email, message });
-        showSuccess('Almost there', `Your email app should have opened with your message filled in — just hit send. Or email us directly at ${MAIL_TO}.`);
-    };
-
-    fields.forEach((f) => f.addEventListener('input', () => f.removeAttribute('aria-invalid')));
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    const fields = ['formName', 'formEmail', 'formMessage'].map(id => document.getElementById(id));
+    const fallback = document.createElement('a');
+    fallback.className = 'text-link text-link--tap';
+    fallback.textContent = 'Prepare this enquiry in your email app ↗';
+    fallback.href = 'mailto:hello@redevops.in';
+    form.append(fallback);
+    const values = () => Object.fromEntries(fields.map(field => [field.name, field.value.trim()]));
+    const openedAt = Date.now();
+    let pending = false;
+    fields.forEach(field => field.addEventListener('input', () => {
+        field.removeAttribute('aria-invalid');
+        fallback.href = buildMailto(values());
+    }));
+    form.addEventListener('submit', async event => {
+        event.preventDefault();
+        if (pending) return;
         error.hidden = true;
-
-        const [name, email, message] = fields.map((f) => f.value.trim());
-        const honeypot = document.getElementById('formWebsite').value;
-
-        const bad = [!name, !EMAIL_RE.test(email), message.length < 5];
-        if (bad.some(Boolean)) {
-            fields.forEach((f, i) => (bad[i] ? f.setAttribute('aria-invalid', 'true') : f.removeAttribute('aria-invalid')));
-            error.textContent = 'Please add your name, a valid email and a short message.';
+        const lead = values();
+        const messages = [!lead.name && 'Please enter your name.', !fields[1].validity.valid && 'Please enter a valid email address.', lead.message.length < 5 && 'Please add a message of at least five characters.'];
+        fields.forEach((field, i) => field.setAttribute('aria-invalid', String(!!messages[i])));
+        const invalid = messages.findIndex(Boolean);
+        if (invalid !== -1) {
+            error.textContent = messages.filter(Boolean).join(' ');
             error.hidden = false;
-            fields[bad.indexOf(true)].focus();
+            fields[invalid].focus();
             return;
         }
-
-        // Bots fill hidden fields or submit instantly; quietly pretend success.
-        if (honeypot || Date.now() - pageLoadedAt < 3000) {
-            showSuccess('Message sent', 'Thanks — we usually reply within 6–12 hours.');
+        if (form.elements.website.value || Date.now() - openedAt < 3000) {
+            error.textContent = 'Please wait a moment before sending and try again.';
+            error.hidden = false;
             return;
         }
-
-        if (!LEAD_WEBHOOK_URL) {
-            openMailFallback(name, email, message);
-            return;
-        }
-
+        pending = true;
         submit.disabled = true;
         submit.textContent = 'Sending…';
-        const ok = await window.sendLead({ source: 'contact-form', name, email, message });
-        if (ok) {
-            showSuccess('Message sent', `Thanks ${name.split(' ')[0]} — we usually reply within 6–12 hours. Keep an eye on ${email}.`);
-        } else {
-            openMailFallback(name, email, message);
+        form.setAttribute('aria-busy', 'true');
+        try {
+            const result = await window.sendLead({ source: 'contact-form', ...lead });
+            if (result === true || result?.ok === true) {
+                const status = document.createElement('p');
+                status.className = 'form-success';
+                status.setAttribute('role', 'status');
+                status.tabIndex = -1;
+                status.textContent = 'Your enquiry was sent. Thank you for telling us about your project.';
+                form.replaceWith(status);
+                status.focus();
+            } else {
+                error.textContent = result?.error || 'Sending failed. Your message is still here. Please try again or email us.';
+                error.hidden = false;
+            }
+        } catch {
+            error.textContent = 'Sending failed. Your message is still here. Please try again or email us.';
+            error.hidden = false;
+        } finally {
+            pending = false;
+            submit.disabled = false;
+            submit.textContent = 'Send enquiry';
+            form.removeAttribute('aria-busy');
         }
     });
-}
-
-function initBrief() {
-    const brief = document.querySelector('[data-brief]');
-    if (!brief) return;
-    const need = brief.querySelector('[name="need"]');
-    const who = brief.querySelector('[name="who"]');
-    const sentence = () => briefSentence(need.value, who.value);
-
-    brief.querySelector('[data-brief-whatsapp]').addEventListener('click', () => {
-        window.sendLead({ source: 'quick-brief', message: sentence() });
-        window.open(buildWhatsAppUrl(sentence()), '_blank', 'noopener');
-    });
-    brief.querySelector('[data-brief-form]').addEventListener('click', () => {
-        const msg = document.getElementById('formMessage');
-        const name = document.getElementById('formName');
-        if (!msg || !name) return;
-        msg.value = sentence();
-        name.focus();
-    });
+    submit.disabled = false;
 }

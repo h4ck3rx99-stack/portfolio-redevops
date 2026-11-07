@@ -17,11 +17,15 @@ function initMenu() {
     const sheet = document.getElementById('site-menu');
     if (!toggle || !sheet) return;
     const close = sheet.querySelector('.menu-sheet__close');
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const background = () => [...document.body.children].filter(el => el !== sheet && !el.contains(sheet) && el.tagName !== 'SCRIPT');
+    sheet.setAttribute('role', 'dialog');
+    sheet.setAttribute('aria-modal', 'true');
+    sheet.setAttribute('aria-label', 'Site navigation');
     const focusables = () => [...sheet.querySelectorAll('a[href], button:not([disabled])')];
 
     const open = () => {
         sheet.hidden = false;
+        background().forEach(el => el.inert = true);
         document.body.classList.add('is-locked');
         toggle.setAttribute('aria-expanded', 'true');
         requestAnimationFrame(() => sheet.classList.add('is-open'));
@@ -35,8 +39,8 @@ function initMenu() {
         document.body.classList.remove('is-locked');
         toggle.setAttribute('aria-expanded', 'false');
         document.removeEventListener('keydown', onKey);
-        const hide = () => { sheet.hidden = true; };
-        if (reduce.matches) hide(); else setTimeout(hide, 240);
+        sheet.hidden = true;
+        background().forEach(el => el.inert = false);
         if (returnFocus) toggle.focus();
     };
 
@@ -56,6 +60,11 @@ function initMenu() {
         if (!link) return;
         // Same-page anchors: close first, then let the browser jump.
         shut(false);
+        const url = new URL(link.href);
+        if (url.pathname === location.pathname && url.hash) {
+            const target = document.getElementById(url.hash.slice(1));
+            if (target) { target.tabIndex = -1; target.focus({ preventScroll: true }); }
+        }
     });
     // Leaving the mobile layout with the sheet open should not leave the page locked.
     window.matchMedia('(min-width: 1024px)').addEventListener('change', (mq) => {
