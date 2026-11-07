@@ -37,7 +37,7 @@
 <link href="css/layout.css" rel="stylesheet">
 <link href="css/components.css" rel="stylesheet">
 <link href="css/pages/home.css" rel="stylesheet">
-<script>document.documentElement.classList.add('js');</script>
+<script>(function(r){r.classList.add('js');if(matchMedia('(prefers-reduced-motion: no-preference)').matches){r.classList.add('is-build','building');setTimeout(function(){r.classList.remove('building')},3000)}})(document.documentElement);</script>
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -275,7 +275,8 @@
 </div>
 </div>
 <main id="main">
-<section aria-labelledby="hero-title" class="hero" id="about">
+<section aria-labelledby="hero-title" class="hero" data-timeline="" id="about">
+<div class="hero__stage">
 <div class="container grid hero__grid">
 <div class="hero__copy">
 <p class="meta hero__eyebrow">Independent design &amp; development studio</p>
@@ -296,6 +297,7 @@
 <figcaption class="meta preview__caption" data-preview-caption="">The Ferment Formula — Client website, live</figcaption>
 </figure>
 
+</div>
 </div>
 </div>
 </section>
