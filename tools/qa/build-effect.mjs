@@ -27,6 +27,7 @@ assert.equal(s.timeline, true, 'hero timeline active at 1440×900');
 assert.equal(s.building, false, 'content gate released');
 assert.ok(s.y > 0, 'autoplay scrolls on load');
 assert.equal(s.btn, 'Autoplay ⏸');
+assert.equal(await page.locator('.consent-banner').isVisible(), false, 'no cookie banner while autoplay runs');
 
 // Any user input stops autoplay.
 await page.mouse.wheel(0, 10);
@@ -116,6 +117,54 @@ assert.equal(r.y, 0); assert.equal(r.cursors, 0); assert.equal(r.btn, false);
 assert.equal(r.cls, 'js');
 assert.equal(r.h1, 'Your business, built into better software.');
 await rm.close();
+
+// Cookie banner appears once scrolling has settled.
+{
+    const c = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const p = await c.newPage();
+    await p.goto(base + '/nfc.html');
+    await p.waitForTimeout(900);
+    assert.equal(await p.locator('.consent-banner').isVisible(), false, 'banner waits for a scroll');
+    await p.mouse.move(600, 400);
+    await p.mouse.wheel(0, 400);
+    await p.waitForTimeout(2000);
+    assert.equal(await p.locator('.consent-banner').isVisible(), true, 'banner after scrolling settles');
+    await p.close();
+
+    // Interactions: overlay wipe on project shots, magnetic button, rolling nav text, hero crosshair.
+    const h = await c.newPage();
+    h.on('pageerror', (e) => errors.push(e.message));
+    await h.goto(base + '/#work');
+    await h.waitForTimeout(400);
+    const shot = h.locator('#work .product a .shot').first();
+    await shot.scrollIntoViewIfNeeded();
+    await h.waitForTimeout(2500);
+    const sb = await shot.boundingBox();
+    await h.mouse.move(sb.x + sb.width * 0.8, sb.y + sb.height * 0.3);
+    await h.waitForTimeout(500);
+    const fx = await shot.evaluate((el) => ({ clip: getComputedStyle(el, '::after').clipPath, rx: el.style.getPropertyValue('--ry') }));
+    assert.ok(fx.clip.includes('0px') || fx.clip === 'inset(0px)', `overlay open: ${fx.clip}`);
+    assert.ok(parseFloat(fx.rx) > 0, 'shot tilts toward the pointer');
+    await h.screenshot({ path: `${shots}/fx-shot-hover.png` });
+    const btn = h.locator('.site-nav .btn--ink');
+    const bb = await btn.boundingBox();
+    await h.mouse.move(bb.x + bb.width - 4, bb.y + bb.height - 4);
+    await h.waitForTimeout(400);
+    assert.ok(parseFloat(await btn.evaluate((el) => el.style.getPropertyValue('--mx'))) > 0, 'magnetic button follows');
+    assert.equal(await h.locator('.site-nav__link .fx-roll').count(), 4, 'rolling nav text');
+    await h.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+    await h.mouse.move(500, 600);
+    await h.mouse.move(520, 620);
+    await h.waitForTimeout(300);
+    assert.equal(await h.locator('.fx-hair').evaluate((el) => el.classList.contains('is-on')), true, 'crosshair in hero');
+    await h.evaluate(() => scrollTo({ top: document.querySelector('#blog').offsetTop, behavior: 'instant' }));
+    await h.waitForTimeout(3500);
+    const row = h.locator('.writing__row a').first();
+    await row.hover();
+    await h.waitForTimeout(500);
+    await h.screenshot({ path: `${shots}/fx-row-hover.png` });
+    await c.close();
+}
 
 assert.deepEqual(errors, [], 'no page errors');
 console.log('build-effect: all checks passed');

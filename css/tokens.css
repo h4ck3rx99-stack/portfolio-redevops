@@ -2,13 +2,14 @@
 @font-face { font-family: Manrope; src: url('../assets/fonts/manrope-latin.woff2') format('woff2'); font-weight: 400 700; font-style: normal; font-display: swap; }
 @font-face { font-family: 'IBM Plex Mono'; src: url('../assets/fonts/ibm-plex-mono-latin.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 :root {
- --background: #F7F5EF; --background-secondary: #ECEDE5; --surface: #FFFFFF; --surface-elevated: #FCFCF8;
- --text-primary: #17231D; --text-secondary: #46534B; --text-muted: #626C64;
- --accent: #245C43; --accent-hover: #194531; --border-subtle: #D5DAD1; --border-control: #78847A;
- --success: #21603D; --error: #A52B25; --accent-soft: #DCE6DB; --text-inverse: #F7F5EF;
+ color-scheme: dark;
+ --background: #0A0A0A; --background-secondary: #111213; --surface: #141516; --surface-elevated: #1A1B1D;
+ --text-primary: #FFFFFF; --text-secondary: #B8B8B8; --text-muted: #8C8C8C;
+ --accent: #00E5FF; --accent-hover: #7DF1FF; --border-subtle: #232527; --border-control: #4A4D50;
+ --success: #3DDC97; --error: #FF6B6B; --accent-soft: #0B2A30; --text-inverse: #0A0A0A;
  --paper: var(--background); --paper-2: var(--background-secondary); --ink: var(--text-primary); --graphite: var(--text-secondary);
  --line: var(--border-subtle); --line-strong: var(--border-control); --signal: var(--accent); --signal-ink: var(--accent-hover); --on-signal: var(--text-inverse); --focus: var(--accent);
- --night: #17231D; --night-text: #F7F5EF; --night-muted: #C8D4CB; --night-line: #78847A; --night-signal: #DCE6DB; --night-focus: #DCE6DB;
+ --night: #000000; --night-text: #FFFFFF; --night-muted: #B8B8B8; --night-line: #2E3033; --night-signal: #00E5FF; --night-focus: #00E5FF;
  --font-display: Manrope, Arial, sans-serif; --font-body: Manrope, Arial, sans-serif; --font-mono: 'IBM Plex Mono', Consolas, monospace;
  --fs-display: clamp(2.625rem, 1.3rem + 4.6vw, 5rem); --fs-h2: clamp(2rem, 1.4rem + 2.3vw, 3.5rem);
  --fs-h3: clamp(1.5rem, 1.2rem + 1vw, 2.25rem); --fs-index: 2rem; --fs-lead: clamp(1.0625rem, 1rem + .3vw, 1.25rem);

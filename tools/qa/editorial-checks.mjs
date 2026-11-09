@@ -12,7 +12,15 @@ await mkdir('tools/qa/reports', {recursive:true});
 const results = [];
 const errors = [];
 const context = await browser.newContext({reducedMotion:'reduce'});
-const page = await context.newPage();
+// The consent banner waits until the visitor has scrolled; nudge a scroll after each load.
+const settleAfterLoad = (pg) => {
+    for (const m of ['goto', 'reload']) {
+        const orig = pg[m].bind(pg);
+        pg[m] = async (...args) => { const r = await orig(...args); await pg.evaluate(() => scrollBy(0, 1)); await pg.waitForTimeout(700); return r; };
+    }
+    return pg;
+};
+const page = settleAfterLoad(await context.newPage());
 page.on('pageerror', error => errors.push(error.message));
 const requests = [];
 page.on('request', req => requests.push(req.url()));
@@ -144,7 +152,7 @@ await test('Preferences: Escape preserves choice, switch unselected, native focu
 });
 await test('Unavailable storage fails closed without exceptions',async()=>{
     const blocked=await browser.newContext({reducedMotion:'reduce'});await blocked.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw new Error('blocked');}});});
-    const p=await blocked.newPage();const e=[];p.on('pageerror',x=>e.push(x.message));await p.goto(base);await p.locator('.consent-banner [data-accept]').click();
+    const p=settleAfterLoad(await blocked.newPage());const e=[];p.on('pageerror',x=>e.push(x.message));await p.goto(base);await p.locator('.consent-banner [data-accept]').click();
     assert.equal(await p.locator('script[data-analytics]').count(),0);assert.deepEqual(e,[]);assert.match(await p.locator('.consent-banner .dialog-status').textContent(),/cannot save/);await blocked.close();
 });
 await test('Reduced motion and enlarged text keep content visible',async()=>{

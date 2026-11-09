@@ -51,12 +51,22 @@ export function initConsent() {
         try { storage.setItem(CONSENT_KEY, JSON.stringify(choice)); }
         catch { choice = null; }
     }
+    // Ask only once the visitor has finished scrolling (or the homepage autoplay has ended).
+    let settled = false, idle;
+    function showBanner() { banner.hidden = !settled || !!choice; }
     const banner = document.createElement('aside');
     banner.className = 'consent-banner';
     banner.setAttribute('aria-label', 'Cookie choices');
     banner.innerHTML = `<p>We use necessary storage to remember your cookie choice. With your permission, we also use analytics to understand how visitors use this site. You can change your choice anytime.</p><div class="consent-actions"><button type="button" class="btn btn--primary" data-accept>Accept all</button><button type="button" class="btn btn--primary" data-reject>Reject optional</button><button type="button" class="btn btn--outline settings-action" data-cookie-settings>Cookie settings</button></div><p class="dialog-status" role="status"></p>`;
-    banner.hidden = !!choice;
+    showBanner();
     document.body.append(banner);
+    const onScroll = () => {
+        if (document.documentElement.classList.contains('is-autoplay')) return;
+        clearTimeout(idle);
+        idle = setTimeout(() => { settled = true; showBanner(); removeEventListener('scroll', onScroll); }, 600);
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('autoplay:end', onScroll);
     const dialog = document.createElement('dialog');
     dialog.className = 'site-dialog';
     dialog.setAttribute('aria-labelledby', 'cookie-title');
@@ -122,13 +132,13 @@ export function initConsent() {
         choice = readConsent(storage);
         if (!choice?.analytics && initialized) revoke();
         else if (choice?.analytics) startAnalytics();
-        banner.hidden = !!choice;
+        showBanner();
     });
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) return;
         choice = readConsent(storage);
         if (!choice?.analytics && initialized) revoke();
-        banner.hidden = !!choice;
+        showBanner();
     });
     if (choice?.analytics) startAnalytics();
     else removeAccessibleCookies();

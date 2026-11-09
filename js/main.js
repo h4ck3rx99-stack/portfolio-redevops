@@ -1,4 +1,5 @@
 import { initBuild, initAutoplay } from './build.js';
+import { initFx } from './fx.js';
 import { initDeeplinks } from './deeplinks.js';
 import { initNav } from './nav.js';
 import { initContact } from './contact.js';
@@ -13,3 +14,4 @@ initSiteCheck();
 initConsent();
 initBuild();
 initAutoplay();
+initFx();

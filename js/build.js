@@ -250,6 +250,8 @@ export function initAutoplay() {
         raf = 0;
         STOPS.forEach((t) => removeEventListener(t, stop));
         btn.textContent = 'Replay ↺';
+        document.documentElement.classList.remove('is-autoplay');
+        dispatchEvent(new Event('autoplay:end'));
     };
     const start = () => {
         scrollTo({ top: 0, behavior: 'instant' });
@@ -264,6 +266,7 @@ export function initAutoplay() {
         };
         STOPS.forEach((t) => addEventListener(t, stop, { passive: true }));
         btn.textContent = 'Autoplay ⏸';
+        document.documentElement.classList.add('is-autoplay');
         raf = requestAnimationFrame(step);
     };
     btn.addEventListener('click', () => (raf ? stop() : start()));
