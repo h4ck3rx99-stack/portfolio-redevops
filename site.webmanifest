@@ -1,14 +1,26 @@
 {
-  "name": "RE Dev Ops — Web, Mobile & DevOps Studio",
+  "name": "RE Dev Ops \u2014 Websites, Apps & Connected Systems",
   "short_name": "RE Dev Ops",
-  "description": "Independent digital studio building high-performance web apps, mobile apps, and cloud infrastructure.",
+  "description": "Independent software studio in India: websites, apps, automation and cloud \u00e2\u20ac\u201d plus NFC products in Bengaluru.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#050508",
-  "theme_color": "#0ad3ff",
+  "background_color": "#F7F5EF",
+  "theme_color": "#F7F5EF",
   "icons": [
-    { "src": "/favicon-32x32.png", "sizes": "32x32", "type": "image/png" },
-    { "src": "/favicon-48x48.png", "sizes": "48x48", "type": "image/png" },
-    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
   ]
 }

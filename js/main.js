@@ -1,0 +1,15 @@
+import { initBuild, initAutoplay } from './build.js';
+import { initDeeplinks } from './deeplinks.js';
+import { initNav } from './nav.js';
+import { initContact } from './contact.js';
+import { initCalendly } from './calendly.js';
+import { initSiteCheck } from './site-check.js';
+import { initConsent } from './consent.js';
+initDeeplinks();
+initNav();
+initContact();
+initCalendly();
+initSiteCheck();
+initConsent();
+initBuild();
+initAutoplay();

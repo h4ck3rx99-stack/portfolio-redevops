@@ -1,0 +1,57 @@
+/* Design lab only (never deployed) */
+.lab-banner { background: var(--signal); color: var(--on-signal); text-align: center; padding: 8px; font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.04em; }
+.lab-bar { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); }
+.lab-bar__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-5); padding-block: var(--space-3); }
+.seg { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); border: 0; padding: 0; margin: 0; }
+.seg legend { float: left; margin-right: var(--space-3); }
+.seg button { min-height: 44px; padding: 0 14px; border: 1px solid var(--ink); background: transparent; color: var(--ink); border-radius: var(--radius-s); font-size: 0.875rem; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+.lab { padding-block: var(--space-7) var(--space-10); }
+.lab-sec { margin-bottom: var(--space-10); }
+.lab-h { margin: var(--space-7) 0 var(--space-4); }
+.lab-row { margin-bottom: var(--space-4); }
+.lab-night { padding: var(--space-5); }
+.lab-form { max-width: 520px; }
+.lab-two { row-gap: var(--space-7); }
+.lab-two > * { grid-column: 1 / -1; }
+@media (min-width: 1024px) { .lab-two > * { grid-column: span 6; } }
+.lab-focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+.tabs button { min-height: 44px; padding: 0 16px; border: 1px solid var(--line); background: transparent; color: var(--ink); border-radius: var(--radius-s); }
+.tabs button[aria-selected="true"] { border-color: var(--ink); background: var(--paper-2); }
+.concept { border: 1px solid var(--line); padding: var(--space-6); }
+
+.concept-h1 { font-size: clamp(2rem, 1.4rem + 2.8vw, 4rem); max-width: 8.2em; }
+.concept-ledger { row-gap: var(--space-6); }
+.concept-ledger__copy, .concept-ledger__visual { grid-column: 1 / -1; display: grid; gap: var(--space-5); align-content: start; }
+@media (min-width: 1024px) {
+    .concept-ledger__copy { grid-column: 1 / 7; }
+    .concept-ledger__visual { grid-column: 7 / 13; }
+}
+
+.concept-night { background: var(--paper); color: var(--ink); padding: var(--space-7) var(--space-6); display: grid; gap: var(--space-6); }
+.concept-night__h1 { font-size: clamp(2.5rem, 1.5rem + 5vw, 7.5rem); line-height: 0.95; }
+.concept-night__shot { margin-inline: calc(var(--space-6) * -1); border-radius: 0; border-left: 0; border-right: 0; }
+
+.concept-workshop { background: var(--paper); color: var(--ink); padding: var(--space-6); display: grid; gap: var(--space-7); }
+.concept-workshop__copy { grid-column: 1 / -1; display: grid; gap: var(--space-5); align-content: start; }
+.concept-workshop__table { grid-column: 1 / -1; border-top: 1px solid var(--line-strong); }
+.concept-workshop__table div { display: grid; grid-template-columns: 48px 1fr; gap: var(--space-4); padding: var(--space-4) 0; border-bottom: 1px solid var(--line); font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; }
+@media (min-width: 1024px) {
+    .concept-workshop__copy { grid-column: 1 / 7; }
+    .concept-workshop__table { grid-column: 8 / 13; }
+}
+.concept-workshop__strip { display: grid; gap: var(--col-gap); grid-template-columns: repeat(3, 1fr); }
+
+.nav-demos { display: grid; gap: var(--space-6); }
+.demo-frame { border: 1px solid var(--line); padding: 0 var(--space-5); background: var(--paper); }
+.demo-links { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-5); }
+.menu-toggle.demo-show { display: inline-flex; }
+.demo-rail { display: grid; gap: 0; width: 220px; padding: var(--space-5); border-right: 1px solid var(--ink); }
+
+.previews { display: grid; gap: var(--space-6); grid-template-columns: 1fr; }
+@media (min-width: 1024px) { .previews { grid-template-columns: 0.6fr 0.9fr 1.6fr; align-items: start; } }
+.pv { position: relative; overflow: hidden; border: 1px solid var(--line); background: var(--paper-2); }
+.pv iframe { position: absolute; top: 0; left: 0; border: 0; transform-origin: 0 0; background: #fff; }

@@ -1,101 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html data-palette="editorial" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 — Page Not Found | RE Dev Ops</title>
-    <meta name="description" content="The page you are looking for does not exist. Return to RE Dev Ops home page.">
-    <meta name="robots" content="noindex, follow">
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Inline styles to make the 404 container look extra premium -->
-    <style>
-        .error-container {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-            z-index: 10;
-        }
-        .error-code {
-            font-size: clamp(6rem, 15vw, 10rem);
-            font-weight: 800;
-            line-height: 1;
-            letter-spacing: -0.05em;
-            background: linear-gradient(135deg, var(--accent-color), #6366f1, #ff5b94);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.15));
-            animation: pulseGlow 4s infinite alternate;
-        }
-        .error-title {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 600;
-            letter-spacing: -0.03em;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-        .error-message {
-            font-size: clamp(1rem, 2vw, 1.15rem);
-            color: var(--text-muted);
-            max-width: 460px;
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
-        }
-        .error-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2.25rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #000000;
-            background-color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-            border-radius: 8px;
-            text-decoration: none;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .error-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 35px rgba(0, 229, 255, 0.4);
-            background-color: transparent;
-            color: var(--accent-color);
-        }
-        @keyframes pulseGlow {
-            0% { filter: drop-shadow(0 0 15px rgba(0, 229, 255, 0.1)); }
-            100% { filter: drop-shadow(0 0 45px rgba(0, 229, 255, 0.3)); }
-        }
-    </style>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1" name="viewport">
+<title>404 — Page not found | RE Dev Ops</title>
+<meta content="The page you are looking for does not exist. Return to RE Dev Ops home page." name="description">
+<meta content="noindex, follow" name="robots">
+<link href="https://www.redevops.in/404.html" rel="canonical">
+<meta content="website" property="og:type">
+<meta content="RE Dev Ops" property="og:site_name">
+<meta content="en_IN" property="og:locale">
+<meta content="404 — Page not found | RE Dev Ops" property="og:title">
+<meta content="The page you are looking for does not exist. Return to RE Dev Ops home page." property="og:description">
+<meta content="https://www.redevops.in/404.html" property="og:url">
+<meta content="https://www.redevops.in/og-image.png" property="og:image">
+<meta content="1200" property="og:image:width">
+<meta content="630" property="og:image:height">
+<meta content="RE Dev Ops — software studio in India" property="og:image:alt">
+<meta content="summary_large_image" name="twitter:card">
+<meta content="@redevops3" name="twitter:site">
+<meta content="404 — Page not found | RE Dev Ops" name="twitter:title">
+<meta content="The page you are looking for does not exist. Return to RE Dev Ops home page." name="twitter:description">
+<meta content="https://www.redevops.in/og-image.png" name="twitter:image">
+<link href="/favicon.svg" rel="icon" type="image/svg+xml">
+<link href="/favicon.ico" rel="icon" sizes="any">
+<link href="/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+<link href="/apple-touch-icon.png" rel="apple-touch-icon">
+<link href="/site.webmanifest" rel="manifest">
+<meta content="#F7F5EF" name="theme-color">
+<link as="font" crossorigin href="/assets/fonts/manrope-latin.woff2" rel="preload" type="font/woff2">
+<link href="/css/tokens.css" rel="stylesheet">
+<link href="/css/base.css" rel="stylesheet">
+<link href="/css/layout.css" rel="stylesheet">
+<link href="/css/components.css" rel="stylesheet">
+<link href="/css/pages/article.css" rel="stylesheet">
+<script>(function(r){r.classList.add('js');if(matchMedia('(prefers-reduced-motion: no-preference)').matches){r.classList.add('is-build','building');setTimeout(function(){r.classList.remove('building')},3000)}})(document.documentElement);</script>
 </head>
-<body>
-    <!-- Floating Aurora Blobs -->
-    <div class="aurora-blob blob-1"></div>
-    <div class="aurora-blob blob-2"></div>
-    <div class="aurora-blob blob-3"></div>
-
-    <!-- Main Container -->
-    <div class="error-container">
-        <div class="error-code">404</div>
-        <h1 class="error-title">Lost in Space</h1>
-        <p class="error-message">The page you are looking for has either been moved, deleted, or never existed in the first place.</p>
-        <a href="/" class="error-btn" id="homeLink">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width: 18px; height: 18px;"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Return to Portfolio
-        </a>
-    </div>
-
-    <script>
-        // Support offline local file:// previews
-        if (window.location.protocol === 'file:') {
-            document.getElementById('homeLink').href = 'index.html';
-        }
-    </script>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<div class="container site-header__inner">
+<a aria-label="RE Dev Ops — home" class="wordmark" href="/index.html">RE Dev Ops</a>
+<nav aria-label="Main" class="site-nav">
+<ul class="site-nav__list"><li><a class="site-nav__link" href="/index.html#work">Work</a></li><li><a class="site-nav__link" href="/index.html#services">Services</a></li><li><a class="site-nav__link" href="/index.html#team">Studio</a></li><li><a class="site-nav__link" href="/index.html#blog">Insights</a></li></ul>
+<a class="btn btn--ink" href="/index.html#contact">Start a project</a>
+</nav>
+<button aria-controls="site-menu" aria-expanded="false" class="menu-toggle" type="button">Menu</button>
+</div>
+</header>
+<div class="menu-sheet" hidden id="site-menu">
+<div class="container">
+<div class="menu-sheet__top">
+<a aria-label="RE Dev Ops — home" class="wordmark" href="/index.html">RE Dev Ops</a>
+<button class="menu-toggle menu-sheet__close" type="button">Close</button>
+</div>
+<nav aria-label="Mobile">
+<ul class="menu-sheet__links"><li><a href="/index.html#work">Work</a></li><li><a href="/index.html#services">Services</a></li><li><a href="/index.html#team">Studio</a></li><li><a href="/index.html#blog">Insights</a></li></ul>
+</nav>
+<div class="menu-sheet__actions">
+<a class="btn btn--primary btn--lg btn--block" href="/index.html#contact">Start a project <span aria-hidden="true" class="btn__arrow">→</span></a>
+<div class="menu-sheet__channels">
+<a class="text-link text-link--tap" href="https://wa.me/918734000403?text=Hi%21%20I%27d%20like%20to%20talk%20about%20a%20project." rel="noopener" target="_blank">WhatsApp ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+<a class="text-link text-link--tap" href="mailto:hello@redevops.in">hello@redevops.in</a>
+</div>
+<div class="menu-sheet__channels">
+<a class="text-link text-link--tap" href="https://github.com/RE-Dev-Ops" rel="noopener" target="_blank">GitHub ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+<a class="text-link text-link--tap" href="https://www.linkedin.com/in/redevops/" rel="noopener" target="_blank">LinkedIn ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+<a class="text-link text-link--tap" href="https://x.com/redevops3" rel="noopener" target="_blank">X ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+<a class="text-link text-link--tap" href="https://www.instagram.com/redevops3/" rel="noopener" target="_blank">Instagram ↗<span class="visually-hidden"> (opens in new tab)</span></a>
+</div>
+</div>
+</div>
+</div>
+<main class="container not-found" id="main">
+<p class="meta">Error 404</p>
+<h1>This page doesn't exist.</h1>
+<p class="lead">It may have moved, or the link may be wrong. Try one of these instead:</p>
+<div class="btn-row">
+<a class="btn btn--primary" href="/">Home <span aria-hidden="true" class="btn__arrow">→</span></a>
+<a class="btn btn--outline" href="/#work">Work</a>
+<a class="btn btn--outline" href="/#contact">Contact</a>
+</div>
+</main>
+<footer class="site-footer night">
+<div class="container">
+<div class="grid footer__top">
+<div class="footer__brand">
+<a aria-label="RE Dev Ops — home" class="wordmark" href="/index.html">RE Dev Ops</a>
+<p>An independent software studio in India. Websites, apps, automation and cloud — plus NFC products in Bengaluru.</p>
+</div>
+<div class="footer__col">
+<h2>Studio</h2>
+<ul><li><a href="/index.html#work">Work</a></li><li><a href="/index.html#services">Services</a></li><li><a href="/nfc.html">NFC</a></li><li><a href="/index.html#team">Studio</a></li><li><a href="/index.html#blog">Insights</a></li></ul>
+</div>
+<div class="footer__col">
+<h2>Contact</h2>
+<ul><li><a href="mailto:hello@redevops.in">hello@redevops.in</a></li><li><a href="tel:+918734000403">+91 8734000403</a></li><li><a href="https://wa.me/918734000403?text=Hi%21%20I%27d%20like%20to%20talk%20about%20a%20project." rel="noopener" target="_blank">WhatsApp ↗<span class="visually-hidden"> (opens in new tab)</span></a></li><li><a data-calendly="" href="https://calendly.com/redevops3/30min">Book a call</a></li></ul>
+</div>
+<div class="footer__col">
+<h2>Social</h2>
+<ul><li><a href="https://github.com/RE-Dev-Ops" rel="noopener" target="_blank">GitHub ↗<span class="visually-hidden"> (opens in new tab)</span></a></li><li><a href="https://www.linkedin.com/in/redevops/" rel="noopener" target="_blank">LinkedIn ↗<span class="visually-hidden"> (opens in new tab)</span></a></li><li><a href="https://x.com/redevops3" rel="noopener" target="_blank">X ↗<span class="visually-hidden"> (opens in new tab)</span></a></li><li><a href="https://www.instagram.com/redevops3/" rel="noopener" target="_blank">Instagram ↗<span class="visually-hidden"> (opens in new tab)</span></a></li></ul>
+</div>
+<div class="footer__col">
+<h2>Legal</h2>
+<ul><li><a href="/privacy.html">Privacy Policy</a></li></ul>
+</div>
+</div>
+<div class="footer__bottom">
+<span class="meta">© 2026 RE Dev Ops · India</span>
+<a class="meta" href="#top">Back to top ↑</a>
+<button class="cookie-settings" data-cookie-settings="" type="button">Cookie settings</button></div>
+</div>
+</footer>
+<script src="/js/main.js" type="module"></script>
 </body>
 </html>

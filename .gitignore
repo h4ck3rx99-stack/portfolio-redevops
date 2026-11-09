@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Redesign QA output (dev only)
+tools/qa/reports/
+tools/qa/screenshots/

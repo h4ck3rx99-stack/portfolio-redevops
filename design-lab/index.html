@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" data-palette="ledger">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Design lab — RE Dev Ops (local only)</title>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap">
+    <link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div class="lab-banner" role="note">Design lab — local preview only. Not deployed (see .vercelignore).</div>
+
+<header class="lab-bar">
+    <div class="container lab-bar__inner">
+        <span class="wordmark">RE Dev Ops</span>
+        <fieldset class="seg" data-control="palette">
+            <legend class="meta">Palette</legend>
+            <button type="button" data-value="ledger" aria-pressed="true">Ledger</button>
+            <button type="button" data-value="night" aria-pressed="false">Night</button>
+            <button type="button" data-value="moss" aria-pressed="false">Moss</button>
+        </fieldset>
+        <fieldset class="seg" data-control="font">
+            <legend class="meta">Type</legend>
+            <button type="button" data-value="bricolage" aria-pressed="true">Bricolage + Geist</button>
+            <button type="button" data-value="space" aria-pressed="false">Space Grotesk + Geist</button>
+            <button type="button" data-value="newsreader" aria-pressed="false">Newsreader + Geist</button>
+        </fieldset>
+    </div>
+</header>
+
+<main class="container lab">
+
+    <!-- 1. Hero concepts -->
+    <section class="lab-sec">
+        <div class="section-head"><div class="section-head__row"><span class="meta">01 · Hero concepts</span></div><h2>Three directions, same real content</h2></div>
+        <div class="tabs" role="tablist" aria-label="Hero concepts">
+            <button type="button" role="tab" aria-selected="true" aria-controls="c1" id="t1">1 · Ledger (chosen)</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="c2" id="t2" tabindex="-1">2 · Night Studio</button>
+            <button type="button" role="tab" aria-selected="false" aria-controls="c3" id="t3" tabindex="-1">3 · Workshop</button>
+        </div>
+
+        <div class="concept" id="c1" role="tabpanel" aria-labelledby="t1">
+            <div class="grid concept-ledger">
+                <div class="concept-ledger__copy">
+                    <p class="meta">Independent software studio · India</p>
+                    <h1 class="concept-h1">We build the websites, apps and tools your business runs on.</h1>
+                    <p class="lead">RE Dev Ops is a three-person engineering studio. You talk directly to the people who design and write your code — from the first call to launch day, and after.</p>
+                    <div class="btn-row"><a class="btn btn--primary" href="#">Start a project <span class="btn__arrow" aria-hidden="true">→</span></a><a class="btn btn--outline" href="#">See the work</a></div>
+                </div>
+                <div class="concept-ledger__visual">
+                    <div class="shot"><img src="../assets/img/ferment_formula-960.webp" width="1440" height="900" alt="The Ferment Formula homepage"></div>
+                    <ol class="pindex">
+                        <li class="pindex__row is-active"><a class="pindex__link" href="#"><span class="pindex__num">01</span><span class="pindex__name">The Ferment Formula</span><span class="pindex__info meta"><span>Client website</span><span>2026</span><span class="live">Live</span></span></a></li>
+                        <li class="pindex__row"><a class="pindex__link" href="#"><span class="pindex__num">02</span><span class="pindex__name">ProposalForge</span><span class="pindex__info meta"><span>Studio product</span><span>2026</span><span class="live">Live</span></span></a></li>
+                        <li class="pindex__row"><a class="pindex__link" href="#"><span class="pindex__num">03</span><span class="pindex__name">SiteAudit Pro</span><span class="pindex__info meta"><span>Studio product</span><span>2026</span><span class="live">Live</span></span></a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="concept" id="c2" role="tabpanel" aria-labelledby="t2" hidden>
+            <div class="concept-night" data-palette-local="night">
+                <p class="meta">RE Dev Ops · Software studio · India</p>
+                <h1 class="concept-night__h1">Websites, apps and automations.<br>Built by the people you talk to.</h1>
+                <div class="btn-row"><a class="btn btn--primary" href="#">Start a project</a><a class="btn btn--outline" href="#">See the work</a></div>
+                <div class="shot concept-night__shot"><img src="../assets/img/ferment_formula-1440.webp" width="1440" height="900" alt="The Ferment Formula homepage"></div>
+            </div>
+        </div>
+
+        <div class="concept" id="c3" role="tabpanel" aria-labelledby="t3" hidden>
+            <div class="concept-workshop" data-palette-local="moss">
+                <div class="grid">
+                    <div class="concept-workshop__copy">
+                        <p class="meta">Spec sheet · RE Dev Ops</p>
+                        <h1 class="concept-h1">Software for real businesses, built by the people you talk to.</h1>
+                        <a class="btn btn--primary" href="#">Start a project</a>
+                    </div>
+                    <dl class="concept-workshop__table">
+                        <div><dt class="meta">01</dt><dd>Websites &amp; online stores</dd></div>
+                        <div><dt class="meta">02</dt><dd>Apps &amp; business software</dd></div>
+                        <div><dt class="meta">03</dt><dd>AI, automation &amp; cloud</dd></div>
+                        <div><dt class="meta">04</dt><dd>NFC cards &amp; stands · Bengaluru</dd></div>
+                    </dl>
+                </div>
+                <div class="concept-workshop__strip">
+                    <div class="shot"><img src="../assets/img/proposal_forge-640.webp" width="1440" height="900" alt="ProposalForge"></div>
+                    <div class="shot"><img src="../assets/img/siteaudit-640.webp" width="1440" height="900" alt="SiteAudit Pro"></div>
+                    <div class="shot"><img src="../assets/img/dashboard_studio-640.webp" width="1440" height="900" alt="Dashboard Studio"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Navigation styles -->
+    <section class="lab-sec">
+        <div class="section-head"><div class="section-head__row"><span class="meta">02 · Navigation</span></div><h2>Header options</h2></div>
+        <div class="nav-demos">
+            <figure><figcaption class="meta">Inline header (chosen, ≥1024px)</figcaption>
+                <div class="demo-frame"><div class="site-header__inner demo-inline"><span class="wordmark">RE Dev Ops</span><nav class="demo-links"><a class="site-nav__link" href="#">Work</a><a class="site-nav__link" href="#" aria-current="true">Services</a><a class="site-nav__link" href="#">NFC</a><a class="site-nav__link" href="#">Studio</a><a class="site-nav__link" href="#">Contact</a><a class="btn btn--ink" href="#">Start a project</a></nav></div></div>
+            </figure>
+            <figure><figcaption class="meta">"Menu" sheet at all sizes</figcaption>
+                <div class="demo-frame"><div class="site-header__inner"><span class="wordmark">RE Dev Ops</span><span class="menu-toggle demo-show">Menu</span></div></div>
+            </figure>
+            <figure><figcaption class="meta">Left rail</figcaption>
+                <div class="demo-frame demo-rail"><span class="wordmark">RE Dev Ops</span><a class="site-nav__link" href="#">Work</a><a class="site-nav__link" href="#">Services</a><a class="site-nav__link" href="#">NFC</a><a class="site-nav__link" href="#">Studio</a><a class="site-nav__link" href="#">Contact</a></div>
+            </figure>
+        </div>
+    </section>
+
+    <!-- 3. Components -->
+    <section class="lab-sec">
+        <div class="section-head"><div class="section-head__row"><span class="meta">03 · Components</span></div><h2>Component gallery</h2></div>
+
+        <h3 class="meta lab-h">Buttons</h3>
+        <div class="btn-row lab-row">
+            <a class="btn btn--primary" href="#">Primary <span class="btn__arrow" aria-hidden="true">→</span></a>
+            <a class="btn btn--ink" href="#">Ink</a>
+            <a class="btn btn--outline" href="#">Outline</a>
+            <button class="btn btn--primary" type="button" disabled>Disabled</button>
+            <a class="btn btn--outline lab-focus" href="#">Focus state</a>
+        </div>
+        <div class="night lab-night btn-row lab-row">
+            <a class="btn btn--primary" href="#">Night primary</a>
+            <a class="btn btn--outline" href="#">Night outline</a>
+        </div>
+
+        <h3 class="meta lab-h">Links &amp; tags</h3>
+        <p class="lab-row"><a class="text-link" href="#">Body link</a> · <a class="text-link" href="#" target="_blank" rel="noopener">External link ↗</a></p>
+        <div class="tags lab-row"><span class="tag">Next.js 15</span><span class="tag">TypeScript</span><span class="tag">Astro</span><span class="live meta">Live</span></div>
+
+        <h3 class="meta lab-h">Form fields</h3>
+        <div class="form lab-form">
+            <div class="field"><label for="l1">Default</label><input type="text" id="l1" placeholder="Your name"></div>
+            <div class="field"><label for="l2">Focus</label><input type="email" id="l2" class="lab-focus" value="you@company.com"></div>
+            <div class="field"><label for="l3">Error</label><input type="email" id="l3" aria-invalid="true" value="not-an-email"><p class="form__error">Please add your name, a valid email and a short message.</p></div>
+        </div>
+
+        <h3 class="meta lab-h">Service row</h3>
+        <article class="grid service">
+            <div class="service__head"><span class="meta">01</span><h3>Websites &amp; online stores</h3></div>
+            <div class="service__body"><p>A fast, good-looking site that explains what you do and turns visitors into enquiries — on phones first.</p><ul class="bullets"><li>Works well on phones and slow connections</li><li>Shows up properly on Google</li></ul></div>
+            <div class="service__aside"><p class="meta">Example</p><p><a class="text-link" href="#">The Ferment Formula</a></p></div>
+        </article>
+
+        <h3 class="meta lab-h">Process step &amp; FAQ</h3>
+        <div class="grid lab-two">
+            <ol class="steps"><li class="step"><p class="meta step__time">Within 48 hours</p><h3 class="h4">Clear scope &amp; quote</h3><p>A written plan with features, timeline and a fixed price before any work starts.</p></li></ol>
+            <div class="faq"><details class="faq__item" open><summary>How fast can RE Dev Ops launch a product?</summary><p>We deliver functional MVPs in 14 to 30 days.</p></details><details class="faq__item"><summary>Is RE Dev Ops based in India?</summary><p>Yes.</p></details></div>
+        </div>
+
+        <h3 class="meta lab-h">Team member &amp; project block</h3>
+        <div class="grid lab-two">
+            <article class="person"><div class="monogram" aria-hidden="true">MH</div><h3>Mahima Hemanth</h3><p class="meta">Co-Founder · AI &amp; Product</p><p>Leads the product and AI side of RE Dev Ops.</p><div class="person__links"><a class="text-link text-link--tap" href="#">GitHub ↗</a><a class="text-link text-link--tap" href="#">LinkedIn ↗</a></div></article>
+            <article class="product"><div class="shot"><img src="../assets/img/brandkit-640.webp" width="1440" height="900" alt="BrandKit Studio"></div><p class="meta">Studio product · 2026 · <span class="live">Live</span></p><h3>BrandKit Studio</h3><p>A brand identity toolkit: palettes, contrast checks, gradients, font pairings and token export.</p><div class="product__links"><a class="btn btn--outline" href="#">Case study →</a><a class="btn btn--outline" href="#">Open the app ↗</a></div></article>
+        </div>
+    </section>
+
+    <!-- 4. Viewport previews -->
+    <section class="lab-sec">
+        <div class="section-head"><div class="section-head__row"><span class="meta">04 · Real homepage</span></div><h2>Viewport previews</h2></div>
+        <p class="lab-row muted">Live homepage in iframes; follows the palette and type chosen above.</p>
+        <div class="previews">
+            <figure><figcaption class="meta">390</figcaption><div class="pv" data-w="390" data-h="844"><iframe title="Homepage at 390px" data-src="../index.html"></iframe></div></figure>
+            <figure><figcaption class="meta">768</figcaption><div class="pv" data-w="768" data-h="1024"><iframe title="Homepage at 768px" data-src="../index.html"></iframe></div></figure>
+            <figure><figcaption class="meta">1440</figcaption><div class="pv" data-w="1440" data-h="900"><iframe title="Homepage at 1440px" data-src="../index.html"></iframe></div></figure>
+        </div>
+    </section>
+</main>
+<script src="lab.js"></script>
+</body>
+</html>
