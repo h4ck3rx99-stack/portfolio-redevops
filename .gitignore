@@ -26,3 +26,7 @@ dist-ssr
 # Redesign QA output (dev only)
 tools/qa/reports/
 tools/qa/screenshots/
+
+# Next.js
+.next/
+next-env.d.ts
