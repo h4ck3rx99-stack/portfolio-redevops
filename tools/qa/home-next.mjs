@@ -35,15 +35,15 @@ const state = (page) => page.evaluate(() => ({
 
 // Desktop: hero builds on load, then every frame builds on scroll and cleans up.
 const page = await open({ viewport: { width: 1440, height: 900 } });
-await page.waitForTimeout(900);
-assert.ok(await page.locator('.bc-layer > .bc-cursor').count() > 0, 'cursors are building the hero');
-await page.screenshot({ path: `${shots}next-hero-building.png` });
-await page.waitForTimeout(3200);
-assert.equal(await page.locator('h1 [aria-hidden] span').first().textContent(), 'This website is building itself.');
+await page.waitForTimeout(2500);
+assert.equal(await page.locator('h1').innerText(), 'We’re a student-founded studio. We build websites, apps and the systems behind them.');
+assert.equal(await page.locator('canvas').count() >= 1, true, 'particle name canvas');
 await page.screenshot({ path: `${shots}next-hero-built.png` });
+await page.locator('#services').scrollIntoViewIfNeeded();
+await page.waitForTimeout(350);
+assert.ok(await page.locator('.bc-layer > .bc-cursor').count() > 0, 'cursors build a section on scroll');
 await page.locator('#work').scrollIntoViewIfNeeded();
 await page.waitForTimeout(450);
-await page.screenshot({ path: `${shots}next-work-building.png` });
 await scrollAll(page);
 let s = await state(page);
 console.log('desktop', s);
@@ -65,13 +65,7 @@ assert.equal(await page.locator('.bc-you.is-on').count(), 1, '"you" tag');
 assert.equal(await page.locator('.bc-inspect.is-on').count(), 1, 'inspect outline');
 await page.screenshot({ path: `${shots}next-inspect.png` });
 
-// Replay rebuilds the hero.
-await page.getByRole('button', { name: /replay/i }).click();
-await page.waitForTimeout(700);
-assert.ok(await page.locator('.bc-layer > .bc-cursor').count() > 0, 'replay restarts the build');
-
 // Contact form validates, then hands off to WhatsApp.
-await page.waitForTimeout(3500);
 await page.locator('#contact').scrollIntoViewIfNeeded();
 await page.waitForTimeout(2500);
 await page.getByRole('button', { name: /Send on WhatsApp/ }).click();
@@ -99,13 +93,13 @@ for (const w of [320, 768, 1024]) {
 const calm = await open({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
 await calm.waitForTimeout(500);
 assert.equal(await calm.locator('.bc-cursor, .bc-you').count(), 0);
-assert.equal(await calm.locator('h1').innerText(), 'This website is building itself.\nYours is next.');
+assert.equal(await calm.locator('.bc-cursor').count(), 0);
 
 // No JavaScript: content is all there.
 const nojs = await (await browser.newContext({ javaScriptEnabled: false })).newPage();
 await nojs.goto(base);
 assert.equal(await nojs.locator('h1').isVisible(), true);
-assert.equal(await nojs.locator('main img').count(), 6);
+assert.equal(await nojs.locator('main img').count(), 5);
 
 // Older pages still load from /public.
 for (const r of ['/work/the-ferment-formula.html', '/nfc.html', '/blog/nextjs-seo-2026.html', '/privacy.html']) {

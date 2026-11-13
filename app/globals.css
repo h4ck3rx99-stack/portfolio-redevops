@@ -79,3 +79,4 @@ body {
 
 /* Comment pin (the client's review) */
 .pin { display: grid; place-items: center; width: 32px; height: 32px; flex: none; border-radius: 50% 50% 50% 0; background: var(--color-pm); color: #fff; font: 700 11px/1 var(--font-mono); }
+
