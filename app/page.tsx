@@ -59,6 +59,15 @@ function Shot({ img, alt, eager, sizes }: { img: string; alt: string; eager?: bo
 
 const section = `${wrap} py-16 md:py-24`;
 
+const JSON_LD = [
+    { '@context': 'https://schema.org', '@type': 'WebSite', name: 'RE Dev Ops', alternateName: ['REDevOps', 'redevops.in'], url: 'https://www.redevops.in/' },
+    {
+        '@context': 'https://schema.org', '@type': 'Organization', name: 'RE Dev Ops', url: 'https://www.redevops.in/',
+        logo: 'https://www.redevops.in/logo.png', image: 'https://www.redevops.in/og-image.png', email: 'hello@redevops.in', telephone: '+918734000403',
+        sameAs: ['https://github.com/RE-Dev-Ops', 'https://www.linkedin.com/in/redevops/', 'https://x.com/redevops3', 'https://www.instagram.com/redevops3/'],
+    },
+];
+
 export default function Home() {
     return (
         <>
@@ -97,7 +106,7 @@ export default function Home() {
                 <section id="work" aria-labelledby="work-h" className="bg-ink text-white">
                     <div className={`${section} grid gap-10 lg:grid-cols-12 lg:gap-14`}>
                         <div className="lg:col-span-7">
-                            <a href="/work/the-ferment-formula.html" className="browser unfold block" aria-label="The Ferment Formula project details">
+                            <a href="/work/the-ferment-formula.html" className="browser unfold block" aria-label="thefermentformula.in — The Ferment Formula project details">
                                 <span className="browser__bar" aria-hidden="true"><i /><i /><i /><b>thefermentformula.in</b></span>
                                 <Shot img="ferment_formula" eager sizes="(min-width: 1024px) 56vw, 100vw" alt="The Ferment Formula homepage: brewhouse photo with the headline End-to-End Brewery Setup and an Explore setup button" />
                             </a>
@@ -248,6 +257,7 @@ export default function Home() {
                 </section>
             </main>
 
+            {JSON_LD.map((d) => <script key={d['@type']} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(d) }} />)}
             <SiteFooter />
         </>
     );

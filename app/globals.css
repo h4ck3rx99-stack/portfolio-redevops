@@ -8,7 +8,7 @@
     --color-accent: #D23A0C;
     --color-design: #FF4A1C;
     --color-copy: #1F5BFF;
-    --color-dev: #0A8F5B;
+    --color-dev: #087A4D;
     --color-pm: #B87A00;
     --color-qa: #D81B7A;
     --color-background: #FFFFFF;
@@ -21,7 +21,7 @@
     --color-ring: #1F5BFF;
     --color-chart-1: #FF4A1C;
     --color-chart-2: #1F5BFF;
-    --color-chart-3: #0A8F5B;
+    --color-chart-3: #087A4D;
     --color-chart-4: #B87A00;
     --color-chart-5: #D81B7A;
     --font-sans: var(--font-archivo), Arial, sans-serif;
@@ -103,7 +103,7 @@ body {
 @supports not (animation-timeline: view()) { .progress { display: none; } }
 @keyframes grow-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes rise { from { opacity: 0; translate: 0 36px; } to { opacity: 1; translate: 0 0; } }
-@keyframes unfold { from { transform: perspective(1400px) rotateX(24deg) scale(.86); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes unfold { from { transform: perspective(1400px) rotateX(24deg) scale(.86); } to { transform: none; } }
 @keyframes lightup { to { background-position: 0 0; } }
 @media (prefers-reduced-motion: reduce) {
     .btn, .wipe::before, .wipe *, .nfc__card, .nfc__link { transition: none; }
