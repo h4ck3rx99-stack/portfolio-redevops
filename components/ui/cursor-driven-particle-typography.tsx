@@ -196,6 +196,9 @@ export function CursorDrivenParticleTypography({
             }
         };
 
+        let running = false;
+        let visible = true;
+        let activeUntil = 0;
         const animate = () => {
             ctx.clearRect(0, 0, containerWidth, containerHeight);
 
@@ -203,28 +206,42 @@ export function CursorDrivenParticleTypography({
                 particle.update(mouseX, mouseY);
                 particle.draw(ctx);
             });
+            // Idle or off screen: stop the loop until the next interaction.
+            if (!visible || performance.now() > activeUntil) { running = false; return; }
             animationFrameId = requestAnimationFrame(animate);
         };
+        const wake = () => {
+            activeUntil = performance.now() + 2500;
+            if (!running && visible) { running = true; animate(); }
+        };
+        const viewObserver = new IntersectionObserver(([entry]) => {
+            visible = !!entry?.isIntersecting;
+            if (visible) wake();
+        });
+        viewObserver.observe(canvas);
 
         const handleMouseMove = (e: MouseEvent) => {
             const rect = canvas.getBoundingClientRect();
             mouseX = e.clientX - rect.left;
             mouseY = e.clientY - rect.top;
+            wake();
         };
 
         const handleMouseLeave = () => {
             mouseX = -1000;
             mouseY = -1000;
+            wake();
         };
 
         const handleResize = () => {
             init();
+            wake();
         };
 
         // Initialize with a short delay to ensure fonts/layout are ready
         const timeoutId = setTimeout(() => {
             init();
-            animate();
+            wake();
         }, 100);
 
         const resizeObserver = new ResizeObserver(() => {
@@ -251,19 +268,22 @@ export function CursorDrivenParticleTypography({
             const rect = canvas.getBoundingClientRect();
             mouseX = e.touches[0].clientX - rect.left;
             mouseY = e.touches[0].clientY - rect.top;
-        });
+            wake();
+        }, { passive: true });
         canvas.addEventListener("touchmove", (e) => {
             if (!e.touches[0]) return;
             const rect = canvas.getBoundingClientRect();
             mouseX = e.touches[0].clientX - rect.left;
             mouseY = e.touches[0].clientY - rect.top;
-        });
+            wake();
+        }, { passive: true });
         canvas.addEventListener("touchend", handleMouseLeave);
 
         return () => {
             clearTimeout(timeoutId);
             resizeObserver.disconnect();
             themeObserver.disconnect();
+            viewObserver.disconnect();
             canvas.removeEventListener("mousemove", handleMouseMove);
             canvas.removeEventListener("mouseleave", handleMouseLeave);
             cancelAnimationFrame(animationFrameId);

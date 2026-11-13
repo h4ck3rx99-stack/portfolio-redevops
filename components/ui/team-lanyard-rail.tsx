@@ -59,8 +59,8 @@ export interface TeamLanyardRailProps extends React.ComponentProps<"section"> {
 }
 
 const RATIO = 96 / 62;
-const MAX_W = 124;
-const MIN_RAIL_W = 100;
+const MAX_W = 208;
+const MIN_RAIL_W = 168;
 const EM = 11.2;
 const RAIL_PITCH_MIN = 1.16;
 const RAIL_PITCH_MAX = 1.62;
@@ -461,7 +461,7 @@ export function TeamLanyardRail({
       const n = Math.max(1, live.current.count);
       const railW = Math.min(MAX_W, (width - 40) / (n * RAIL_PITCH_MIN + 0.4));
       const carousel = railW < MIN_RAIL_W;
-      const W = Math.round((carousel ? clamp(width * 0.3, 96, 118) : railW) * 4) / 4;
+      const W = Math.round((carousel ? clamp(width * 0.58, 168, 208) : railW) * 4) / 4;
       setSize((old) => (Math.abs(old.width - width) < 0.5 && old.carousel === carousel && old.W === W ? old : { width, W, carousel }));
     };
     measure(stage.clientWidth);

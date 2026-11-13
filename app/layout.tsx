@@ -20,15 +20,9 @@ export const metadata: Metadata = {
 };
 export const viewport: Viewport = { themeColor: '#ECECE6' };
 
-// Gate the build effect before first paint; a 3 s failsafe shows everything if the script never runs.
-const gate = `(function(r){if(matchMedia('(prefers-reduced-motion: no-preference)').matches){r.classList.add('building');setTimeout(function(){r.classList.remove('building')},3000)}})(document.documentElement)`;
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className={`${archivo.variable} ${jetbrains.variable}`} suppressHydrationWarning>
-            <head>
-                <script dangerouslySetInnerHTML={{ __html: gate }} />
-            </head>
+        <html lang="en" className={`${archivo.variable} ${jetbrains.variable}`}>
             <body suppressHydrationWarning>{children}</body>
         </html>
     );

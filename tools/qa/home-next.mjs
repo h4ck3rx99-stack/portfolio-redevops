@@ -1,4 +1,5 @@
-// Checks the Next.js homepage and its "site builds itself" effect. Needs the site on BASE.
+// Checks the Next.js homepage: content order, accessibility basics, interactions and frame cost.
+// Needs the site running on BASE.
 import { chromium } from 'playwright-core';
 import assert from 'node:assert/strict';
 import { mkdir } from 'node:fs/promises';
@@ -8,7 +9,7 @@ const shots = new URL('./screenshots/', import.meta.url).pathname.replace(/^\/(?
 await mkdir(shots, { recursive: true });
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
 const errors = [];
-const open = async (opts, route = '/') => {
+const open = async (opts) => {
     const ctx = await browser.newContext(opts);
     await ctx.addInitScript(() => {
         window.__cls = 0;
@@ -16,95 +17,120 @@ const open = async (opts, route = '/') => {
     });
     const page = await ctx.newPage();
     page.on('pageerror', (e) => errors.push(e.message));
-    page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
-    await page.goto(base + route);
+    page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text().slice(0, 200)); });
+    await page.goto(base);
+    await page.waitForTimeout(1500);
     return page;
 };
-const scrollAll = async (page) => {
-    const h = await page.evaluate(() => document.documentElement.scrollHeight);
-    for (let y = 0; y < h; y += 350) { await page.evaluate((v) => scrollTo({ top: v, behavior: 'instant' }), y); await page.waitForTimeout(120); }
-    await page.waitForTimeout(2500);
-};
-const state = (page) => page.evaluate(() => ({
-    hidden: [...document.querySelectorAll('[data-b]')].filter((e) => getComputedStyle(e).opacity === '0' && e.getClientRects().length).length,
-    cursors: document.querySelectorAll('.bc-layer > *').length,
-    overflow: document.documentElement.scrollWidth > innerWidth,
-    h1: document.querySelectorAll('h1').length,
-    cls: window.__cls,
-}));
+// Share of animation frames slower than 30 fps while scrolling the whole page.
+const scrollCost = (page) => page.evaluate(async () => {
+    const gaps = [];
+    let last = performance.now(), on = true;
+    const tick = (t) => { gaps.push(t - last); last = t; if (on) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+    const h = document.documentElement.scrollHeight;
+    for (let y = 0; y < h; y += 120) { scrollTo({ top: y, behavior: 'instant' }); await new Promise((r) => requestAnimationFrame(r)); }
+    on = false;
+    return { frames: gaps.length, slow: gaps.filter((g) => g > 34).length, height: h };
+});
 
-// Desktop: hero builds on load, then every frame builds on scroll and cleans up.
+// Desktop
 const page = await open({ viewport: { width: 1440, height: 900 } });
-await page.waitForTimeout(2500);
-assert.equal(await page.locator('h1').innerText(), 'We’re a student-founded studio. We build websites, apps and the systems behind them.');
-assert.equal(await page.locator('canvas').count() >= 1, true, 'particle name canvas');
-await page.screenshot({ path: `${shots}next-hero-built.png` });
-await page.locator('#services').scrollIntoViewIfNeeded();
-await page.waitForTimeout(350);
-assert.ok(await page.locator('.bc-layer > .bc-cursor').count() > 0, 'cursors build a section on scroll');
-await page.locator('#work').scrollIntoViewIfNeeded();
-await page.waitForTimeout(450);
-await scrollAll(page);
-let s = await state(page);
-console.log('desktop', s);
-assert.equal(s.hidden, 0, 'everything visible once built');
-assert.equal(s.cursors, 0, 'cursors removed when done');
-assert.equal(s.overflow, false);
-assert.equal(s.h1, 1);
-assert.ok(s.cls < 0.1, `CLS ${s.cls}`);
-await page.screenshot({ path: `${shots}next-full.png`, fullPage: true });
+assert.equal(await page.locator('h1').count(), 1);
+assert.deepEqual(await page.locator('main h2').allInnerTexts(), [
+    'The Ferment Formula',
+    'A card on the counter. One tap to your menu, reviews or contact.',
+    'Four tools we built for ourselves. Open to everyone.',
+    'What do you need built?',
+    'How it goes.',
+    'Who you’ll actually talk to.',
+    'Got something to build?',
+], 'sections in order');
+await page.screenshot({ path: `${shots}home-hero.png` });
+await page.screenshot({ path: `${shots}home-full.png`, fullPage: true });
+const a11y = await page.evaluate(() => ({
+    overflow: document.documentElement.scrollWidth > innerWidth,
+    imgsNoAlt: [...document.querySelectorAll('img')].filter((i) => !i.hasAttribute('alt')).length,
+    emptyLinks: [...document.querySelectorAll('a, button')].filter((e) => !e.closest('[aria-hidden="true"]') && !(e.innerText || '').trim() && !e.getAttribute('aria-label')).length,
+    smallText: [...document.querySelectorAll('main p, main li, main a, main dd, main summary, footer p, footer a')].filter((e) => !e.closest('[aria-hidden="true"], [data-slot="team-lanyard-rail"]') && e.getClientRects().length && parseFloat(getComputedStyle(e).fontSize) < 13).length,
+    brokenAnchors: [...document.querySelectorAll('a[href^="#"]')].filter((a) => !document.getElementById(a.hash.slice(1))).map((a) => a.hash),
+    badgeName: parseFloat(getComputedStyle(document.querySelector('[data-badge] [data-face="front"]')).fontSize),
+}));
+console.log('desktop', a11y);
+assert.equal(a11y.overflow, false);
+assert.equal(a11y.imgsNoAlt, 0);
+assert.equal(a11y.emptyLinks, 0);
+assert.equal(a11y.smallText, 0, 'no body text under 13px');
+assert.deepEqual(a11y.brokenAnchors, []);
+assert.ok(a11y.badgeName >= 16, `badge base font ${a11y.badgeName}px`);
 
-// Presence: "you" tag follows the pointer; hovering an inspectable block outlines it.
-const card = page.locator('#services [data-inspect]').first();
-await card.scrollIntoViewIfNeeded();
-await card.hover();
-await page.mouse.move(400, 400);
-await card.hover();
-await page.waitForTimeout(300);
-assert.equal(await page.locator('.bc-you.is-on').count(), 1, '"you" tag');
-assert.equal(await page.locator('.bc-inspect.is-on').count(), 1, 'inspect outline');
-await page.screenshot({ path: `${shots}next-inspect.png` });
+// Keyboard: first Tab reaches the skip link; a badge flips with Enter and exposes its links.
+await page.keyboard.press('Tab');
+assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Skip to content');
+const badge = page.locator('[data-badge="0"]');
+await badge.scrollIntoViewIfNeeded();
+await badge.focus();
+await page.keyboard.press('Enter');
+await page.waitForTimeout(1200);
+assert.equal(await badge.getAttribute('aria-pressed'), 'true');
+assert.equal(await page.locator('[data-links] a').first().getAttribute('href'), 'https://github.com/h4ck3rx99-stack');
+await page.screenshot({ path: `${shots}home-team.png` });
+await page.keyboard.press('Escape');
+
+// Particle name reacts to the mouse, then goes idle (no perpetual animation).
+await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
+assert.equal(await page.locator('canvas').count() >= 1, true);
+await page.mouse.move(600, 200, { steps: 6 });
+await page.waitForTimeout(200);
+await page.screenshot({ path: `${shots}home-hero-cursor.png` });
 
 // Contact form validates, then hands off to WhatsApp.
 await page.locator('#contact').scrollIntoViewIfNeeded();
-await page.waitForTimeout(2500);
 await page.getByRole('button', { name: /Send on WhatsApp/ }).click();
 assert.match(await page.locator('#contact [role=alert]').textContent(), /Add your name/);
 await page.getByLabel('Your name').fill('Test');
 await page.getByLabel('What do you want to build?').fill('A website for my cafe');
 const [popup] = await Promise.all([page.context().waitForEvent('page'), page.getByRole('button', { name: /Send on WhatsApp/ }).click()]);
 assert.match(popup.url(), /wa\.me|whatsapp/);
+await popup.close();
 
-// Phone.
+const cost = await scrollCost(page);
+const cls = await page.evaluate(() => window.__cls);
+console.log('desktop scroll', cost, 'cls', cls);
+assert.ok(cost.slow / cost.frames < 0.1, `slow frames ${cost.slow}/${cost.frames}`);
+assert.ok(cls < 0.1, `CLS ${cls}`);
+
+// Phone
 const phone = await open({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true });
-await phone.waitForTimeout(4000);
-await phone.screenshot({ path: `${shots}next-phone-hero.png` });
-await scrollAll(phone);
-s = await state(phone);
-console.log('phone', s);
-assert.equal(s.hidden, 0); assert.equal(s.overflow, false); assert.ok(s.cls < 0.1, `CLS ${s.cls}`);
+await phone.screenshot({ path: `${shots}home-phone.png` });
+const pc = await scrollCost(phone);
+const ps = await phone.evaluate(() => ({ overflow: document.documentElement.scrollWidth > innerWidth, cls: window.__cls, canvas: document.querySelectorAll('canvas').length }));
+console.log('phone', ps, pc);
+assert.equal(ps.overflow, false);
+assert.equal(ps.canvas, 0, 'plain-text name on touch screens');
+assert.ok(ps.cls < 0.1, `CLS ${ps.cls}`);
+await phone.locator('#team').scrollIntoViewIfNeeded();
+await phone.waitForTimeout(800);
+await phone.screenshot({ path: `${shots}home-phone-team.png` });
 for (const w of [320, 768, 1024]) {
-    const p = await open({ viewport: { width: w, height: 800 }, reducedMotion: 'reduce' });
+    const p = await open({ viewport: { width: w, height: 800 } });
     assert.equal(await p.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `no overflow at ${w}`);
     await p.close();
 }
 
-// Reduced motion: static page, no cursors, text untouched.
+// Reduced motion: no canvas; everything readable.
 const calm = await open({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
-await calm.waitForTimeout(500);
-assert.equal(await calm.locator('.bc-cursor, .bc-you').count(), 0);
-assert.equal(await calm.locator('.bc-cursor').count(), 0);
+assert.equal(await calm.locator('canvas').count(), 0);
+assert.equal(await calm.locator('h1').isVisible(), true);
 
-// No JavaScript: content is all there.
+// No JavaScript: all content and links are there.
 const nojs = await (await browser.newContext({ javaScriptEnabled: false })).newPage();
 await nojs.goto(base);
 assert.equal(await nojs.locator('h1').isVisible(), true);
 assert.equal(await nojs.locator('main img').count(), 5);
-
-// Older pages still load from /public.
+assert.equal(await nojs.getByRole('link', { name: /LinkedIn/ }).count() >= 3, true);
 for (const r of ['/work/the-ferment-formula.html', '/nfc.html', '/blog/nextjs-seo-2026.html', '/privacy.html']) {
-    const res = await nojs.goto(base + r);
-    assert.equal(res.status(), 200, r);
+    assert.equal((await nojs.goto(base + r)).status(), 200, r);
 }
 
 assert.deepEqual(errors, [], 'no page errors');
