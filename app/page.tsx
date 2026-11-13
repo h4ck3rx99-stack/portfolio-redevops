@@ -1,5 +1,6 @@
 import { ContactForm } from '@/components/contact-form';
-import { HeroMark, Watching } from '@/components/hero-fx';
+import { BuildBoard, HeroMark, NfcDemo, RepelHeading, Watching } from '@/components/hero-fx';
+import { HoverTransition } from '@/components/ui/hover-transition';
 import { TeamLanyardRail } from '@/components/ui/team-lanyard-rail';
 
 const WA = (text: string) => `https://wa.me/918734000403?text=${encodeURIComponent(text)}`;
@@ -81,6 +82,8 @@ export default function Home() {
                 </div>
             </header>
 
+            <div className="progress" aria-hidden="true" />
+
             <main id="main">
                 <span id="top" className="absolute top-0" />
 
@@ -88,13 +91,14 @@ export default function Home() {
                 <section className={`${wrap} pb-14 pt-8 md:pb-20 md:pt-12`}>
                     <HeroMark />
                     <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:gap-12">
-                        <h1 className="display text-[clamp(2rem,1rem+2.9vw,3.6rem)] lg:col-span-7">We build websites, web apps and NFC touchpoints. You work with the three people who build them.</h1>
+                        <h1 className="display text-[clamp(2rem,1rem+2.9vw,3.6rem)] lg:col-span-7">We build websites, web apps and NFC touchpoints for your business.</h1>
                         <div className="grid content-start gap-6 lg:col-span-5">
                             <p className="text-lg text-muted-foreground md:text-xl">RE Dev Ops is a student-founded studio in India. No account managers and no handoffs — and we reply within 6–12 hours.</p>
                             <div className="flex flex-wrap gap-3">
                                 <a href="#contact" className="btn btn-ink">Start a project →</a>
                                 <a href="#work" className="btn btn-ghost">See the work</a>
                             </div>
+                            <BuildBoard />
                         </div>
                     </div>
                     <dl className="mt-14 grid gap-px border border-line bg-line sm:grid-cols-3">
@@ -111,13 +115,14 @@ export default function Home() {
                 <section id="work" aria-labelledby="work-h" className="bg-ink text-white">
                     <div className={`${section} grid gap-10 lg:grid-cols-12 lg:gap-14`}>
                         <div className="lg:col-span-7">
-                            <a href="/work/the-ferment-formula.html" className="block" aria-label="The Ferment Formula project details">
+                            <a href="/work/the-ferment-formula.html" className="browser unfold block" aria-label="The Ferment Formula project details">
+                                <span className="browser__bar" aria-hidden="true"><i /><i /><i /><b>thefermentformula.in</b></span>
                                 <Shot img="ferment_formula" eager sizes="(min-width: 1024px) 56vw, 100vw" alt="The Ferment Formula homepage: brewhouse photo with the headline End-to-End Brewery Setup and an Explore setup button" />
                             </a>
                         </div>
                         <div className="grid content-start gap-5 lg:col-span-5">
                             <p className="label !text-white/70">Client website · Bangalore · live</p>
-                            <h2 id="work-h" className="display h2">The Ferment Formula</h2>
+                            <h2 id="work-h" className="display h2 rise">The Ferment Formula</h2>
                             <p className="text-lg text-white/80">Website for a Bangalore craft-brewery consultancy led by principal brewmaster Satyam Awasthi. Multi-page site covering brewery setup, revival, recipes and training — with local-business SEO, a gallery, awards and a WhatsApp enquiry widget.</p>
                             <div className="flex flex-wrap gap-3">
                                 <a href="/work/the-ferment-formula.html" className="btn btn-accent">Explore the project →</a>
@@ -125,7 +130,7 @@ export default function Home() {
                             </div>
                         </div>
                         <figure className="border-t border-white/20 pt-10 lg:col-span-12">
-                            <blockquote className="max-w-[46em] text-xl leading-relaxed md:text-2xl md:leading-relaxed">“We needed a website that felt as crafted as the beer we help make, and that explained what a brewery consultant actually does without drowning people in jargon. Aayush and Thaseen asked the right questions, were straight with us about timelines, and turned around every change quickly. The site is fast even on a patchy connection in the middle of a brewhouse, and it&apos;s the first thing I now send to a brewery owner who wants to know who we are.”</blockquote>
+                            <blockquote className="max-w-[46em] text-xl leading-relaxed md:text-2xl md:leading-relaxed"><span className="lightup">“We needed a website that felt as crafted as the beer we help make, and that explained what a brewery consultant actually does without drowning people in jargon. The team asked the right questions, were straight with us about timelines, and turned around every change quickly. The site is fast even on a patchy connection in the middle of a brewhouse, and it&apos;s the first thing I now send to a brewery owner who wants to know who we are.”</span></blockquote>
                             <figcaption className="mt-5 text-white/80"><strong className="text-white">Satyam Awasthi</strong> — Founder & Principal Brewmaster, The Ferment Formula</figcaption>
                         </figure>
                     </div>
@@ -135,29 +140,35 @@ export default function Home() {
                 <section id="nfc" aria-labelledby="nfc-h" className={`${section} grid gap-10 lg:grid-cols-12 lg:gap-14`}>
                     <div className="grid content-start gap-5 lg:col-span-7">
                         <p className="label">NFC · Bangalore only</p>
-                        <h2 id="nfc-h" className="display h2">A card on the counter. One tap to your menu, reviews or contact.</h2>
+                        <h2 id="nfc-h" className="display h2 rise">A card on the counter. One tap to your menu, reviews or contact.</h2>
                         <p className="max-w-[36em] text-lg text-muted-foreground">NFC cards and stands open a menu, review page, contact or social profile on compatible phones. We design, program and deliver them in Bangalore.</p>
                         <div className="flex flex-wrap gap-3">
                             <a href={WA("Hi! I'm interested in your NFC products in Bangalore.")} target="_blank" rel="noopener" className="btn btn-ink">Enquire on WhatsApp ↗<span className="sr-only"> (opens in a new tab)</span></a>
                             <a href="/nfc.html" className="btn btn-ghost">Explore NFC →</a>
                         </div>
                     </div>
-                    <ol className="grid gap-px self-center border border-line bg-line text-lg font-semibold lg:col-span-5" aria-label="How NFC works">
-                        {['Customer taps the card or stand', 'Their phone opens your link', 'Menu, reviews, contact or socials'].map((t, i) => (
-                            <li key={t} className="flex items-center gap-4 bg-paper p-5"><span className="grid size-9 flex-none place-items-center bg-ink font-mono text-sm text-white">{i + 1}</span>{t}</li>
-                        ))}
-                    </ol>
+                    <div className="self-center lg:col-span-5"><NfcDemo /></div>
                 </section>
 
                 {/* 4. More proof: tools we built and run */}
                 <section aria-labelledby="tools-h" className="border-y border-line bg-canvas">
                     <div className={section}>
                         <p className="label">Our own tools · free · live</p>
-                        <h2 id="tools-h" className="display h2 mt-4">Four tools we built for ourselves. Open to everyone.</h2>
+                        <h2 id="tools-h" className="display h2 rise mt-4">Four tools we built for ourselves. Open to everyone.</h2>
                         <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                            {TOOLS.map((t) => (
-                                <li key={t.slug} className="grid content-start gap-3">
-                                    <a href={`/work/${t.slug}.html`} tabIndex={-1} aria-hidden="true" className="block border border-line"><Shot img={t.img} alt="" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" /></a>
+                            {TOOLS.map((t, i) => (
+                                <li key={t.slug} className="rise grid min-w-0 content-start gap-3">
+                                    <a href={`/work/${t.slug}.html`} tabIndex={-1} aria-hidden="true" className="block border border-line">
+                                        <HoverTransition
+                                            effect={(['wipe', 'curtain', 'slide', 'strips'] as const)[i]}
+                                            direction={(['right', 'bottom', 'top', 'left'] as const)[i]}
+                                            label={t.name}
+                                            tabIndex={-1}
+                                            className="aspect-[16/10] min-h-0 w-full"
+                                            defaultComponent={<Shot img={t.img} alt="" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />}
+                                            hoverComponent={<span className="grid size-full place-content-center gap-1 bg-accent p-4 text-center text-white"><span className="text-2xl font-extrabold tracking-tight">{t.name}</span><span className="font-mono text-xs">Project details →</span></span>}
+                                        />
+                                    </a>
                                     <h3 className="text-xl font-extrabold tracking-tight"><a href={`/work/${t.slug}.html`} className="hover:text-accent">{t.name}</a></h3>
                                     <p className="text-muted-foreground">{t.desc}</p>
                                     <a className="link font-semibold" href={t.url} target="_blank" rel="noopener">Open {t.name} ↗<span className="sr-only"> (opens in a new tab)</span></a>
@@ -169,18 +180,19 @@ export default function Home() {
 
                 {/* 5. What we do and how it goes */}
                 <section id="services" aria-labelledby="services-h" className={section}>
-                    <h2 id="services-h" className="display h2">What do you need built?</h2>
+                    <h2 id="services-h" className="display h2 rise">What do you need built?</h2>
                     <ul className="mt-10">
                         {SERVICES.map(([title, body, proof]) => (
-                            <li key={title} className="grid gap-2 border-t border-line py-6 md:grid-cols-12 md:gap-8">
+                            <li key={title} className="wipe grid gap-2 border-t border-line py-6 md:grid-cols-12 md:gap-8">
                                 <h3 className="text-2xl font-extrabold tracking-tight md:col-span-5">{title}</h3>
-                                <p className="text-lg text-muted-foreground md:col-span-7">{body}{proof && <> <span className="font-semibold text-ink">{proof}</span></>}</p>
+                                <p className="text-lg text-muted-foreground md:col-span-7">{body}{proof && <> <span className="font-semibold text-ink [.wipe:hover_&]:text-white">{proof}</span></>}</p>
                             </li>
                         ))}
                     </ul>
 
-                    <h2 className="display mt-20 text-4xl md:text-5xl">How it goes.</h2>
-                    <ol className="mt-8 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+                    <h2 className="display rise mt-20 text-4xl md:text-5xl">How it goes.</h2>
+                    <div className="draw mt-8 h-1 bg-accent" aria-hidden="true" />
+                    <ol className="grid gap-px border border-t-0 border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
                         {STEPS.map(([title, body], i) => (
                             <li key={title} className="grid content-start gap-2 bg-paper p-6">
                                 <span className="label">Step {i + 1}</span>
@@ -202,7 +214,7 @@ export default function Home() {
                 {/* 6. The people */}
                 <section id="team" aria-labelledby="team-h" className="border-y border-line">
                     <div className={section}>
-                        <h2 id="team-h" className="display h2">Who you’ll actually talk to.</h2>
+                        <h2 id="team-h" className="display h2 rise">Who you’ll actually talk to.</h2>
                         <TeamLanyardRail
                             className="mt-6"
                             aria-label="Team badges"
@@ -240,7 +252,7 @@ export default function Home() {
                     <div className={`${section} grid gap-12 lg:grid-cols-2 lg:gap-16`}>
                         <div className="grid content-start gap-6">
                             <Watching />
-                            <h2 id="contact-h" className="display text-[clamp(2.4rem,1rem+4.4vw,4.75rem)]">Got something to build?</h2>
+                            <h2 id="contact-h" className="display text-[clamp(2.4rem,1rem+4.4vw,4.75rem)]"><RepelHeading text="Got something to build?" /></h2>
                             <p className="max-w-[30em] text-xl text-white/80">Tell us in a line or two. A rough idea is enough to start, and we reply within 6–12 hours.</p>
                             <ul className="grid gap-1 text-xl font-semibold">
                                 <li><a className="link inline-block py-1.5" href="mailto:hello@redevops.in">hello@redevops.in</a></li>

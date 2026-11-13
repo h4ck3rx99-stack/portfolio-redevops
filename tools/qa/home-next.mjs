@@ -37,7 +37,7 @@ const scrollCost = (page) => page.evaluate(async () => {
 // Desktop
 const page = await open({ viewport: { width: 1440, height: 900 } });
 assert.equal(await page.locator('h1').count(), 1);
-assert.deepEqual(await page.locator('main h2').allInnerTexts(), [
+assert.deepEqual((await page.locator('main h2').allInnerTexts()).map((t) => t.split(String.fromCharCode(10))[0]), [
     'The Ferment Formula',
     'A card on the counter. One tap to your menu, reviews or contact.',
     'Four tools we built for ourselves. Open to everyone.',
@@ -84,6 +84,22 @@ await page.mouse.move(600, 200, { steps: 6 });
 await page.waitForTimeout(200);
 await page.screenshot({ path: `${shots}home-hero-cursor.png` });
 
+// NFC try-it: clicking the card taps the phone and announces the result.
+const card = page.locator('.nfc__card');
+await card.scrollIntoViewIfNeeded();
+await card.click();
+await page.waitForTimeout(900);
+assert.equal(await card.getAttribute('aria-pressed'), 'true');
+assert.match(await page.locator('.nfc [role=status]').textContent(), /opened the linked page/);
+await page.screenshot({ path: `${shots}home-nfc.png` });
+
+// Tool card wipes to its panel on hover.
+const tool = page.locator('#tools-h ~ ul li').first();
+await tool.scrollIntoViewIfNeeded();
+await tool.locator('a').first().hover();
+await page.waitForTimeout(900);
+await page.screenshot({ path: `${shots}home-tools.png` });
+
 // Contact form validates, then hands off to WhatsApp.
 await page.locator('#contact').scrollIntoViewIfNeeded();
 await page.getByRole('button', { name: /Send on WhatsApp/ }).click();
@@ -127,7 +143,7 @@ assert.equal(await calm.locator('h1').isVisible(), true);
 const nojs = await (await browser.newContext({ javaScriptEnabled: false })).newPage();
 await nojs.goto(base);
 assert.equal(await nojs.locator('h1').isVisible(), true);
-assert.equal(await nojs.locator('main img').count(), 5);
+assert.equal(await nojs.locator('main img').count(), 9);
 assert.equal(await nojs.getByRole('link', { name: /LinkedIn/ }).count() >= 3, true);
 for (const r of ['/work/the-ferment-formula.html', '/nfc.html', '/blog/nextjs-seo-2026.html', '/privacy.html']) {
     assert.equal((await nojs.goto(base + r)).status(), 200, r);
