@@ -55,7 +55,7 @@ assert.ok(s.cls < 0.1, `CLS ${s.cls}`);
 await page.screenshot({ path: `${shots}next-full.png`, fullPage: true });
 
 // Presence: "you" tag follows the pointer; hovering an inspectable block outlines it.
-const card = page.locator('#studio [data-inspect]').first();
+const card = page.locator('#services [data-inspect]').first();
 await card.scrollIntoViewIfNeeded();
 await card.hover();
 await page.mouse.move(400, 400);

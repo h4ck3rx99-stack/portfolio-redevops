@@ -4,7 +4,6 @@
     --color-canvas: #ECECE6;
     --color-paper: #FFFFFF;
     --color-ink: #0E0E0E;
-    --color-muted: #5E5E58;
     --color-line: #D6D6CE;
     --color-accent: #FF4A1C;
     --color-design: #FF4A1C;
@@ -12,6 +11,19 @@
     --color-dev: #0A8F5B;
     --color-pm: #B87A00;
     --color-qa: #D81B7A;
+    --color-background: #FFFFFF;
+    --color-foreground: #0E0E0E;
+    --color-card: #FFFFFF;
+    --color-card-foreground: #0E0E0E;
+    --color-muted: #ECECE6;
+    --color-muted-foreground: #5E5E58;
+    --color-border: #D6D6CE;
+    --color-ring: #1F5BFF;
+    --color-chart-1: #FF4A1C;
+    --color-chart-2: #1F5BFF;
+    --color-chart-3: #0A8F5B;
+    --color-chart-4: #B87A00;
+    --color-chart-5: #D81B7A;
     --font-sans: var(--font-archivo), Arial, sans-serif;
     --font-mono: var(--font-jetbrains), Consolas, monospace;
 }
@@ -32,10 +44,10 @@ body {
 
 .display { font-stretch: 112%; font-weight: 800; letter-spacing: -0.035em; line-height: 0.96; text-wrap: balance; }
 .h2 { font-size: clamp(2rem, 1.2rem + 3.2vw, 4rem); }
-.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-muted); }
+.label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--color-muted-foreground); }
 
 /* Frames: each section is an artboard with its name above it */
-.frame-label { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--color-muted); }
+.frame-label { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 8px; font-family: var(--font-mono); font-size: 11px; color: var(--color-muted-foreground); }
 .frame { background: var(--color-paper); border: 1px solid var(--color-line); }
 
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 22px; font-weight: 600; white-space: nowrap; transition: background-color .15s, color .15s, border-color .15s; }

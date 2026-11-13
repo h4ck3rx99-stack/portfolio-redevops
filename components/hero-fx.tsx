@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react';
 import { CursorDrivenParticleTypography } from '@/components/ui/cursor-driven-particle-typography';
 import { SplitFlapDisplay } from '@/components/ui/split-flap-display';
 import type { Spiral3DSlide } from '@/components/ui/spiral-3d-slider';
+import { CaseStudyFlipStack, type CaseStudyFlipItem } from '@/components/ui/case-study-flip-stack';
+import { MagneticDock } from '@/components/ui/magnetic-dock';
+import { EyeTracking } from '@/components/ui/eye-tracking';
+import { FolderOpen, Home, Mail, Users, Wrench } from 'lucide-react';
 
 // three.js is only downloaded when the gallery is about to be shown.
 const Spiral3DSlider = dynamic(() => import('@/components/ui/spiral-3d-slider').then((m) => m.Spiral3DSlider), { ssr: false });
@@ -45,4 +49,33 @@ export function BuildBoard() {
 
 export function WorkSpiral({ items }: { items: Spiral3DSlide[] }) {
     return <Spiral3DSlider items={items} ariaLabel="Screenshots of our live projects" className="min-h-0 bg-transparent h-[420px] md:h-[600px]" cardWidth={300} cardAspectRatio={16 / 10} radius={340} verticalGap={96} blurStrength={0.8} />;
+}
+
+export function WorkFlip({ items }: { items: CaseStudyFlipItem[] }) {
+    return <CaseStudyFlipStack items={items} hint="Keep scrolling" heading="Five builds. Flip through them." endLabel="That’s all of them" />;
+}
+
+const DOCK = [
+    ['top', 'Home', Home],
+    ['work', 'Work', FolderOpen],
+    ['services', 'Services', Wrench],
+    ['studio', 'Studio', Users],
+    ['contact', 'Contact', Mail],
+] as const;
+
+// Floating dock: the site's navigation on every screen size.
+export function SiteDock() {
+    const go = (id: string) => (id === 'top' ? scrollTo({ top: 0, behavior: 'smooth' }) : document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }));
+    return (
+        <nav aria-label="Main" className="pointer-events-none fixed inset-x-0 bottom-4 z-40 flex justify-center">
+            <div className="pointer-events-auto">
+                <MagneticDock variant="solid" iconSize={40} items={DOCK.map(([id, label, Icon]) => ({ id, label, icon: <Icon className="size-5" />, onClick: () => go(id) }))} />
+            </div>
+        </nav>
+    );
+}
+
+// A pair of eyes that follow the pointer, waiting for the visitor's message.
+export function Watching() {
+    return <div aria-hidden="true"><EyeTracking variant="cartoon" eyeSize={84} gap={14} irisColor="#FF4A1C" /></div>;
 }

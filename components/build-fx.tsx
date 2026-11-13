@@ -22,7 +22,7 @@ export function BuildStatus() {
             type="button"
             onClick={() => replay.current()}
             disabled={state === 'building'}
-            className="hidden items-center gap-2 font-mono text-[11px] text-muted hover:text-ink disabled:cursor-default md:flex"
+            className="hidden items-center gap-2 font-mono text-[11px] text-muted-foreground hover:text-ink disabled:cursor-default md:flex"
         >
             <span className={`size-1.5 rounded-full ${state === 'building' ? 'animate-pulse bg-accent' : 'bg-dev'}`} />
             {state === 'building' ? 'Building…' : 'Built — replay ↺'}
