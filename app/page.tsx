@@ -1,7 +1,7 @@
 import { ContactForm } from '@/components/contact-form';
 import { SiteFooter, SiteHeader, wrap } from '@/components/site-shell';
 import { BuildBoard, HeroMark, NfcDemo, RepelHeading, Watching } from '@/components/hero-fx';
-import { HoverTransition } from '@/components/ui/hover-transition';
+import { Tilt } from '@/components/tilt';
 import { TeamLanyardRail } from '@/components/ui/team-lanyard-rail';
 
 const WA = (text: string) => `https://wa.me/918734000403?text=${encodeURIComponent(text)}`;
@@ -48,11 +48,22 @@ const FAQ = [
 ];
 
 function Shot({ img, alt, eager, sizes }: { img: string; alt: string; eager?: boolean; sizes: string }) {
+    const set = (ext: string) => [640, 960, 1440, 1920].map((w) => `/assets/img/${img}-${w}.${ext} ${w}w`).join(', ');
     return (
         <picture>
-            <source type="image/avif" srcSet={`/assets/img/${img}-640.avif 640w, /assets/img/${img}-960.avif 960w, /assets/img/${img}-1440.avif 1440w`} sizes={sizes} />
-            <source type="image/webp" srcSet={`/assets/img/${img}-640.webp 640w, /assets/img/${img}-960.webp 960w, /assets/img/${img}-1440.webp 1440w`} sizes={sizes} />
+            <source type="image/avif" srcSet={set('avif')} sizes={sizes} />
+            <source type="image/webp" srcSet={set('webp')} sizes={sizes} />
             <img src={`/assets/${img}.jpg`} alt={alt} width={1440} height={900} loading={eager ? 'eager' : 'lazy'} fetchPriority={eager ? 'high' : undefined} decoding="async" className="block h-auto w-full" />
+        </picture>
+    );
+}
+
+// The same project on a phone, floating in front of the desktop shot.
+function Phone({ img, alt }: { img: string; alt: string }) {
+    return (
+        <picture className="phone z2">
+            <source type="image/avif" srcSet={`/assets/img/${img}-phone-390.avif 390w, /assets/img/${img}-phone-780.avif 780w`} sizes="(min-width: 1024px) 14vw, 26vw" />
+            <img src={`/assets/img/${img}-phone-780.webp`} alt={alt} width={780} height={1688} loading="lazy" decoding="async" className="block h-auto w-full" />
         </picture>
     );
 }
@@ -106,10 +117,14 @@ export default function Home() {
                 <section id="work" aria-labelledby="work-h" className="bg-ink text-white">
                     <div className={`${section} grid gap-10 lg:grid-cols-12 lg:gap-14`}>
                         <div className="lg:col-span-7">
-                            <a href="/work/the-ferment-formula.html" className="browser unfold block" aria-label="thefermentformula.in — The Ferment Formula project details">
-                                <span className="browser__bar" aria-hidden="true"><i /><i /><i /><b>thefermentformula.in</b></span>
-                                <Shot img="ferment_formula" eager sizes="(min-width: 1024px) 56vw, 100vw" alt="The Ferment Formula homepage: brewhouse photo with the headline End-to-End Brewery Setup and an Explore setup button" />
-                            </a>
+                            <Tilt className="unfold">
+                                <a href="/work/the-ferment-formula.html" className="browser block" aria-label="thefermentformula.in — The Ferment Formula project details">
+                                    <span className="browser__bar" aria-hidden="true"><i /><i /><i /><b>thefermentformula.in</b></span>
+                                    <Shot img="ferment_formula" eager sizes="(min-width: 1024px) 56vw, 100vw" alt="The Ferment Formula homepage: brewhouse photo with the headline Imagination in Every Glass and an Explore solutions button" />
+                                </a>
+                                <Phone img="ferment_formula" alt="The Ferment Formula homepage on a phone" />
+                                <span className="chip z3" aria-hidden="true">● Live</span>
+                            </Tilt>
                         </div>
                         <div className="grid content-start gap-5 lg:col-span-5">
                             <p className="label !text-white/70">Client website · Bangalore · live</p>
@@ -138,7 +153,7 @@ export default function Home() {
                             <a href="/nfc.html" className="btn btn-ghost">Explore NFC →</a>
                         </div>
                     </div>
-                    <div className="self-center lg:col-span-5"><NfcDemo /></div>
+                    <div className="self-center lg:col-span-5"><Tilt max={10}><NfcDemo /></Tilt></div>
                 </section>
 
                 {/* 4. More proof: tools we built and run */}
@@ -147,18 +162,13 @@ export default function Home() {
                         <p className="label">Our own tools · free · live</p>
                         <h2 id="tools-h" className="display h2 rise mt-4">Four tools we built for ourselves. Open to everyone.</h2>
                         <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                            {TOOLS.map((t, i) => (
+                            {TOOLS.map((t) => (
                                 <li key={t.slug} className="rise grid min-w-0 content-start gap-3">
-                                    <a href={`/work/${t.slug}.html`} tabIndex={-1} aria-hidden="true" className="block border border-line">
-                                        <HoverTransition
-                                            effect={(['wipe', 'curtain', 'slide', 'strips'] as const)[i]}
-                                            direction={(['right', 'bottom', 'top', 'left'] as const)[i]}
-                                            label={t.name}
-                                            tabIndex={-1}
-                                            className="aspect-[16/10] min-h-0 w-full"
-                                            defaultComponent={<Shot img={t.img} alt="" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />}
-                                            hoverComponent={<span className="grid size-full place-content-center gap-1 bg-accent p-4 text-center text-white"><span className="text-2xl font-extrabold tracking-tight">{t.name}</span><span className="font-mono text-xs">Project details →</span></span>}
-                                        />
+                                    <a href={`/work/${t.slug}.html`} tabIndex={-1} aria-hidden="true" className="mb-6 block">
+                                        <Tilt max={16}>
+                                            <span className="block border border-line"><Shot img={t.img} alt="" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" /></span>
+                                            <Phone img={t.img} alt="" />
+                                        </Tilt>
                                     </a>
                                     <h3 className="text-xl font-extrabold tracking-tight"><a href={`/work/${t.slug}.html`} className="hover:text-accent">{t.name}</a></h3>
                                     <p className="text-muted-foreground">{t.desc}</p>

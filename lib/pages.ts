@@ -32,7 +32,9 @@ export function loadPage(segments: string[]) {
     const main = src.slice(src.indexOf('>', src.indexOf('<main')) + 1, src.indexOf('</main>'))
         .replace(/\b(href|src)="([^"]*)"/g, (_, a, u) => `${a}="${resolve(decode(u)).replace(/&/g, '&amp;')}"`)
         .replace(/(["\s,])(?:\.\.\/)*assets\//g, '$1/assets/')
-        .replace(/\sreveal(?=["\s])/g, '');
+        .replace(/\sreveal(?=["\s])/g, '')
+        // Project pages: float the phone screenshot in front of the desktop one.
+        .replace(/(<div class="shot">[\s\S]*?src="\/assets\/(\w+)\.jpg"[\s\S]*?)<\/div>/, '$1<img class="shot__phone" src="/assets/img/$2-phone-780.webp" alt="The same project on a phone" width="780" height="1688" loading="lazy" decoding="async"></div>');
 
     return {
         url,
