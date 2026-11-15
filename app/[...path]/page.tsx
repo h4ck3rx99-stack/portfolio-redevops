@@ -11,7 +11,14 @@ type Props = { params: Promise<{ path: string[] }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const page = loadPage((await params).path);
     if (!page) return {};
-    return { title: page.title, description: page.description, alternates: { canonical: page.url }, openGraph: { title: page.title, description: page.description, url: page.url } };
+    const image = page.image ?? '/og-image.png';
+    return {
+        title: page.title,
+        description: page.description,
+        alternates: { canonical: page.url },
+        openGraph: { type: page.url.startsWith('/blog/') ? 'article' : 'website', siteName: 'RE Dev Ops', locale: 'en_IN', title: page.title, description: page.description, url: page.url, images: [image] },
+        twitter: { card: 'summary_large_image', site: '@redevops3', images: [image] },
+    };
 }
 
 export default async function InnerPage({ params }: Props) {

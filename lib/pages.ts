@@ -40,6 +40,8 @@ export function loadPage(segments: string[]) {
         url,
         title: decode(src.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? 'RE Dev Ops'),
         description: decode(src.match(/<meta content="([^"]*)" name="description">/)?.[1] ?? src.match(/<meta name="description" content="([^"]*)">/)?.[1] ?? ''),
+        // Project pages share their own screenshot.
+        image: main.match(/src="(\/assets\/\w+\.jpg)"/)?.[1],
         jsonLd: [...src.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => m[1]),
         html: main,
     };

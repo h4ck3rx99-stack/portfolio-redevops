@@ -1,5 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <circle cx="50" cy="50" r="48" fill="#15171A"/>
-  <text x="44" y="62" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="#F3F0E8" letter-spacing="-1">RE</text>
-  <circle cx="77" cy="60" r="5" fill="#C73A17"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#0E0E0E"/>
+  <g fill="#FFFFFF">
+    <path d="M7 16h20v20h-3.2l5 12h-7.6l-4.8-12H14v12H7zM14 23v6h6v-6z" fill-rule="evenodd"/>
+    <path d="M31 16h18v7H38v5.5h9v6.5h-9V41h11v7H31z"/>
+  </g>
+  <rect x="52" y="41" width="7" height="7" fill="#FF4A1C"/>
 </svg>

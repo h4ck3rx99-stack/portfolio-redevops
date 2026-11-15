@@ -74,7 +74,8 @@ const JSON_LD = [
     { '@context': 'https://schema.org', '@type': 'WebSite', name: 'RE Dev Ops', alternateName: ['REDevOps', 'redevops.in'], url: 'https://www.redevops.in/' },
     {
         '@context': 'https://schema.org', '@type': 'Organization', name: 'RE Dev Ops', url: 'https://www.redevops.in/',
-        logo: 'https://www.redevops.in/logo.png', image: 'https://www.redevops.in/og-image.png', email: 'hello@redevops.in', telephone: '+918734000403',
+        description: 'Student-founded software studio in India building websites, web apps and business systems, with NFC products in Bangalore.',
+        logo: 'https://www.redevops.in/logo.png', image: 'https://www.redevops.in/og-image.png', areaServed: 'IN', email: 'hello@redevops.in', telephone: '+918734000403',
         sameAs: ['https://github.com/RE-Dev-Ops', 'https://www.linkedin.com/in/redevops/', 'https://x.com/redevops3', 'https://www.instagram.com/redevops3/'],
     },
 ];

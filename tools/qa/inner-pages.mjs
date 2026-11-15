@@ -23,6 +23,7 @@ for (const [w, h] of [[1440, 900], [390, 844], [320, 700]]) {
             h1: document.querySelectorAll('h1').length,
             title: document.title,
             canonical: document.querySelector('link[rel=canonical]')?.href,
+            ogImage: document.querySelector('meta[property="og:image"]')?.content,
             overflow: document.documentElement.scrollWidth > innerWidth,
             brokenImg: [...document.querySelectorAll('img')].filter((i) => i.complete && !i.naturalWidth).map((i) => i.src),
             noAlt: [...document.querySelectorAll('img')].filter((i) => !i.hasAttribute('alt')).length,
@@ -32,6 +33,7 @@ for (const [w, h] of [[1440, 900], [390, 844], [320, 700]]) {
         assert.equal(a.h1, 1, `${route} one h1`);
         assert.ok(a.title.includes('RE Dev Ops'), `${route} title`);
         assert.ok(a.canonical.endsWith(route), `${route} canonical ${a.canonical}`);
+        assert.match(a.ogImage ?? '', /^https:\/\/www\.redevops\.in\/(og-image\.png|assets\/\w+\.jpg)$/, `${route} share image`);
         assert.equal(a.overflow, false, `${route} overflow at ${w}`);
         assert.deepEqual(a.brokenImg, [], `${route} images`);
         assert.equal(a.noAlt, 0, `${route} alt`);
