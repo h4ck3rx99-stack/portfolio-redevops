@@ -3,6 +3,7 @@ import { SiteFooter, SiteHeader, wrap } from '@/components/site-shell';
 import { BuildBoard, HeroMark, NfcDemo, RepelHeading, Watching } from '@/components/hero-fx';
 import { Tilt } from '@/components/tilt';
 import GlassFolder from '@/components/ui/glass-folder-cards';
+import CTA from '@/components/ui/cta-06';
 import { TeamLanyardRail } from '@/components/ui/team-lanyard-rail';
 
 const WA = (text: string) => `https://wa.me/918734000403?text=${encodeURIComponent(text)}`;
@@ -190,6 +191,8 @@ export default function Home() {
                         <p className="label mt-10">Hover a folder to lean it · click to open</p>
                     </div>
                 </section>
+
+                <CTA />
 
                 {/* 5. What we do and how it goes */}
                 <section id="services" aria-labelledby="services-h" className={section}>

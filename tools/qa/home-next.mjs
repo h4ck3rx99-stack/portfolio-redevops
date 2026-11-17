@@ -41,6 +41,7 @@ assert.deepEqual((await page.locator('main h2').allInnerTexts()).map((t) => t.sp
     'The Ferment Formula',
     'A card on the counter. One tap to your menu, reviews or contact.',
     'Four tools we built for ourselves. Open to everyone.',
+    'Have a project like these?',
     'What do you need built?',
     'How it goes.',
     'Who you’ll actually talk to.',

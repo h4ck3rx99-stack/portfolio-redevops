@@ -183,3 +183,6 @@ body {
 .legacy .shot { position: relative; margin-bottom: 6%; }
 .legacy .shot__phone { position: absolute; right: 4%; bottom: -9%; width: 19%; border: 5px solid #F2F2EC; border-radius: 16px; outline: 1px solid rgb(0 0 0 / .55); box-shadow: -14px 14px 0 rgb(0 0 0 / .18); }
 @media (prefers-reduced-motion: reduce) { .tilt__scene { transition: none; } }
+
+/* Call-to-action background: a still frame of the shader */
+.cta-noise { background: url('/assets/cta-noise.webp') center / cover; }
