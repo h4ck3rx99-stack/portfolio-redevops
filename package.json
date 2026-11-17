@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@paper-design/shaders-react": "^0.0.82",
     "clsx": "^2.1.1",
     "motion": "^12.0.0",
     "next": "16.2.9",
