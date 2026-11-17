@@ -2,6 +2,7 @@ import { ContactForm } from '@/components/contact-form';
 import { SiteFooter, SiteHeader, wrap } from '@/components/site-shell';
 import { BuildBoard, HeroMark, NfcDemo, RepelHeading, Watching } from '@/components/hero-fx';
 import { Tilt } from '@/components/tilt';
+import GlassFolder from '@/components/ui/glass-folder-cards';
 import { TeamLanyardRail } from '@/components/ui/team-lanyard-rail';
 
 const WA = (text: string) => `https://wa.me/918734000403?text=${encodeURIComponent(text)}`;
@@ -162,21 +163,31 @@ export default function Home() {
                     <div className={section}>
                         <p className="label">Our own tools · free · live</p>
                         <h2 id="tools-h" className="display h2 rise mt-4">Four tools we built for ourselves. Open to everyone.</h2>
-                        <ul className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                            {TOOLS.map((t) => (
-                                <li key={t.slug} className="rise grid min-w-0 content-start gap-3">
-                                    <a href={`/work/${t.slug}.html`} tabIndex={-1} aria-hidden="true" className="mb-6 block">
-                                        <Tilt max={16}>
-                                            <span className="block border border-line"><Shot img={t.img} alt="" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" /></span>
-                                            <Phone img={t.img} alt="" />
-                                        </Tilt>
-                                    </a>
+                        <ul className="mt-6 grid justify-items-center gap-x-8 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+                            {TOOLS.map((t, i) => (
+                                <li key={t.slug} className="grid w-[256px] min-w-0 content-start gap-3">
+                                    {/* The tool as a folder: its real screenshots are the files inside. */}
+                                    <GlassFolder
+                                        label={t.name}
+                                        meta="Free · live"
+                                        tone="dark"
+                                        action="none"
+                                        width={256}
+                                        appearDelay={i * 120}
+                                        image={`/assets/img/${t.img}-960.webp`}
+                                        files={[
+                                            { name: 'On a phone', meta: '390 px', image: `/assets/img/${t.img}-phone-780.webp`, href: `/work/${t.slug}.html` },
+                                            { name: 'On desktop', meta: '1440 px', image: `/assets/img/${t.img}-960.webp`, href: `/work/${t.slug}.html` },
+                                            { name: `Open ${t.name}`, meta: 'Live ↗', href: t.url },
+                                        ]}
+                                    />
                                     <h3 className="text-xl font-extrabold tracking-tight"><a href={`/work/${t.slug}.html`} className="hover:text-accent">{t.name}</a></h3>
                                     <p className="text-muted-foreground">{t.desc}</p>
                                     <a className="link font-semibold" href={t.url} target="_blank" rel="noopener">Open {t.name} ↗<span className="sr-only"> (opens in a new tab)</span></a>
                                 </li>
                             ))}
                         </ul>
+                        <p className="label mt-10">Hover a folder to lean it · click to open</p>
                     </div>
                 </section>
 

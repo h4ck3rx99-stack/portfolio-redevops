@@ -93,12 +93,16 @@ assert.equal(await card.getAttribute('aria-pressed'), 'true');
 assert.match(await page.locator('.nfc [role=status]').textContent(), /opened the linked page/);
 await page.screenshot({ path: `${shots}home-nfc.png` });
 
-// Tool card wipes to its panel on hover.
-const tool = page.locator('#tools-h ~ ul li').first();
-await tool.scrollIntoViewIfNeeded();
-await tool.locator('a').first().hover();
-await page.waitForTimeout(900);
+// Tool folders: closed files are out of reach; opening one exposes its real links.
+const folder = page.locator('.gf-root').first();
+await folder.scrollIntoViewIfNeeded();
+assert.equal(await folder.locator('.gf-files').evaluate((el) => el.inert), true, 'closed folder files are inert');
+await folder.locator('.gf-hit').click();
+await page.waitForTimeout(1200);
+assert.deepEqual(await folder.locator('a.gf-sheet').evaluateAll((els) => els.map((e) => e.getAttribute('href'))),
+    ['/work/proposalforge.html', '/work/proposalforge.html', 'https://proposalforge.redevops.in/']);
 await page.screenshot({ path: `${shots}home-tools.png` });
+await page.keyboard.press('Escape');
 
 // Contact form validates, then hands off to WhatsApp.
 await page.locator('#contact').scrollIntoViewIfNeeded();
