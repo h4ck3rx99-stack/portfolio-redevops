@@ -6,7 +6,7 @@ import { mkdir } from 'node:fs/promises';
 const base = process.env.BASE || 'http://localhost:3100';
 const shots = new URL('./screenshots/', import.meta.url).pathname.replace(/^\/(?:([A-Za-z]):)/, '$1:');
 await mkdir(shots, { recursive: true });
-const pages = ['/work/the-ferment-formula.html', '/work/proposalforge.html', '/work/siteaudit-pro.html', '/work/brandkit-studio.html', '/work/dashboard-studio.html',
+const pages = ['/work/the-ferment-formula.html', '/work/proposalforge.html', '/work/siteaudit-pro.html', '/work/brandkit-studio.html', '/work/dashboard-studio.html', '/work/pixelworld.html',
     '/blog/cloud-cost-optimization.html', '/blog/nextjs-seo-2026.html', '/blog/ai-features-no-data-science.html', '/nfc.html', '/privacy.html'];
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
 const errors = [];

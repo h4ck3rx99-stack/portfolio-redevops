@@ -40,7 +40,7 @@ assert.equal(await page.locator('h1').count(), 1);
 assert.deepEqual((await page.locator('main h2').allInnerTexts()).map((t) => t.split(String.fromCharCode(10))[0]), [
     'The Ferment Formula',
     'A card on the counter. One tap to your menu, reviews or contact.',
-    'Four tools we built for ourselves. Open to everyone.',
+    'Five tools we built for ourselves. Open to everyone.',
     'Have a project like these?',
     'What do you need built?',
     'How it goes.',

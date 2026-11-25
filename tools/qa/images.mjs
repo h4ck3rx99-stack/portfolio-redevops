@@ -20,6 +20,7 @@ const sites = {
     siteaudit: 'https://siteaudit.redevops.in/',
     brandkit: 'https://brandkit.redevops.in/',
     dashboard_studio: 'https://dashboardstudio.redevops.in/',
+    pixel_world: 'https://pixelworld.embarko.app/',
 };
 const only = process.argv.slice(2);
 const browser = await chromium.launch({ channel: 'msedge', headless: true });
@@ -30,7 +31,9 @@ for (const [name, url] of Object.entries(sites)) {
         const ctx = await browser.newContext({ viewport, deviceScaleFactor: scale, isMobile: kind === 'phone', hasTouch: kind === 'phone', reducedMotion: 'reduce' });
         const page = await ctx.newPage();
         await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
-        await page.waitForTimeout(2500);
+        // First-visit intros (PixelWorld) would cover the screenshot.
+        await page.getByRole('button', { name: 'Skip intro' }).click({ timeout: 1500 }).catch(() => {});
+        await page.waitForTimeout(4000);
         const png = await page.screenshot({ type: 'png' });
         await ctx.close();
         if (kind === 'desktop') {

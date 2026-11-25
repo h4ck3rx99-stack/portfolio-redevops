@@ -20,11 +20,12 @@ const TOOLS = [
     { slug: 'siteaudit-pro', img: 'siteaudit', name: 'SiteAudit Pro', url: 'https://siteaudit.redevops.in/', desc: 'Paste any URL and get a scored audit of SEO, performance, accessibility, mobile and security headers.' },
     { slug: 'brandkit-studio', img: 'brandkit', name: 'BrandKit Studio', url: 'https://brandkit.redevops.in/', desc: 'A brand identity toolkit: palettes, contrast checks, gradients, font pairings and token export.' },
     { slug: 'dashboard-studio', img: 'dashboard_studio', name: 'Dashboard Studio', url: 'https://dashboardstudio.redevops.in/', desc: 'Drop in a sales CSV and get KPIs, charts, filters and searchable records — all in the browser.' },
+    { slug: 'pixelworld', img: 'pixel_world', name: 'PixelWorld', url: 'https://pixelworld.embarko.app/', desc: 'One shared pixel canvas for the whole internet. Everyone paints on the same grid, live, and it never resets.' },
 ];
 
 const SERVICES = [
     ['Websites', 'A clear home for your business: useful content, considered interfaces and a documented handover.', 'See The Ferment Formula above.'],
-    ['Web applications', 'A tool that supports how your business runs, built for the browser.', 'See our four tools above.'],
+    ['Web applications', 'A tool that supports how your business runs, built for the browser.', 'See our tools above.'],
     ['Mobile applications', 'Mobile experiences built around the task at hand, with interfaces and connected features shaped around your users.', ''],
     ['Infrastructure & integrations', 'Hosting, deployment workflows, APIs and connected business systems. We can discuss AI features and workflow automation where they fit your product.', ''],
 ];
@@ -163,8 +164,8 @@ export default function Home() {
                 <section aria-labelledby="tools-h" className="border-y border-line bg-canvas">
                     <div className={section}>
                         <p className="label">Our own tools · free · live</p>
-                        <h2 id="tools-h" className="display h2 rise mt-4">Four tools we built for ourselves. Open to everyone.</h2>
-                        <ul className="mt-6 grid justify-items-center gap-x-8 gap-y-12 sm:grid-cols-2 xl:grid-cols-4">
+                        <h2 id="tools-h" className="display h2 rise mt-4">Five tools we built for ourselves. Open to everyone.</h2>
+                        <ul className="mt-6 grid justify-items-center gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
                             {TOOLS.map((t, i) => (
                                 <li key={t.slug} className="grid w-[256px] min-w-0 content-start gap-3">
                                     {/* The tool as a folder: its real screenshots are the files inside. */}
